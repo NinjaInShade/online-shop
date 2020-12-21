@@ -10,6 +10,7 @@ app.set("views", "views");
 
 const admin_routes = require("./routes/admin");
 const shop_routes = require("./routes/shop");
+const unmatched_route_controller = require("./controllers/unmatched_route");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -17,8 +18,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/admin", admin_routes.routes);
 app.use(shop_routes.routes);
 
-app.use((req, res, next) => {
-  res.status(404).render("404", { pageTitle: "Page Not Found" });
-});
+app.use(unmatched_route_controller.get404);
 
 app.listen(5000);
