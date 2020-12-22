@@ -11,5 +11,4 @@ router.post("/add-product", products_controller.post_add_product);
 
 module.exports = {
   routes: router,
-  products: products_controller.products,
 };

@@ -1,7 +1,5 @@
 const Product = require("../models/Product");
 
-let all_products = Product.fetchAll();
-
 function get_add_product(req, res, next) {
   res.render("add-product", {
     pageTitle: "Add Product",
@@ -19,14 +17,16 @@ function post_add_product(req, res, next) {
 }
 
 function get_products(req, res, next) {
-  res.render("shop", {
-    prods: all_products,
-    pageTitle: "Shop",
-    path: "/",
-    hasProducts: all_products.length > 0,
-    activeShop: true,
-    productCSS: true,
+  Product.fetchAll(function (data) {
+    res.render("shop", {
+      prods: data,
+      pageTitle: "Shop",
+      path: "/",
+      hasProducts: data.length > 0,
+      activeShop: true,
+      productCSS: true,
+    });
   });
 }
 
-module.exports = { all_products, get_add_product, post_add_product, get_products };
+module.exports = { get_add_product, post_add_product, get_products };
