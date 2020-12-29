@@ -5,6 +5,7 @@
 - MVC pattern.
 - Templating engines.
 - How to create and use models.
+- Using middleware functions.
 
 ## Tips i learned along the way:
 
