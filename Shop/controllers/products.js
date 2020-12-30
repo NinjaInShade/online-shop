@@ -30,7 +30,9 @@ function get_edit_product(req, res, next) {
 }
 
 function post_add_product(req, res, next) {
-  let new_product = new Product(req.body.title);
+  const body = req.body;
+
+  let new_product = new Product(body.title, body.description, body.price, body.imageUrl);
   new_product.save();
   res.redirect("/");
 }
