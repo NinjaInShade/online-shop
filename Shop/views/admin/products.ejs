@@ -3,6 +3,29 @@
 
 <body>
     <%- include('../includes/navigation.ejs') %>
-    <div class="max-width m-auto px-2 mt-3"><h1>Admin products page!</h1></div>
 
+    <main>
+        <% if (prods.length > 0) { %>
+            <div class="container max-width products-container">
+                <% for (let product of prods) { %>
+                    <div class="card mt-5" style="width: 18rem;">
+                        <img src=<%= product.imageUrl %> class="card-img-top" alt="Product image for <%= product.title %>">
+                        <div class="card-body">
+                        <h2 class="card-title"><%= product.title %></h2>
+                        <h4 class="card-text">£<%= product.price %></h4>
+                        <p class="card-text"><%= product.description %></p>
+                        <div class="d-flex">
+                            <a href="admin/edit-product" class="btn btn-warning flex-grow-1 me-1">Edit</a>
+                            <form action="/admin/delete-product" method="POST" class="flex-grow-1 ms-1">
+                                <button class="btn btn-danger w-100" type="submit">Delete</button>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } else { %>
+            <div class="max-width m-auto px-2"><h1>No Products Found!</h1></div>
+        <% } %>
+    </main>
 <%- include('../includes/end.ejs') %>

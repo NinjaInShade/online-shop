@@ -6,22 +6,18 @@
 
     <main>
         <% if (prods.length > 0) { %>
-            <div class="container max-width">
-                <div class="row">
+            <div class="container max-width products-container">
                 <% for (let product of prods) { %>
-                            <div class="col">
-                                <div class="card mt-5" style="width: 18rem;">
-                                    <img src=<%= product.imageUrl %> class="card-img-top" alt="Product image">
-                                    <div class="card-body">
-                                      <h2 class="card-title"><%= product.title %></h2>
-                                      <h4 class="card-text">£<%= product.price %></h4>
-                                      <p class="card-text"><%= product.description %></p>
-                                      <a href="#" class="btn btn-primary w-100">Add to cart</a>
-                                    </div>
-                                  </div>
-                            </div>
+                    <div class="card mt-5" style="width: 18rem;">
+                        <img src=<%= product.imageUrl %> class="card-img-top" alt="Product image for <%= product.title %>">
+                        <div class="card-body">
+                        <h2 class="card-title"><%= product.title %></h2>
+                        <h4 class="card-text">£<%= product.price %></h4>
+                        <p class="card-text"><%= product.description %></p>
+                        <a href="#" class="btn btn-primary w-100">Add to cart</a>
+                        </div>
+                    </div>
                 <% } %>
-            </div>
             </div>
         <% } else { %>
             <div class="max-width m-auto px-2"><h1>No Products Found!</h1></div>

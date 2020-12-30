@@ -1,1 +1,14 @@
-[{"title":"Jam","description":"Cool jam","price":"20.99","imageUrl":""}]
+[
+  {
+    "title": "Card college ",
+    "description": "The card college series vol 1-5",
+    "price": "150",
+    "imageUrl": "https://www.vanishingincmagic.com/gallery/photos/card-college-volumes-1-5.jpg"
+  },
+  {
+    "title": "Card college",
+    "description": "Card col 1-5",
+    "price": "150",
+    "imageUrl": "https://www.vanishingincmagic.com/gallery/photos/card-college-volumes-1-5.jpg"
+  }
+]

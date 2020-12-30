@@ -6,7 +6,7 @@ function get_admin_products(req, res, next) {
   //   path: "/admin/products",
   // });
   Product.fetchAll(function (data) {
-    res.render("shop/product-list", {
+    res.render("admin/products", {
       prods: data,
       pageTitle: "Admin Products",
       path: "/admin/products",
