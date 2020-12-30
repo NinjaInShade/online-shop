@@ -29,4 +29,11 @@ function get_checkout(req, res, next) {
   });
 }
 
-module.exports = { get_index, get_cart, get_checkout };
+function get_orders(req, res, next) {
+  res.render("shop/orders", {
+    pageTitle: "Orders",
+    path: "/orders",
+  });
+}
+
+module.exports = { get_index, get_cart, get_checkout, get_orders };
