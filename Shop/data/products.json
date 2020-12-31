@@ -1,16 +1,1 @@
-[
-  {
-    "id": "213",
-    "title": "Card college ",
-    "description": "The card college series vol 1-5",
-    "price": "150",
-    "imageUrl": "https://www.vanishingincmagic.com/gallery/photos/card-college-volumes-1-5.jpg"
-  },
-  {
-    "id": "214",
-    "title": "Card college",
-    "description": "Card col 1-5",
-    "price": "150",
-    "imageUrl": "https://www.vanishingincmagic.com/gallery/photos/card-college-volumes-1-5.jpg"
-  }
-]
+[{"id":"213","title":"Card college ","description":"The card college series vol 1-5","price":"150","imageUrl":"https://www.vanishingincmagic.com/gallery/photos/card-college-volumes-1-5.jpg"},{"id":"214","title":"Card college","description":"Card col 1-5","price":"150","imageUrl":"https://www.vanishingincmagic.com/gallery/photos/card-college-volumes-1-5.jpg"},{"title":"Card college 5","description":"Card college volume 5","price":"30","imageUrl":"https://www.vanishingincmagic.com/gallery/photos/card-college-volumes-1-5.jpg","id":"0.24610514622961044"}]
