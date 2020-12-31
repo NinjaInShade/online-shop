@@ -49,9 +49,12 @@ function get_products(req, res, next) {
 }
 
 function get_product_detail(req, res, next) {
-  res.render("/product", {
+  const product_id = req.params.productId;
+
+  res.render("shop/product-detail", {
     pageTitle: "Product",
     path: "/product",
+    productId: product_id,
   });
 }
 
