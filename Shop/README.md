@@ -6,6 +6,8 @@
 - Templating engines.
 - How to create and use models.
 - Using middleware functions.
+- Dynamic routing.
+- Advanced models.
 
 ## Tips i learned along the way:
 
