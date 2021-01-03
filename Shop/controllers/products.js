@@ -50,16 +50,13 @@ function get_products(req, res, next) {
 
 function get_product_detail(req, res, next) {
   const product_id = req.params.productId;
-  let prod;
-  Product.findById("213", (product) => {
-    console.log(product);
-    prod = product;
-  });
 
-  res.render("shop/product-detail", {
-    pageTitle: "Product",
-    path: "/product",
-    productId: prod,
+  Product.findById(product_id, (product) => {
+    res.render("shop/product-detail", {
+      pageTitle: "Product",
+      path: `/products`,
+      product,
+    });
   });
 }
 
