@@ -12,6 +12,7 @@
             <form action="/cart" method="POST" class="flex-grow-1 ms-1 mt-3">
                 <button class="btn btn-primary w-25" type="submit">Add to cart</button>
                 <input type="hidden" name="productID" value="<%= product.id %>"/>
+                <input type="hidden" name="productPrice" value="<%= product.price %>"/>
             </form>
         </div>
     </div>
