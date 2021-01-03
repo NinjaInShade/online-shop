@@ -9,8 +9,9 @@
             <hr>
             <img src=<%= product.imageUrl %> class="product-detail-img" alt="Product image for <%= product.title %>">
             <h3 class="mt-3"><%= product.description %></h3>
-            <form action="/cart/<%= product.id %>" method="POST" class="flex-grow-1 ms-1 mt-3">
+            <form action="/cart" method="POST" class="flex-grow-1 ms-1 mt-3">
                 <button class="btn btn-primary w-25" type="submit">Add to cart</button>
+                <input type="hidden" name="productID" value="<%= product.id %>"/>
             </form>
         </div>
     </div>

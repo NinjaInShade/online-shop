@@ -1,10 +1,7 @@
 const Product = require("../models/product");
 
+// GET Reqs
 function get_index(req, res, next) {
-  // res.render("shop/index", {
-  //   pageTitle: "Shop",
-  //   path: "/",
-  // });
   Product.fetchAll(function (data) {
     res.render("shop/product-list", {
       prods: data,
@@ -36,4 +33,12 @@ function get_orders(req, res, next) {
   });
 }
 
-module.exports = { get_index, get_cart, get_checkout, get_orders };
+// POST Reqs
+function post_cart(req, res, next) {
+  const data = req.body;
+
+  console.log(data);
+  res.redirect("/cart");
+}
+
+module.exports = { get_index, get_cart, get_checkout, get_orders, post_cart };
