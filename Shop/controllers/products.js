@@ -23,13 +23,29 @@ function get_add_product(req, res, next) {
 }
 
 function get_edit_product(req, res, next) {
-  res.render("/admin/edit-product", {
-    pageTitle: "Edit product",
-    path: "/admin/edit-product",
+  const product_id = req.params.productID;
+
+  Product.findById(product_id, (product) => {
+    if (!product) {
+      res.redirect("/");
+    }
+
+    res.render("admin/edit-product", {
+      pageTitle: "Edit product",
+      path: `/admin/products`,
+      product,
+    });
   });
 }
 
 function post_add_product(req, res, next) {
+  const body = req.body;
+  console.log(body);
+
+  res.redirect("/");
+}
+
+function post_edit_product(req, res, next) {
   const body = req.body;
 
   let new_product = new Product(body.title, body.description, body.price, body.imageUrl);
@@ -60,4 +76,4 @@ function get_product_detail(req, res, next) {
   });
 }
 
-module.exports = { get_add_product, post_add_product, get_products, get_admin_products, get_product_detail, get_edit_product };
+module.exports = { get_add_product, post_add_product, get_products, get_admin_products, get_product_detail, get_edit_product, post_edit_product };

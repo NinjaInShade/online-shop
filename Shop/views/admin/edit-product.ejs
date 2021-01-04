@@ -2,7 +2,27 @@
 </head>
 
 <body>
-    <%- include('../includes/navigation.ejs') %>
-    <div class="max-width m-auto px-2 mt-3"><h1>Edit product page!</h1></div>
+   <%- include('../includes/navigation.ejs') %>
 
+    <main class="max-width">
+        <form class="m-auto" action="/admin/edit-product" method="POST">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name="title" aria-describedby="titleForNewProduct" value="<%= product.title %>">
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <input type="text" class="form-control" id="description" name="description" aria-describedby="descriptionForNewProduct" value="<%= product.description %>">
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Price</label>
+              <input type="number" class="form-control" id="price" name="price" aria-describedby="priceForNewProduct" value="<%= product.price %>">
+            </div>
+            <div class="mb-3">
+              <label for="imageUrl" class="form-label">Image</label>
+              <input type="text" class="form-control" id="imageUrl" name="imageUrl" aria-describedby="imageForNewProduct" value="<%= product.imageUrl %>">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Edit</button>
+          </form>
+    </main>
 <%- include('../includes/end.ejs') %>

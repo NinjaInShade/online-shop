@@ -15,8 +15,8 @@
                         <h4 class="card-text">£<%= product.price %></h4>
                         <p class="card-text"><%= product.description %></p>
                         <div class="d-flex">
-                            <a href="admin/edit-product" class="btn btn-warning flex-grow-1 me-1">Edit</a>
-                            <form action="/admin/delete-product" method="POST" class="flex-grow-1 ms-1">
+                            <a href="/admin/edit-product/<%= product.id %>" class="btn btn-warning flex-grow-1 me-1">Edit</a>
+                            <form action="/admin/delete-product/<%= product.id %>" method="POST" class="flex-grow-1 ms-1">
                                 <button class="btn btn-danger w-100" type="submit">Delete</button>
                             </form>
                         </div>
