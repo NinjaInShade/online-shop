@@ -1,5 +1,7 @@
 const Product = require("../models/Product");
 
+// GET controllers
+
 function get_admin_products(req, res, next) {
   // res.render("admin/products", {
   //   pageTitle: "Admin Products",
@@ -38,21 +40,6 @@ function get_edit_product(req, res, next) {
   });
 }
 
-function post_add_product(req, res, next) {
-  const body = req.body;
-  console.log(body);
-
-  res.redirect("/");
-}
-
-function post_edit_product(req, res, next) {
-  const body = req.body;
-
-  let new_product = new Product(body.title, body.description, body.price, body.imageUrl);
-  new_product.save();
-  res.redirect("/");
-}
-
 function get_products(req, res, next) {
   Product.fetchAll(function (data) {
     res.render("shop/product-list", {
@@ -74,6 +61,26 @@ function get_product_detail(req, res, next) {
       product,
     });
   });
+}
+
+// POST controllers
+
+function post_add_product(req, res, next) {
+  const body = req.body;
+
+  let new_product = new Product(null, body.title, body.description, body.price, body.imageUrl);
+  new_product.save();
+  res.redirect("/");
+}
+
+function post_edit_product(req, res, next) {
+  const productID = req.params.productID;
+  const body = req.body;
+
+  let updated_product = new Product(productID, body.title, body.description, body.price, body.imageUrl);
+  updated_product.save();
+
+  res.redirect("/");
 }
 
 module.exports = { get_add_product, post_add_product, get_products, get_admin_products, get_product_detail, get_edit_product, post_edit_product };

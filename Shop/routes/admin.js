@@ -13,7 +13,7 @@ router.get("/add-product", products_controller.get_add_product);
 // POST Routes
 router.post("/add-product", products_controller.post_add_product);
 
-router.post("/edit-product", products_controller.post_edit_product);
+router.post("/edit-product/:productID", products_controller.post_edit_product);
 
 module.exports = {
   routes: router,

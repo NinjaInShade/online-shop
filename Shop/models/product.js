@@ -16,7 +16,8 @@ function get_products_from_file(cb) {
 }
 
 module.exports = class Product {
-  constructor(title, description, price, imageUrl) {
+  constructor(id, title, description, price, imageUrl) {
+    this.id = id;
     this.title = title;
     this.description = description;
     this.price = price;
@@ -24,13 +25,31 @@ module.exports = class Product {
   }
 
   save() {
-    this.id = Math.random().toString();
-    get_products_from_file((products) => {
-      products.push(this);
-      fs.writeFile(f, JSON.stringify(products), (err) => {
-        console.log(err);
+    // If we dont have this product already, create new one
+    if (!this.id) {
+      this.id = Math.random().toString();
+
+      get_products_from_file((products) => {
+        products.push(this);
+        fs.writeFile(f, JSON.stringify(products), (err) => {
+          console.log(err);
+        });
       });
-    });
+    } else {
+      // Admin is trying to edit existing product.
+      get_products_from_file((products) => {
+        // Create a new array which will be the updated array with the newly updated product. Find the index of the product.
+        let updated_products = [...products];
+        const existing_product_index = updated_products.findIndex((product) => product.id === this.id);
+
+        // Update
+        updated_products[existing_product_index] = this;
+
+        fs.writeFile(f, JSON.stringify(updated_products), (err) => {
+          console.log(err);
+        });
+      });
+    }
   }
 
   static fetchAll(cb) {
