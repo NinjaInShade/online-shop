@@ -42,4 +42,12 @@ function post_cart(req, res, next) {
   res.redirect("/cart");
 }
 
-module.exports = { get_index, get_cart, get_checkout, get_orders, post_cart };
+function post_remove_cart(req, res, next) {
+  const productID = req.params.productID;
+
+  Cart.remove(productID);
+
+  res.redirect("/");
+}
+
+module.exports = { get_index, get_cart, get_checkout, get_orders, post_cart, post_remove_cart };

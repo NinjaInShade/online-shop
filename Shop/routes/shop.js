@@ -21,6 +21,8 @@ router.get("/orders", shop_controller.get_orders);
 // POST Routes
 router.post("/cart", shop_controller.post_cart);
 
+router.post("/delete-cart/:productID", shop_controller.post_remove_cart);
+
 module.exports = {
   routes: router,
 };
