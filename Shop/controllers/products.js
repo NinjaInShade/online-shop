@@ -83,4 +83,21 @@ function post_edit_product(req, res, next) {
   res.redirect("/");
 }
 
-module.exports = { get_add_product, post_add_product, get_products, get_admin_products, get_product_detail, get_edit_product, post_edit_product };
+function post_delete_product(req, res, next) {
+  const productID = req.params.productID;
+
+  Product.delete(productID);
+
+  res.redirect("/");
+}
+
+module.exports = {
+  get_add_product,
+  post_add_product,
+  get_products,
+  get_admin_products,
+  get_product_detail,
+  get_edit_product,
+  post_edit_product,
+  post_delete_product,
+};

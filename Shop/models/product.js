@@ -52,6 +52,18 @@ module.exports = class Product {
     }
   }
 
+  static delete(id) {
+    // Read products. Find the product index. Pop of the product at that index, and re-write the products back to file.
+    get_products_from_file((products) => {
+      const product_index = products.findIndex((prod) => prod.id === id);
+      products.splice(product_index, 1);
+
+      fs.writeFile(f, JSON.stringify(products), (err) => {
+        console.log(err);
+      });
+    });
+  }
+
   static fetchAll(cb) {
     get_products_from_file(cb);
   }

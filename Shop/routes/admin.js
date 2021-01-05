@@ -15,6 +15,8 @@ router.post("/add-product", products_controller.post_add_product);
 
 router.post("/edit-product/:productID", products_controller.post_edit_product);
 
+router.post("/delete-product/:productID", products_controller.post_delete_product);
+
 module.exports = {
   routes: router,
 };
