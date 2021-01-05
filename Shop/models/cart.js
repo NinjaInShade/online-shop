@@ -48,23 +48,17 @@ module.exports = class Cart {
     fs.readFile(f, (err, fileContent) => {
       if (err) {
         console.log(err);
+        return;
       }
 
       const updated_cart = { ...JSON.parse(fileContent) };
       const existing_cart_index = updated_cart.products.findIndex((item) => item.productID === productID);
 
-      // Update the item at the right index with one less quantity and reduce price if quantity > 1 otherwise delete it.
-      updated_cart.products[existing_cart_index] = {
-        ...updated_cart.products[existing_cart_index],
-        qty: updated_cart.products[existing_cart_index].qty - 1,
-      };
-
       // Update total price
-      updated_cart.total_price = updated_cart.total_price - updated_cart.products[existing_cart_index].price_for_one;
+      updated_cart.total_price =
+        updated_cart.total_price - updated_cart.products[existing_cart_index].price_for_one * updated_cart.products[existing_cart_index].qty;
 
-      if (updated_cart.products[existing_cart_index].qty === 0) {
-        updated_cart.products.splice(existing_cart_index, 1);
-      }
+      updated_cart.products.splice(existing_cart_index, 1);
 
       fs.writeFile(f, JSON.stringify(updated_cart), (err) => {
         console.log(err);

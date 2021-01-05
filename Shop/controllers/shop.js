@@ -47,7 +47,7 @@ function post_remove_cart(req, res, next) {
 
   Cart.remove(productID);
 
-  res.redirect("/");
+  res.redirect("/cart");
 }
 
 module.exports = { get_index, get_cart, get_checkout, get_orders, post_cart, post_remove_cart };
