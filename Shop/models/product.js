@@ -26,30 +26,22 @@ module.exports = class Product {
 
   save() {
     // If we dont have this product already, create new one
-    if (!this.id) {
-      this.id = Math.random().toString();
+    get_products_from_file((products) => {
+      const updated_products = [...products];
+      const existing_product_index = updated_products.findIndex((product) => product.id === this.id);
 
-      get_products_from_file((products) => {
-        products.push(this);
-        fs.writeFile(f, JSON.stringify(products), (err) => {
-          console.log(err);
-        });
-      });
-    } else {
-      // Admin is trying to edit existing product.
-      get_products_from_file((products) => {
-        // Create a new array which will be the updated array with the newly updated product. Find the index of the product.
-        let updated_products = [...products];
-        const existing_product_index = updated_products.findIndex((product) => product.id === this.id);
-
+      if (!this.id) {
+        this.id = Math.random().toString();
+        updated_products.push(this);
+      } else {
         // Update
         updated_products[existing_product_index] = this;
+      }
 
-        fs.writeFile(f, JSON.stringify(updated_products), (err) => {
-          console.log(err);
-        });
+      fs.writeFile(f, JSON.stringify(updated_products), (err) => {
+        console.log(err);
       });
-    }
+    });
   }
 
   static delete(id) {
