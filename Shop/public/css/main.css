@@ -35,6 +35,11 @@ main {
   height: auto;
 }
 
+.cart-image {
+  height: 100%;
+  width: auto;
+}
+
 @media (max-width: 700px) {
   .products-container {
     justify-content: center;

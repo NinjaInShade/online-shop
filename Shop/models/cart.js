@@ -5,7 +5,13 @@ const root_path = require("../util/path");
 const f = path.join(root_path, "data", "cart.json");
 
 module.exports = class Cart {
-  static findAll() {}
+  static getCart(cb) {
+    fs.readFile(f, (err, file_content) => {
+      const cart = JSON.parse(file_content);
+
+      return cb(cart);
+    });
+  }
 
   static add(productID, productPrice) {
     // Fetch previous cart
