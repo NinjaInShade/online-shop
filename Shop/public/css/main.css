@@ -36,8 +36,8 @@ main {
 }
 
 .cart-image {
-  height: 100%;
-  width: auto;
+  max-width: 150px;
+  height: auto;
 }
 
 @media (max-width: 700px) {

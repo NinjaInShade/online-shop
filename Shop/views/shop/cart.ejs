@@ -7,7 +7,7 @@
         <div class="container max-width">
             <% for (let cart_item of products) { %>
                     <div class="my-5 d-flex">
-                        <img src=<%= cart_item.imageUrl %> class="cart_image me-5" alt="Product image for <%= cart_item.title %>">
+                        <img src=<%= cart_item.imageUrl %> class="cart-image me-5" alt="Product image for <%= cart_item.title %>">
                         <div class="d-flex flex-column justify-content-between">
                             <div>
                                 <h3 class="mb-3"><%= cart_item.title %> | £<%= cart_item.price %></h3>
