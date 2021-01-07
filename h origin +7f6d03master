@@ -1,0 +1,191 @@
+[33mcommit a8728c895f71abcf79e2876067fe2dcd9792225e[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Thu Jan 7 19:19:06 2021 +0000
+
+    MySQL Connection established
+
+[33mcommit 63a115f023c0c35eb8e519b265a36299aed28bc0[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Thu Jan 7 13:35:49 2021 +0000
+
+    Updated README + added note files
+
+[33mcommit 522a03c2b89d78de7cac721c791f61669db2970f[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Wed Jan 6 17:24:42 2021 +0000
+
+    Cart fetchCart method added, cart view added with relevant information, and get cart controller done
+
+[33mcommit f73dc6ba11c10bf7e2271f6e3a82df841e1eed0f[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Jan 5 17:50:41 2021 +0000
+
+    Changed Cart model to delete all instances if you remove from cart instead of 1 quantity each time
+
+[33mcommit 03f4706fc0d8937c398c36062615e763ff23cc46[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Jan 5 17:41:04 2021 +0000
+
+    Remove functionality added to Cart model
+
+[33mcommit bbd5d2774df53a7428ff21de086fa9e23a90eab5[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Jan 5 14:52:20 2021 +0000
+
+    Refactored save() method in Product model to be more compact, readable and efficient
+
+[33mcommit a8bbb6c0b720c9c5325a745f10fcfd05dee1c14d[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Jan 5 14:48:51 2021 +0000
+
+    Delete functionality added to Product model
+
+[33mcommit 7ed1aef8a8f122f5729b30f2082b1281287940d4[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Jan 5 14:32:09 2021 +0000
+
+    Product model changed to allow edit functionality
+
+[33mcommit 5c241a11001702b22a65749bca533c32d68e860f[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Mon Jan 4 10:47:02 2021 +0000
+
+    Edit product view, route and dummy controller logic added in.
+
+[33mcommit 45073d662084b9dccf11d335bdb984e4a11ad299[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Sun Jan 3 11:49:12 2021 +0000
+
+    Added cart model with an add method
+
+[33mcommit e03144766634f8837db3d3ccd87a38f811f061d4[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Sun Jan 3 10:44:49 2021 +0000
+
+    Post route/controller basic logic added in, sending data through the add to cart buttun now too.
+
+[33mcommit 48ada53eea4c105dfc4e31eaa2b248032cb5e50b[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Sun Jan 3 10:24:59 2021 +0000
+
+    Product detail view complete
+
+[33mcommit 7b040a8f8ebb34be275b1d5aab4d1bf2fc9a8816[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Thu Dec 31 12:45:56 2020 +0000
+
+    Added a findById method in Product model and then use it in the product-detail route
+
+[33mcommit a5543b42b6479f43cf5d884e6bce8a83784796a3[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Thu Dec 31 12:23:23 2020 +0000
+
+    Dynamic route implemented for detailed product and parsing the url params.
+
+[33mcommit 0cb039a7c78fd9ea7adb08e1caee3f80889616eb[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Thu Dec 31 12:06:15 2020 +0000
+
+    Added temporary id system to product model and made a detail button for product going to a a dynamic url
+
+[33mcommit 371e42fd4e73022e7f257ecf66b3da9378f0b9a9[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Wed Dec 30 15:03:21 2020 +0000
+
+    Added orders route, view and controller logic
+
+[33mcommit d17ed74d8a20b5a12cbb5497d86119de2eaf80ab[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Wed Dec 30 14:59:07 2020 +0000
+
+    Products view for admins in now done with an edit and delete button
+
+[33mcommit c61cf79e886472ddb810940d95261efc0f8cc6bf[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Wed Dec 30 14:31:16 2020 +0000
+
+    Expanded product model to allow other fields. Also updated the form to add product to allow for these fields to be inputted, and made text for those fields in the product list view dynamic
+
+[33mcommit 709186c4975a842570fc20ad5ee19e125e58fc23[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Dec 29 13:03:33 2020 +0000
+
+    Added all new routes, boilerplate views and basic logic in their controllers
+
+[33mcommit 28d389a46efb413a527c9d39c7ae423446740cea[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Dec 29 12:26:23 2020 +0000
+
+    Added neccessary navigation links
+
+[33mcommit d603d50ec37f4c2be1dd7d99afe718fca808c6fb[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Dec 29 12:21:36 2020 +0000
+
+    Changed views folder structure and added some more views (not coded in yet) which i will need for my shop
+
+[33mcommit acc414eed37520007d74d2b6b7f17e47e50f4f95[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Dec 29 12:12:39 2020 +0000
+
+    Added README for the shop project to demonstrate what i've used and learned
+
+[33mcommit 789dd906293b7e0c2e4bb848e38124c09c931401[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Dec 22 13:30:12 2020 +0000
+
+    Changed folder name from MVC to Shop to better describe the project
+
+[33mcommit 65c94e22d51ff40dad229e212dd42aa4e043059f[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Dec 22 13:25:15 2020 +0000
+
+    Refactored product model code to use DRY architecture
+
+[33mcommit 7ce6bc8b12856cfe630bc8027b0c96a323392d4a[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Tue Dec 22 13:13:57 2020 +0000
+
+    Refactored save() and fetchAll() methods in the Product model to save and read data to a file for more permanent storage
+
+[33mcommit 3d01bda8fa8538535b69836ef78cd198a1e7ccc3[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Mon Dec 21 22:25:00 2020 +0000
+
+    Added Product model, with some methods like save() and fetchAll()
+
+[33mcommit d26481eabaa566f59b1002422290256a1bf31a47[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Mon Dec 21 17:22:21 2020 +0000
+
+    Changed add-product and shop views so they use bootstrap.
+
+[33mcommit 4dacf63121537347e40e3ccb422205242daf32aa[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Mon Dec 21 14:38:40 2020 +0000
+
+    Moved 404 logic into it's own controller to be consistent
+
+[33mcommit 7d8becfb9e297b42f38cd3001913cc090be6f1bb[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Sun Dec 20 13:31:54 2020 +0000
+
+    Moved products logic into the products controller
+
+[33mcommit fb54d472a98bfa81801f37cb205e8e84c5cf4638[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Sun Dec 20 13:09:19 2020 +0000
+
+    Changed navbar styling - added in bootstrap
+
+[33mcommit 7226544ba8a02914b06784ef6962f074507e71bd[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Sun Dec 20 12:54:40 2020 +0000
+
+    Made MVC notes into a markdown file for easier viewing
+
+[33mcommit 8c60a8cccd7b1fca69ed98696e789e21fa1aae6f[m
+Author: Leon Michalak <leonmichalak6@gmail.com>
+Date:   Sun Dec 20 12:51:48 2020 +0000
+
+    Initial Commit
