@@ -4,10 +4,11 @@
 
 - MVC pattern.
 - Templating engines.
-- How to create and use models.
+- How to create and use models => A decent part of the project used OOP and storing data in a file. This helped me understand how databases work a bit better.
 - Using middleware functions.
 - Dynamic routing.
 - Advanced models.
+- Using SQL and NOSQL databases - MySQL and MongoDB => and connecting them to a node application.
 
 ## Tips i learned along the way:
 
