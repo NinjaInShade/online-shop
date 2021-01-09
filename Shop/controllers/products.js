@@ -27,17 +27,21 @@ function get_add_product(req, res, next) {
 function get_edit_product(req, res, next) {
   const product_id = req.params.productID;
 
-  Product.findById(product_id, (product) => {
-    if (!product) {
-      res.redirect("/");
-    }
+  Product.findById(parseInt(product_id))
+    .then((result) => {
+      if (!result[0][0]) {
+        res.redirect("/");
+      }
 
-    res.render("admin/edit-product", {
-      pageTitle: "Edit product",
-      path: `/admin/products`,
-      product,
+      res.render("admin/edit-product", {
+        pageTitle: "Product",
+        path: `/products`,
+        product: result[0][0],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 }
 
 function get_products(req, res, next) {
@@ -58,13 +62,17 @@ function get_products(req, res, next) {
 function get_product_detail(req, res, next) {
   const product_id = req.params.productId;
 
-  Product.findById(product_id, (product) => {
-    res.render("shop/product-detail", {
-      pageTitle: "Product",
-      path: `/products`,
-      product,
+  Product.findById(parseInt(product_id))
+    .then((result) => {
+      res.render("shop/product-detail", {
+        pageTitle: "Product",
+        path: `/products`,
+        product: result[0][0],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 }
 
 // POST controllers
@@ -72,9 +80,15 @@ function get_product_detail(req, res, next) {
 function post_add_product(req, res, next) {
   const body = req.body;
 
-  let new_product = new Product(null, body.title, body.description, body.price, body.imageUrl);
-  new_product.save();
-  res.redirect("/");
+  let new_product = new Product(body.title, body.description, body.price, body.imageUrl);
+  new_product
+    .save()
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function post_edit_product(req, res, next) {

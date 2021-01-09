@@ -2,32 +2,20 @@ const db = require("../util/database");
 const Cart = require("./cart");
 
 module.exports = class Product {
-  constructor(id, title, description, price, imageUrl) {
-    this.id = id;
+  constructor(title, description, price, image_url) {
     this.title = title;
     this.description = description;
     this.price = price;
-    this.imageUrl = imageUrl;
+    this.image_url = image_url;
   }
 
   save() {
-    // If we dont have this product already, create new one
-    get_products_from_file((products) => {
-      const updated_products = [...products];
-      const existing_product_index = updated_products.findIndex((product) => product.id === this.id);
-
-      if (!this.id) {
-        this.id = Math.random().toString();
-        updated_products.push(this);
-      } else {
-        // Update
-        updated_products[existing_product_index] = this;
-      }
-
-      fs.writeFile(f, JSON.stringify(updated_products), (err) => {
-        console.log(err);
-      });
-    });
+    return db.execute("INSERT INTO products (title, description, price, image_url) VALUES (?, ?, ?, ?)", [
+      this.title,
+      this.description,
+      this.price,
+      this.image_url,
+    ]);
   }
 
   static delete(id) {
@@ -48,11 +36,7 @@ module.exports = class Product {
     return db.execute("SELECT * FROM products");
   }
 
-  static findById(id, cb) {
-    get_products_from_file((data) => {
-      // Filter out our product
-      const product = data.find((prod) => prod.id === id);
-      return cb(product);
-    });
+  static findById(id) {
+    return db.execute("SELECT * FROM products WHERE products.id = ?", [id]);
   }
 };

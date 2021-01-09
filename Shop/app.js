@@ -14,15 +14,6 @@ const admin_routes = require("./routes/admin");
 const shop_routes = require("./routes/shop");
 const unmatched_route_controller = require("./controllers/unmatched_route");
 
-// Database
-db.execute("SELECT * FROM products")
-  .then((result) => {
-    console.log("fetch complete");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 // External middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
