@@ -1,20 +1,5 @@
-const fs = require("fs");
-const path = require("path");
-const root_path = require("../util/path");
+const db = require("../util/database");
 const Cart = require("./cart");
-
-const f = path.join(root_path, "data", "products.json");
-
-function get_products_from_file(cb) {
-  fs.readFile(f, (err, file_content) => {
-    if (err) {
-      console.log(err, "fetching data error");
-      return cb([]);
-    }
-
-    cb(JSON.parse(file_content));
-  });
-}
 
 module.exports = class Product {
   constructor(id, title, description, price, imageUrl) {
@@ -59,8 +44,8 @@ module.exports = class Product {
     });
   }
 
-  static fetchAll(cb) {
-    get_products_from_file(cb);
+  static fetchAll() {
+    return db.execute("SELECT * FROM products");
   }
 
   static findById(id, cb) {

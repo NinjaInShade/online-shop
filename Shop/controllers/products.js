@@ -41,14 +41,18 @@ function get_edit_product(req, res, next) {
 }
 
 function get_products(req, res, next) {
-  Product.fetchAll(function (data) {
-    res.render("shop/product-list", {
-      prods: data,
-      pageTitle: "Products",
-      path: "/products",
-      hasProducts: data.length > 0,
+  Product.fetchAll()
+    .then((result) => {
+      res.render("shop/product-list", {
+        prods: result[0],
+        pageTitle: "Products",
+        path: "/products",
+        hasProducts: result[0].length > 0,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 }
 
 function get_product_detail(req, res, next) {

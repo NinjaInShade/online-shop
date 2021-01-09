@@ -3,14 +3,18 @@ const Cart = require("../models/cart");
 
 // GET Reqs
 function get_index(req, res, next) {
-  Product.fetchAll(function (data) {
-    res.render("shop/product-list", {
-      prods: data,
-      pageTitle: "Shop",
-      path: "/",
-      hasProducts: data.length > 0,
+  Product.fetchAll()
+    .then((result) => {
+      res.render("shop/product-list", {
+        prods: result[0],
+        pageTitle: "Shop",
+        path: "/",
+        hasProducts: result[0].length > 0,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 }
 
 function get_cart(req, res, next) {
