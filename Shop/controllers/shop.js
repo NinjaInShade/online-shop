@@ -19,23 +19,27 @@ function get_index(req, res, next) {
 
 function get_cart(req, res, next) {
   Cart.getCart((cart) => {
-    Product.fetchAll((products) => {
-      const cart_products = [];
+    Product.fetchAll()
+      .then((result) => {
+        const cart_products = [];
 
-      for (prod of products) {
-        const cart_prod = cart.products.find((product) => product.productID === prod.id);
-        if (cart_prod) {
-          cart_products.push({ ...prod, qty: cart_prod.qty });
+        for (prod of result[0]) {
+          const cart_prod = cart.products.find((product) => parseInt(product.productID) === prod.id);
+          if (cart_prod) {
+            cart_products.push({ ...prod, qty: cart_prod.qty });
+          }
         }
-      }
 
-      res.render("shop/cart", {
-        pageTitle: "Cart",
-        path: "/cart",
-        total_price: cart.total_price,
-        products: cart_products,
+        res.render("shop/cart", {
+          pageTitle: "Cart",
+          path: "/cart",
+          total_price: cart.total_price,
+          products: cart_products,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
   });
 }
 

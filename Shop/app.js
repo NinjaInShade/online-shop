@@ -17,7 +17,7 @@ const unmatched_route_controller = require("./controllers/unmatched_route");
 // Database
 db.execute("SELECT * FROM products")
   .then((result) => {
-    console.log(result[0]);
+    console.log("fetch complete");
   })
   .catch((err) => {
     console.log(err);

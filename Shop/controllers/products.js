@@ -3,18 +3,18 @@ const Product = require("../models/Product");
 // GET controllers
 
 function get_admin_products(req, res, next) {
-  // res.render("admin/products", {
-  //   pageTitle: "Admin Products",
-  //   path: "/admin/products",
-  // });
-  Product.fetchAll(function (data) {
-    res.render("admin/products", {
-      prods: data,
-      pageTitle: "Admin Products",
-      path: "/admin/products",
-      hasProducts: data.length > 0,
+  Product.fetchAll()
+    .then((result) => {
+      res.render("admin/products", {
+        prods: result[0],
+        pageTitle: "Admin Products",
+        path: "/admin/products",
+        hasProducts: result[0].length > 0,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 }
 
 function get_add_product(req, res, next) {
