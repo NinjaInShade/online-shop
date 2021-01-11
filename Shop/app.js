@@ -24,4 +24,8 @@ app.use(shop_routes.routes);
 
 app.use(unmatched_route_controller.get404);
 
-app.listen(5000);
+db.sync()
+  .then((result) => {
+    app.listen(5000);
+  })
+  .catch((err) => console.log(err));
