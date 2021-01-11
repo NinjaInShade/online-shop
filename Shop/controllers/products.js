@@ -80,15 +80,21 @@ function get_product_detail(req, res, next) {
 function post_add_product(req, res, next) {
   const body = req.body;
 
-  let new_product = new Product(body.title, body.description, body.price, body.imageUrl);
-  new_product
-    .save()
-    .then(() => {
+  const title = body.title;
+  const description = body.title;
+  const price = body.price;
+  const image_url = body.image_url;
+
+  Product.create({
+    title,
+    description,
+    price,
+    image_url,
+  })
+    .then((result) => {
       res.redirect("/");
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
 }
 
 function post_edit_product(req, res, next) {
