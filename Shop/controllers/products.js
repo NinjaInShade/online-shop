@@ -27,16 +27,16 @@ function get_add_product(req, res, next) {
 function get_edit_product(req, res, next) {
   const product_id = req.params.productID;
 
-  Product.findById(parseInt(product_id))
+  Product.findByPk(product_id)
     .then((result) => {
-      if (!result[0][0]) {
+      if (!result) {
         res.redirect("/");
       }
 
       res.render("admin/edit-product", {
         pageTitle: "Product",
         path: `/products`,
-        product: result[0][0],
+        product: result,
       });
     })
     .catch((err) => {
@@ -62,12 +62,12 @@ function get_products(req, res, next) {
 function get_product_detail(req, res, next) {
   const product_id = req.params.productId;
 
-  Product.findById(parseInt(product_id))
+  Product.findByPk(product_id)
     .then((result) => {
       res.render("shop/product-detail", {
         pageTitle: "Product",
         path: `/products`,
-        product: result[0][0],
+        product: result,
       });
     })
     .catch((err) => {
