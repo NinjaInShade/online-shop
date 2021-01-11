@@ -3,13 +3,13 @@ const Cart = require("../models/cart");
 
 // GET Reqs
 function get_index(req, res, next) {
-  Product.fetchAll()
+  Product.findAll()
     .then((result) => {
       res.render("shop/product-list", {
-        prods: result[0],
-        pageTitle: "Shop",
-        path: "/",
-        hasProducts: result[0].length > 0,
+        prods: result,
+        pageTitle: "Products",
+        path: "/products",
+        hasProducts: result.length > 0,
       });
     })
     .catch((err) => {

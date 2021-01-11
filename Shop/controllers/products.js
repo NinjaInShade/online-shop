@@ -45,13 +45,13 @@ function get_edit_product(req, res, next) {
 }
 
 function get_products(req, res, next) {
-  Product.fetchAll()
+  Product.findAll()
     .then((result) => {
       res.render("shop/product-list", {
-        prods: result[0],
+        prods: result,
         pageTitle: "Products",
         path: "/products",
-        hasProducts: result[0].length > 0,
+        hasProducts: result.length > 0,
       });
     })
     .catch((err) => {
