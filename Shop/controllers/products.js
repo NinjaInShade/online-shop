@@ -3,13 +3,13 @@ const Product = require("../models/Product");
 // GET controllers
 
 function get_admin_products(req, res, next) {
-  Product.fetchAll()
+  Product.findAll()
     .then((result) => {
       res.render("admin/products", {
-        prods: result[0],
+        prods: result,
         pageTitle: "Admin Products",
         path: "/admin/products",
-        hasProducts: result[0].length > 0,
+        hasProducts: result.length > 0,
       });
     })
     .catch((err) => {
