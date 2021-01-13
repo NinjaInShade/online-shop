@@ -92,7 +92,7 @@ function post_add_product(req, res, next) {
     image_url,
   })
     .then((product) => {
-      res.redirect("/");
+      res.redirect("/admin/products");
     })
     .catch((err) => console.log(err));
 }
