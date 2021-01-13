@@ -9,4 +9,5 @@
 - Dynamic routing.
 - Advanced models.
 - Using SQL and NOSQL databases - MySQL and MongoDB => and connecting them to a node application.
-- Querying databases inside nodeJS
+- Querying databases inside nodeJS.
+- Reading documentation properly.
