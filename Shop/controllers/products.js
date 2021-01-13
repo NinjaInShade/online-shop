@@ -115,7 +115,7 @@ function post_edit_product(req, res, next) {
 
       return product.save();
     })
-    .then((result) => {
+    .then(() => {
       res.redirect("/");
       console.log("updated product");
     })
@@ -127,9 +127,15 @@ function post_edit_product(req, res, next) {
 function post_delete_product(req, res, next) {
   const productID = req.params.productID;
 
-  Product.delete(productID);
-
-  res.redirect("/");
+  Product.findByPk(productID)
+    .then((product) => {
+      return product.destroy();
+    })
+    .then(() => {
+      console.log("deleted successfully");
+      res.redirect("/");
+    })
+    .catch((err) => console.log(err));
 }
 
 module.exports = {
