@@ -8,7 +8,7 @@ function get_index(req, res, next) {
       res.render("shop/product-list", {
         prods: result,
         pageTitle: "Products",
-        path: "/products",
+        path: "/",
         hasProducts: result.length > 0,
       });
     })

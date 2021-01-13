@@ -46,12 +46,12 @@ function get_edit_product(req, res, next) {
 
 function get_products(req, res, next) {
   Product.findAll()
-    .then((result) => {
+    .then((products) => {
       res.render("shop/product-list", {
-        prods: result,
+        prods: products,
         pageTitle: "Products",
         path: "/products",
-        hasProducts: result.length > 0,
+        hasProducts: products.length > 0,
       });
     })
     .catch((err) => {
@@ -63,11 +63,11 @@ function get_product_detail(req, res, next) {
   const product_id = req.params.productId;
 
   Product.findByPk(product_id)
-    .then((result) => {
+    .then((product) => {
       res.render("shop/product-detail", {
         pageTitle: "Product",
         path: `/products`,
-        product: result,
+        product,
       });
     })
     .catch((err) => {
@@ -91,7 +91,7 @@ function post_add_product(req, res, next) {
     price,
     image_url,
   })
-    .then((result) => {
+    .then((product) => {
       res.redirect("/");
     })
     .catch((err) => console.log(err));
@@ -101,10 +101,27 @@ function post_edit_product(req, res, next) {
   const productID = req.params.productID;
   const body = req.body;
 
-  let updated_product = new Product(productID, body.title, body.description, body.price, body.imageUrl);
-  updated_product.save();
+  const title = body.title;
+  const description = body.description;
+  const price = body.price;
+  const image_url = body.image_url;
 
-  res.redirect("/");
+  Product.findByPk(productID)
+    .then((product) => {
+      product.title = title;
+      product.description = description;
+      product.price = price;
+      product.image_url = image_url;
+
+      return product.save();
+    })
+    .then((result) => {
+      res.redirect("/");
+      console.log("updated product");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function post_delete_product(req, res, next) {
