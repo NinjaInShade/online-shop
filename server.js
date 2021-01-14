@@ -21,6 +21,15 @@ const unmatched_route_controller = require("./controllers/unmatched_route");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use((req, res, next) => {
+  User.findByPk(1)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => console.log(err));
+});
+
 // Route middlewares
 app.use("/admin", admin_routes.routes);
 app.use(shop_routes.routes);
@@ -34,6 +43,16 @@ User.hasMany(Product);
 
 // Sync db
 db.sync()
+  .then((result) => {
+    return User.findByPk(1);
+  })
+  .then((user) => {
+    if (!user) {
+      User.create({ name: "leon", email: "leon@gmail.com", password: "abcd" });
+    }
+
+    return Promise.resolve(user);
+  })
   .then((result) => {
     app.listen(5000);
   })
