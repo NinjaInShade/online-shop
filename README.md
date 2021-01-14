@@ -1,3 +1,13 @@
-# In this repo i am practicing and learning parts of node js.
+# Welcome to my online shop project.
 
-## The main bulk of this repo is my shop project which you find in the Shop folder. To start just run "nodemon app.js".
+## This is an online store made with node that incorporates concepts and technologies like:
+
+- MVC pattern.
+- Templating engines.
+- How to create and use models => A decent part of the project used OOP and storing data in a file. This helped me understand how databases work a bit better.
+- Using middleware functions.
+- Dynamic routing.
+- Advanced models.
+- Using SQL and NOSQL databases - MySQL and MongoDB => and connecting them to a node application.
+- Querying databases inside nodeJS.
+- Reading documentation properly.
