@@ -5,6 +5,9 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const db = require("./util/database");
+const Product = require("./models/product");
+const User = require("./models/user");
+const Cart = require("./models/cart");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -24,6 +27,12 @@ app.use(shop_routes.routes);
 
 app.use(unmatched_route_controller.get404);
 
+// Relate models
+Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
+// Below is not needed, just makes the relationship more clear
+User.hasMany(Product);
+
+// Sync db
 db.sync()
   .then((result) => {
     app.listen(5000);
