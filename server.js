@@ -35,7 +35,7 @@ app.use(shop_routes.routes);
 
 app.use(unmatched_route_controller.get404);
 
-Product.belongsTo(User, { constraints: true, onDelete: "SET NULL", onUpdate: "CASCADE", foreignKey: "userId" });
+// Product.belongsTo(User, { constraints: true, onUpdate: "CASCADE" });
 // User.hasMany(Product);
 
 // db.sync({ force: true })

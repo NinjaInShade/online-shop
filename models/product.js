@@ -22,6 +22,14 @@ const Product = sequelize.define("product", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  userId: {
+    allowNull: false,
+    type: Sequelize.INTEGER,
+    references: {
+      model: "users",
+      key: "id",
+    },
+  },
 });
 
 module.exports = Product;

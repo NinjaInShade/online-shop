@@ -82,6 +82,8 @@ function post_add_product(req, res, next) {
   const image_url = req.body.image_url;
   const price = req.body.price;
   const description = req.body.description;
+
+  console.log(req.user);
   req.user
     .createProduct({
       title: title,
