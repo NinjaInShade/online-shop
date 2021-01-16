@@ -78,23 +78,25 @@ function get_product_detail(req, res, next) {
 // POST controllers
 
 function post_add_product(req, res, next) {
-  const body = req.body;
-
-  const title = body.title;
-  const description = body.title;
-  const price = body.price;
-  const image_url = body.image_url;
-
-  Product.create({
-    title,
-    description,
-    price,
-    image_url,
-  })
-    .then((product) => {
+  const title = req.body.title;
+  const image_url = req.body.image_url;
+  const price = req.body.price;
+  const description = req.body.description;
+  req.user
+    .createProduct({
+      title: title,
+      price: price,
+      image_url: image_url,
+      description: description,
+    })
+    .then((result) => {
+      // console.log(result);
+      console.log("Created Product");
       res.redirect("/admin/products");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function post_edit_product(req, res, next) {

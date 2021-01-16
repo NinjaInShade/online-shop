@@ -7,7 +7,6 @@ require("dotenv").config();
 const db = require("./util/database");
 const Product = require("./models/product");
 const User = require("./models/user");
-const Cart = require("./models/cart");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -36,24 +35,24 @@ app.use(shop_routes.routes);
 
 app.use(unmatched_route_controller.get404);
 
-// Relate models
-Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
-// Below is not needed, just makes the relationship more clear
-User.hasMany(Product);
+Product.belongsTo(User, { constraints: true, onDelete: "SET NULL", onUpdate: "CASCADE", foreignKey: "userId" });
+// User.hasMany(Product);
 
-// Sync db
+// db.sync({ force: true })
 db.sync()
   .then((result) => {
     return User.findByPk(1);
+    // console.log(result);
   })
   .then((user) => {
     if (!user) {
-      User.create({ name: "leon", email: "leon@gmail.com", password: "abcd" });
+      return User.create({ name: "Max", email: "test@test.com" });
     }
-
-    return Promise.resolve(user);
+    return user;
   })
-  .then((result) => {
+  .then((user) => {
     app.listen(5000);
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.log(err);
+  });
