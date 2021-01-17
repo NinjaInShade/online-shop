@@ -5,8 +5,10 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const db = require("./util/database");
-const Product = require("./models/product");
 const User = require("./models/user");
+const Product = require("./models/product");
+const Cart = require("./models/cart");
+const CartItem = require("./models/cart-item");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -35,8 +37,15 @@ app.use(shop_routes.routes);
 
 app.use(unmatched_route_controller.get404);
 
-// Product.belongsTo(User, { constraints: true, onUpdate: "CASCADE" });
+// These 2 associations do not create the foreign key for some reason...?
+// So i added it to the model and works fine.
 // User.hasMany(Product);
+// Product.belongsTo(User);
+
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
 
 // db.sync({ force: true })
 db.sync()

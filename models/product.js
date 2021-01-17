@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 
 const sequelize = require("../util/database");
+const User = require("./user");
 
 const Product = sequelize.define("product", {
   id: {
@@ -26,7 +27,7 @@ const Product = sequelize.define("product", {
     allowNull: false,
     type: Sequelize.INTEGER,
     references: {
-      model: "users",
+      model: User,
       key: "id",
     },
   },

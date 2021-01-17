@@ -83,14 +83,13 @@ function post_add_product(req, res, next) {
   const price = req.body.price;
   const description = req.body.description;
 
-  console.log(req.user);
-  req.user
-    .createProduct({
-      title: title,
-      price: price,
-      image_url: image_url,
-      description: description,
-    })
+  Product.create({
+    title: title,
+    price: price,
+    image_url: image_url,
+    description: description,
+    userId: req.user.dataValues.id,
+  })
     .then((result) => {
       // console.log(result);
       console.log("Created Product");
