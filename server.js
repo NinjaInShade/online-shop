@@ -60,8 +60,9 @@ db.sync()
     return user;
   })
   .then((user) => {
-    app.listen(5000);
+    user.createCart();
   })
+  .then(app.listen(5000))
   .catch((err) => {
     console.log(err);
   });
