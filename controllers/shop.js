@@ -52,10 +52,38 @@ function get_orders(req, res, next) {
 
 // POST Reqs
 function post_cart(req, res, next) {
-  const data = req.body;
+  const productID = req.body.productID;
+  let fetched_cart;
 
-  Cart.add(data.productID, data.productPrice);
-  res.redirect("/cart");
+  req.user
+    .getCart()
+    .then((cart) => {
+      fetched_cart = cart;
+
+      return cart.getProducts({ where: { id: productID } });
+    })
+    .then((products) => {
+      let product;
+      let newQuantity = 1;
+
+      if (products.length > 0) {
+        product = products[0];
+      }
+
+      if (product) {
+        newQuantity += 1;
+      }
+
+      return Product.findByPk(productID)
+        .then((product) => {
+          return fetched_cart.addProduct(product, { through: { quantity: newQuantity } });
+        })
+        .catch((err) => console.log(err));
+    })
+    .then(() => {
+      res.redirect("/cart");
+    })
+    .catch((err) => console.log(err));
 }
 
 function post_remove_cart(req, res, next) {
