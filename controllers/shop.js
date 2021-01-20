@@ -43,10 +43,19 @@ function get_checkout(req, res, next) {
 }
 
 function get_orders(req, res, next) {
-  res.render("shop/orders", {
-    pageTitle: "Orders",
-    path: "/orders",
-  });
+  req.user
+    .getOrders({ include: ["products"] })
+    .then((orders) => {
+      for (let order of orders) {
+        console.log(order.__proto__);
+      }
+      res.render("shop/orders", {
+        pageTitle: "Orders",
+        path: "/orders",
+        orders,
+      });
+    })
+    .catch((err) => console.log(err));
 }
 
 // POST Reqs

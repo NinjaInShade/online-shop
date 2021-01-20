@@ -3,6 +3,33 @@
 
 <body>
     <%- include('../includes/navigation.ejs') %>
-    <div class="max-width m-auto px-2 mt-3"><h1>Orders!</h1></div>
+        <% if (orders.length > 0) { %>
+        <div class="container max-width">
+            <% for (let order of orders) { %>
+                    <div class="my-3">
+                        <h1>#<%= order.id %></h1>
+                            <% for (let product of order.products) { %>
+                                <div class="my-3 d-flex">
+                                    <img src=<%= product.image_url %> class="cart-image me-5" alt="Product image for <%= product.title %>">
+                                    <div class="d-flex flex-column justify-content-between">
+                                        <div>
+                                            <h3 class="mb-3"><%= product.title %> | £<%= product.price %></h3>
+                                            <h4 class="mb-5">Quantity: <%= product.orderitem.quantity %></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                    </div>
+            <% } %>
+                    <!-- Should be the total price: -->
+            <div class="mt-5">
+                <form action="/checkout" method="POST" class="w-25">
+                    <button class="btn btn-success w-100" type="submit">Pay</button>
+                </form>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="max-width m-auto px-2"><h1>No orders</h1></div>
+    <% } %>
 
 <%- include('../includes/end.ejs') %>
