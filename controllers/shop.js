@@ -107,9 +107,13 @@ function post_remove_cart(req, res, next) {
 }
 
 function post_create_order(req, res, next) {
+  let fetched_cart;
+
   req.user
     .getCart()
     .then((cart) => {
+      fetched_cart = cart;
+
       return cart.getProducts();
     })
     .then((products) => {
@@ -124,6 +128,9 @@ function post_create_order(req, res, next) {
           );
         })
         .catch((err) => console.log(err));
+    })
+    .then(() => {
+      return fetched_cart.setProducts(null);
     })
     .then(() => {
       res.redirect("/orders");
