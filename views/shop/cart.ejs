@@ -20,7 +20,12 @@
                     </div>
             <% } %>
                     <!-- Should be the total price: -->
-            <h2 class="mt-4">Total price: £<%= 15 %></h2>
+            <div class="mt-5">
+                <h2 class="my-3">Total price: £<%= 15 %></h2>
+                <form action="/create-order" method="POST" class="w-25">
+                    <button class="btn btn-success w-100" type="submit">Checkout</button>
+                </form>
+            </div>
         </div>
     <% } else { %>
         <div class="max-width m-auto px-2"><h1>Nothing in cart</h1></div>

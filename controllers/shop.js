@@ -107,4 +107,8 @@ function post_remove_cart(req, res, next) {
     .catch((err) => console.log(err));
 }
 
-module.exports = { get_index, get_cart, get_checkout, get_orders, post_cart, post_remove_cart };
+function post_create_order(req, res, next) {
+  res.redirect("/checkout");
+}
+
+module.exports = { get_index, get_cart, get_checkout, get_orders, post_cart, post_remove_cart, post_create_order };
