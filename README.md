@@ -8,6 +8,6 @@
 - Using middleware functions.
 - Dynamic routing.
 - Advanced models.
-- Using SQL and NOSQL databases - MySQL and MongoDB => and connecting them to a node application.
+- Using SQL and NOSQL databases - MySQL (sequelize) and MongoDB (mongoose) => and connecting them to a node application.
 - Querying databases inside nodeJS.
 - Reading documentation properly.
