@@ -17,16 +17,22 @@ function get_index(req, res, next) {
 }
 
 function get_cart(req, res, next) {
+  let total_price = 0;
+
   req.user
     .getCart()
     .then((cart) => {
       return cart
         .getProducts()
         .then((products) => {
+          for (let cart_item of products) {
+            total_price += cart_item.price * cart_item.cartitem.quantity;
+          }
+
           res.render("shop/cart", {
             pageTitle: "Cart",
             path: "/cart",
-            // total_price: cart.total_price,
+            total_price,
             products,
           });
         })
@@ -50,9 +56,7 @@ function get_orders(req, res, next) {
     .then((orders) => {
       for (let order of orders) {
         for (let product of order.products) {
-          console.log(product.price);
-
-          total_price += product.price;
+          total_price += product.price * product.orderitem.quantity;
         }
       }
 
