@@ -43,16 +43,24 @@ function get_checkout(req, res, next) {
 }
 
 function get_orders(req, res, next) {
+  let total_price = 0;
+
   req.user
     .getOrders({ include: ["products"] })
     .then((orders) => {
       for (let order of orders) {
-        console.log(order.__proto__);
+        for (let product of order.products) {
+          console.log(product.price);
+
+          total_price += product.price;
+        }
       }
+
       res.render("shop/orders", {
         pageTitle: "Orders",
         path: "/orders",
         orders,
+        total_price,
       });
     })
     .catch((err) => console.log(err));
