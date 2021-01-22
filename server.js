@@ -64,7 +64,16 @@ db.sync()
     return user;
   })
   .then((user) => {
-    user.createCart();
+    user
+      .getCart()
+      .then((cart) => {
+        if (!cart) {
+          return user.createCart();
+        }
+
+        return;
+      })
+      .catch((err) => console.log(err));
   })
   .then(app.listen(5000))
   .catch((err) => {
