@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
-const db = require("./util/database");
+const db = require("./util/database").mongo;
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -28,6 +28,6 @@ app.use((req, res, next) => {
 
 app.use(unmatched_route_controller.get404);
 
-db((client) => {
+db((result) => {
   app.listen(5000);
 });

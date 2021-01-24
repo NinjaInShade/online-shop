@@ -5,13 +5,13 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
-const db = require("./util/database");
-const User = require("./models/user");
-const Product = require("./models/product");
-const Cart = require("./models/cart");
-const CartItem = require("./models/cart-item");
-const Order = require("./models/order");
-const OrderItem = require("./models/order-item");
+const db = require("./util/database").mysql;
+const User = require("./mysql/models/user");
+const Product = require("./mysql/models/product");
+const Cart = require("./mysql/models/cart");
+const CartItem = require("./mysql/models/cart-item");
+const Order = require("./mysql/models/order");
+const OrderItem = require("./mysql/models/order-item");
 
 app.set("view engine", "ejs");
 app.set("views", "views");
