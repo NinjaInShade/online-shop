@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
   // Set the req.user
+  next();
 });
 
 // Route middlewares
@@ -29,7 +30,6 @@ app.use(shop_routes.routes);
 
 app.use(unmatched_route_controller.get404);
 
-db((result) => {
+db(() => {
   app.listen(5000);
-  console.log("Started server");
 });
