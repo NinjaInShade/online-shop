@@ -1,7 +1,7 @@
 const express = require("express");
 
 const router = express.Router();
-const products_controller = require("../controllers/products");
+const products_controller = require("../../controllers/mongo/products");
 
 // GET Routes
 router.get("/products", products_controller.get_admin_products);

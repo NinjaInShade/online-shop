@@ -6,19 +6,19 @@ require("dotenv").config();
 
 const app = express();
 const db = require("./util/database").mysql;
-const User = require("./mysql/models/user");
-const Product = require("./mysql/models/product");
-const Cart = require("./mysql/models/cart");
-const CartItem = require("./mysql/models/cart-item");
-const Order = require("./mysql/models/order");
-const OrderItem = require("./mysql/models/order-item");
+const User = require("./models/mysql/user");
+const Product = require("./models/mysql/product");
+const Cart = require("./models/mysql/cart");
+const CartItem = require("./models/mysql/cart-item");
+const Order = require("./models/mysql/order");
+const OrderItem = require("./models/mysql/order-item");
 
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-const admin_routes = require("./routes/admin");
-const shop_routes = require("./routes/shop");
-const unmatched_route_controller = require("./controllers/unmatched_route");
+const admin_routes = require("./routes/mysql/admin");
+const shop_routes = require("./routes/mysql/shop");
+const unmatched_route_controller = require("./controllers/mysql/unmatched_route");
 
 // External middlewares
 app.use(bodyParser.urlencoded({ extended: false }));

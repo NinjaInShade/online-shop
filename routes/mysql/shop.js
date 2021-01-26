@@ -1,7 +1,7 @@
 const express = require("express");
 
-const products_controller = require("../controllers/products");
-const shop_controller = require("../controllers/shop");
+const products_controller = require("../../controllers/mysql/products");
+const shop_controller = require("....//controllers/mysql/shop");
 
 const router = express.Router();
 

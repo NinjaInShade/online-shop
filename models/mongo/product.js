@@ -1,7 +1,5 @@
 const get_db = require("../../util/database").mongo_get_db;
 
-const db = get_db();
-
 class Product {
   constructor(title, description, price, image_url) {
     this.title = title;
@@ -11,7 +9,13 @@ class Product {
   }
 
   save() {
-    console.log(db);
+    const db = get_db();
+    db.collection("products")
+      .insertOne(this)
+      .then((result) => {
+        console.log(saved);
+      })
+      .catch((err) => console.log(err));
   }
 }
 
