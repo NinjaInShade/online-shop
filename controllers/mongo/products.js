@@ -35,7 +35,7 @@ function get_edit_product(req, res, next) {
 
       res.render("admin/edit-product", {
         pageTitle: "Product",
-        path: `/products`,
+        path: `/admin/products`,
         product: result,
       });
     })
@@ -106,18 +106,12 @@ function post_edit_product(req, res, next) {
   const price = body.price;
   const image_url = body.image_url;
 
-  Product.findByPk(productID)
-    .then((product) => {
-      product.title = title;
-      product.description = description;
-      product.price = price;
-      product.image_url = image_url;
+  const new_prod = new Product(title, description, price, image_url, productID);
 
-      return product.save();
-    })
+  new_prod
+    .save()
     .then(() => {
       res.redirect("/");
-      console.log("updated product");
     })
     .catch((err) => {
       console.log(err);

@@ -5,7 +5,9 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main class="max-width">
-        <form class="m-auto" action="/admin/edit-product/<%= product.id %>" method="POST">
+      <!-- MYSQL -->
+        <!-- <form class="m-auto" action="/admin/edit-product/<%= product.id %>" method="POST"> -->
+          <form class="m-auto" action="/admin/edit-product/<%= product._id %>" method="POST">
             <div class="mb-3">
               <label for="title" class="form-label">Title</label>
               <input type="text" class="form-control" id="title" name="title" aria-describedby="titleForNewProduct" value="<%= product.title %>">
@@ -22,7 +24,9 @@
               <label for="image_url" class="form-label">Image</label>
               <input type="text" class="form-control" id="image_url" name="image_url" aria-describedby="imageForNewProduct" value="<%= product.image_url %>">
             </div>
-            <input type="hidden" name="id" value="<%= product.id %>"/>
+            <!-- MYSQL -->
+            <!-- <input type="hidden" name="id" value="<%= product.id %>"/> -->
+            <input type="hidden" name="id" value="<%= product._id %>"/>
             <button type="submit" class="btn btn-primary w-100">Edit</button>
           </form>
     </main>

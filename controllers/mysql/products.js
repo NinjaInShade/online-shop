@@ -35,7 +35,7 @@ function get_edit_product(req, res, next) {
 
       res.render("admin/edit-product", {
         pageTitle: "Product",
-        path: `/products`,
+        path: `/admin/products`,
         product: result,
       });
     })
