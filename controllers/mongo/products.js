@@ -1,3 +1,4 @@
+const { connect } = require("mongodb");
 const Product = require("../../models/mongo/Product");
 
 // GET controllers
@@ -121,12 +122,8 @@ function post_edit_product(req, res, next) {
 function post_delete_product(req, res, next) {
   const productID = req.params.productID;
 
-  Product.findByPk(productID)
-    .then((product) => {
-      return product.destroy();
-    })
-    .then(() => {
-      console.log("deleted successfully");
+  Product.destroy(productID)
+    .then((result) => {
       res.redirect("/");
     })
     .catch((err) => console.log(err));

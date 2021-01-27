@@ -40,6 +40,12 @@ class Product {
       .find({ _id: new mongo_db.ObjectId(product_id) })
       .next();
   }
+
+  static destroy(product_id) {
+    const db = get_db();
+
+    return db.collection("products").deleteOne({ _id: new mongo_db.ObjectId(product_id) });
+  }
 }
 
 module.exports = Product;
