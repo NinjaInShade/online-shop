@@ -14,7 +14,7 @@ const mongoDB = (callback) => {
     { useUnifiedTopology: true }
   )
     .then((client) => {
-      console.log("Connected");
+      console.log("Connected to db");
       _db = client.db();
       callback(client);
     })

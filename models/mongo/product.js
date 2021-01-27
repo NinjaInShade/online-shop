@@ -12,6 +12,11 @@ class Product {
     const db = get_db();
     return db.collection("products").insertOne(this);
   }
+
+  static findAll() {
+    const db = get_db();
+    return db.collection("products").find().toArray();
+  }
 }
 
 module.exports = Product;
