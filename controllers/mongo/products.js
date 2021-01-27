@@ -84,7 +84,7 @@ function post_add_product(req, res, next) {
   const price = req.body.price;
   const description = req.body.description;
 
-  const new_prod = new Product(title, description, price, image_url);
+  const new_prod = new Product(title, description, price, image_url, null, req.user._id);
 
   new_prod
     .save()
@@ -107,7 +107,7 @@ function post_edit_product(req, res, next) {
   const price = body.price;
   const image_url = body.image_url;
 
-  const new_prod = new Product(title, description, price, image_url, productID);
+  const new_prod = new Product(title, description, price, image_url, productID, null, req.user._id);
 
   new_prod
     .save()
