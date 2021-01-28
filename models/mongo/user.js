@@ -17,20 +17,25 @@ class User {
 
   add_to_cart(product) {
     const db = get_db();
-    const cart_product = this.cart.items.findIndex((item) => {
-      return item._id === product._id;
+    const existing_cart_product = this.cart.items.findIndex((item) => {
+      return item.product_id.toString() === product._id.toString();
     });
 
-    if (cart_product === -1) {
+    let updated_cart = { items: [...this.cart.items] };
+
+    if (existing_cart_product === -1) {
       // Create new product
-      return db
-        .collection("users")
-        .updateOne(
-          { _id: new mongo_db.ObjectId(this._id) },
-          { $set: { cart: { items: [...this.cart.items, { product_id: product._id, quantity: 1 }] } } }
-        );
+      updated_cart = { items: [...this.cart.items, { product_id: product._id, quantity: 1 }] };
+
+      return db.collection("users").updateOne({ _id: new mongo_db.ObjectId(this._id) }, { $set: { cart: updated_cart } });
     } else {
       // Update quantity
+      updated_cart.items[existing_cart_product] = {
+        product_id: product._id,
+        quantity: parseInt(updated_cart.items[existing_cart_product].quantity) + 1,
+      };
+
+      return db.collection("users").updateOne({ _id: new mongo_db.ObjectId(this._id) }, { $set: { cart: updated_cart } });
     }
   }
 
