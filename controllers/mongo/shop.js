@@ -79,15 +79,7 @@ function post_remove_cart(req, res, next) {
   const productID = req.params.productID;
 
   req.user
-    .getCart()
-    .then((cart) => {
-      return cart.getProducts({ where: { id: productID } });
-    })
-    .then((products) => {
-      const product = products[0];
-
-      return product.cartitem.destroy();
-    })
+    .delete_from_cart(productID)
     .then(() => {
       res.redirect("/cart");
     })

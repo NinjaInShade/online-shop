@@ -13,7 +13,7 @@
                                 <h3 class="mb-3"><%= cart_item.title %> | £<%= cart_item.price %></h3>
                                 <h4 class="mb-5">Quantity: <%= cart_item.quantity %></h4>
                             </div>
-                            <form action="/delete-cart/<%= cart_item.id %>" method="POST" class="w-100">
+                            <form action="/delete-cart/<%= cart_item._id %>" method="POST" class="w-100">
                                 <button class="btn btn-primary w-100" type="submit">Remove</button>
                             </form>
                         </div>

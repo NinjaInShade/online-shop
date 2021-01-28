@@ -66,6 +66,17 @@ class User {
       });
   }
 
+  delete_from_cart(product_id) {
+    const db = get_db();
+    const updated_cart = { items: [...this.cart.items] };
+
+    const item_to_remove_index = updated_cart.items.findIndex((item) => item.product_id.toString() === product_id.toString());
+
+    updated_cart.items.splice(item_to_remove_index, 1);
+
+    return db.collection("users").updateOne({ _id: new mongo_db.ObjectId(this._id) }, { $set: { cart: updated_cart } });
+  }
+
   static findById(user_id) {
     const db = get_db();
 
