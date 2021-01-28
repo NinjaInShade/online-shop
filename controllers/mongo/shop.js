@@ -42,13 +42,13 @@ function get_orders(req, res, next) {
   let total_price = 0;
 
   req.user
-    .getOrders({ include: ["products"] })
+    .get_orders()
     .then((orders) => {
-      for (let order of orders) {
-        for (let product of order.products) {
-          total_price += product.price * product.orderitem.quantity;
-        }
+      for (let order_item of orders) {
+        total_price += order_item.total_price;
       }
+
+      console.log(orders);
 
       res.render("shop/orders", {
         pageTitle: "Orders",
@@ -87,31 +87,8 @@ function post_remove_cart(req, res, next) {
 }
 
 function post_create_order(req, res, next) {
-  let fetched_cart;
-
   req.user
-    .getCart()
-    .then((cart) => {
-      fetched_cart = cart;
-
-      return cart.getProducts();
-    })
-    .then((products) => {
-      return req.user
-        .createOrder()
-        .then((order) => {
-          return order.addProducts(
-            products.map((product) => {
-              product.orderitem = { quantity: product.cartitem.quantity };
-              return product;
-            })
-          );
-        })
-        .catch((err) => console.log(err));
-    })
-    .then(() => {
-      return fetched_cart.setProducts(null);
-    })
+    .add_order()
     .then(() => {
       res.redirect("/orders");
     })

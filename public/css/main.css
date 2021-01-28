@@ -41,6 +41,10 @@ main {
   height: auto;
 }
 
+.order-id {
+  color: #198754;
+}
+
 @media (max-width: 700px) {
   .products-container {
     justify-content: center;
