@@ -39,6 +39,33 @@ class User {
     }
   }
 
+  get_cart() {
+    const db = get_db();
+    const product_ids = this.cart.items.map((item) => {
+      return item.product_id;
+    });
+    let total_price = 0;
+
+    return db
+      .collection("products")
+      .find({ _id: { $in: product_ids } })
+      .toArray()
+      .then((products) => {
+        const products_arr = products.map((prod) => {
+          return { ...prod, quantity: this.cart.items.find((item) => item.product_id.toString() === prod._id.toString()).quantity };
+        });
+
+        products_arr.forEach((item) => {
+          total_price += item.price * item.quantity;
+        });
+
+        return {
+          total_price,
+          products: products_arr,
+        };
+      });
+  }
+
   static findById(user_id) {
     const db = get_db();
 

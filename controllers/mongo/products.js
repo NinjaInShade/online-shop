@@ -48,7 +48,6 @@ function get_edit_product(req, res, next) {
 function get_products(req, res, next) {
   Product.findAll()
     .then((products) => {
-      console.log(products);
       res.render("shop/product-list", {
         prods: products,
         pageTitle: "Products",
@@ -90,7 +89,6 @@ function post_add_product(req, res, next) {
   new_prod
     .save()
     .then((result) => {
-      // console.log(result);
       console.log("Created Product");
       res.redirect("/admin/products");
     })

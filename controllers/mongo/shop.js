@@ -18,26 +18,15 @@ function get_index(req, res, next) {
 }
 
 function get_cart(req, res, next) {
-  let total_price = 0;
-
   req.user
-    .getCart()
+    .get_cart()
     .then((cart) => {
-      return cart
-        .getProducts()
-        .then((products) => {
-          for (let cart_item of products) {
-            total_price += cart_item.price * cart_item.cartitem.quantity;
-          }
-
-          res.render("shop/cart", {
-            pageTitle: "Cart",
-            path: "/cart",
-            total_price,
-            products,
-          });
-        })
-        .catch((err) => console.log(err));
+      res.render("shop/cart", {
+        pageTitle: "Cart",
+        path: "/cart",
+        total_price: cart.total_price,
+        products: cart.products,
+      });
     })
     .catch((err) => console.log(err));
 }
