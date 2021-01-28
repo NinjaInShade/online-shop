@@ -74,13 +74,16 @@ function get_orders(req, res, next) {
 // POST Reqs
 function post_cart(req, res, next) {
   const productID = req.body.productID;
-  let newQuantity = 1;
 
   // Get product info
-
-  // Add product to users cart
-
-  // Redirect to /cart
+  Product.findByPk(productID)
+    .then((product) => {
+      return req.user.add_to_cart(product);
+    })
+    .then((result) => {
+      res.redirect("/cart");
+    })
+    .catch((err) => console.log(err));
 }
 
 function post_remove_cart(req, res, next) {

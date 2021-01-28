@@ -25,7 +25,10 @@ class User {
       // Create new product
       return db
         .collection("users")
-        .updateOne({ _id: new mongo_db.ObjectId(this._id) }, { $set: { cart: { items: [...this.cart.items, { ...product, quantity: 1 }] } } });
+        .updateOne(
+          { _id: new mongo_db.ObjectId(this._id) },
+          { $set: { cart: { items: [...this.cart.items, { product_id: product._id, quantity: 1 }] } } }
+        );
     } else {
       // Update quantity
     }
