@@ -48,8 +48,6 @@ function get_orders(req, res, next) {
         total_price += order_item.total_price;
       }
 
-      console.log(orders);
-
       res.render("shop/orders", {
         pageTitle: "Orders",
         path: "/orders",

@@ -2,7 +2,7 @@
 
 ## Live build: [...]
 
-#### NOTE: Styling/Responsiveness was not the main focus, but backend inplementation. You may find one or two things that slightly overflow on smaller screen, but this isn't my priority.
+#### NOTE: Styling/Responsiveness was not the main focus, but backend inplementation. You may find one or two things that slightly overflow on smaller screen, but this isn't my priority. If i get time i may come back for this, but it's just not the reason i've made this project.
 
 ## This is an online store made with node that incorporates concepts and technologies like:
 
