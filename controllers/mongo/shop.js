@@ -1,4 +1,5 @@
 const Product = require("../../models/mongo/product");
+const User = require("../../models/mongo/User");
 
 // GET Reqs
 function get_index(req, res, next) {
@@ -73,39 +74,13 @@ function get_orders(req, res, next) {
 // POST Reqs
 function post_cart(req, res, next) {
   const productID = req.body.productID;
-  let fetched_cart;
   let newQuantity = 1;
 
-  req.user
-    .getCart()
-    .then((cart) => {
-      fetched_cart = cart;
+  // Get product info
 
-      return cart.getProducts({ where: { id: productID } });
-    })
-    .then((products) => {
-      let product;
+  // Add product to users cart
 
-      if (products.length > 0) {
-        product = products[0];
-      }
-
-      if (product) {
-        const oldQuantity = product.cartitem.quantity;
-        newQuantity = oldQuantity + 1;
-
-        return product;
-      }
-
-      return Product.findByPk(productID);
-    })
-    .then((product) => {
-      return fetched_cart.addProduct(product, { through: { quantity: newQuantity } });
-    })
-    .then(() => {
-      res.redirect("/cart");
-    })
-    .catch((err) => console.log(err));
+  // Redirect to /cart
 }
 
 function post_remove_cart(req, res, next) {

@@ -55,5 +55,5 @@ db(() => {
     .catch((err) => console.log(err));
 
   console.log("server started");
-  app.listen(5000);
+  app.listen(process.env.PORT);
 });
