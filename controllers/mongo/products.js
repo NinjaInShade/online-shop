@@ -117,7 +117,7 @@ function post_edit_product(req, res, next) {
 function post_delete_product(req, res, next) {
   const productID = req.params.productID;
 
-  Product.destroy(productID)
+  Product.deleteOne({ _id: productID })
     .then((result) => {
       res.redirect("/");
     })
