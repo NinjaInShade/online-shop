@@ -36,24 +36,10 @@ app.use(shop_routes.routes);
 
 app.use(unmatched_route_controller.get404);
 
-db(() => {
-  User.findById("6011c6150ec4798d1028924c")
-    .then((user) => {
-      if (user) {
-        return user;
-      }
-
-      const new_user = new User("Leon", "leon@gmail.com");
-
-      new_user
-        .save()
-        .then((result) => console.log("created user"))
-        .catch((err) => console.log(err));
-
-      return;
-    })
-    .catch((err) => console.log(err));
-
-  console.log("server started");
-  app.listen(process.env.PORT);
-});
+db()
+  .then((result) => {
+    app.listen(process.env.PORT, () => {
+      console.log("Server started and database connection succeeded");
+    });
+  })
+  .catch((err) => console.log(err));
