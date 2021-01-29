@@ -107,7 +107,8 @@ function post_edit_product(req, res, next) {
 
   Product.updateOne({ _id: productID }, { title, description, price, image_url })
     .then(() => {
-      res.redirect("/");
+      console.log("Updated product successfully");
+      res.redirect("/admin/products");
     })
     .catch((err) => {
       console.log(err);
@@ -119,7 +120,8 @@ function post_delete_product(req, res, next) {
 
   Product.deleteOne({ _id: productID })
     .then((result) => {
-      res.redirect("/");
+      console.log("Deleted product successfully");
+      res.redirect("/admin/products");
     })
     .catch((err) => console.log(err));
 }
