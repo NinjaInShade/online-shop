@@ -27,7 +27,7 @@ function get_add_product(req, res, next) {
 function get_edit_product(req, res, next) {
   const product_id = req.params.productID;
 
-  Product.findByPk(product_id)
+  Product.findById(product_id)
     .then((result) => {
       if (!result) {
         res.redirect("/");
@@ -105,10 +105,7 @@ function post_edit_product(req, res, next) {
   const price = body.price;
   const image_url = body.image_url;
 
-  const new_prod = new Product(title, description, price, image_url, productID, null, req.user._id);
-
-  new_prod
-    .save()
+  Product.updateOne({ _id: productID }, { title, description, price, image_url })
     .then(() => {
       res.redirect("/");
     })
