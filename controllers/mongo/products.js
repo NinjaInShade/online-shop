@@ -1,10 +1,9 @@
-const { connect } = require("mongodb");
 const Product = require("../../models/mongo/Product");
 
 // GET controllers
 
 function get_admin_products(req, res, next) {
-  Product.findAll()
+  Product.find()
     .then((result) => {
       res.render("admin/products", {
         prods: result,
@@ -46,7 +45,7 @@ function get_edit_product(req, res, next) {
 }
 
 function get_products(req, res, next) {
-  Product.findAll()
+  Product.find()
     .then((products) => {
       res.render("shop/product-list", {
         prods: products,
@@ -63,7 +62,7 @@ function get_products(req, res, next) {
 function get_product_detail(req, res, next) {
   const product_id = req.params.productId;
 
-  Product.findByPk(product_id)
+  Product.findById(product_id)
     .then((product) => {
       res.render("shop/product-detail", {
         pageTitle: "Product",
@@ -84,12 +83,12 @@ function post_add_product(req, res, next) {
   const price = req.body.price;
   const description = req.body.description;
 
-  const new_prod = new Product(title, description, price, image_url, null, req.user._id);
+  const new_prod = new Product({ title, description, price, image_url });
 
   new_prod
     .save()
     .then((result) => {
-      console.log("Created Product");
+      console.log("Created a product successfully");
       res.redirect("/admin/products");
     })
     .catch((err) => {

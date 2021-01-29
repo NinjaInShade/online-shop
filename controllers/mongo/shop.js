@@ -1,9 +1,8 @@
-const Product = require("../../models/mongo/product");
-const User = require("../../models/mongo/User");
+const Product = require("../../models/mongo/Product");
 
 // GET Reqs
 function get_index(req, res, next) {
-  Product.findAll()
+  Product.find()
     .then((result) => {
       res.render("shop/product-list", {
         prods: result,

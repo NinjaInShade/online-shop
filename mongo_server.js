@@ -7,7 +7,7 @@ require("dotenv").config();
 
 const app = express();
 const db = require("./util/database").mongo;
-const User = require("./models/mongo/user");
+// const User = require("./models/mongo/user");
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -22,12 +22,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
   // Set the req.user
-  User.findById("6011c6150ec4798d1028924c")
-    .then((user) => {
-      req.user = new User(user.name, user.email, user.cart, user._id);
-      next();
-    })
-    .catch((err) => console.log(err));
+  //   User.findById("6011c6150ec4798d1028924c")
+  //     .then((user) => {
+  //       req.user = new User(user.name, user.email, user.cart, user._id);
+  //       next();
+  //     })
+  //     .catch((err) => console.log(err));
+  next();
 });
 
 // Route middlewares
