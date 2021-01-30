@@ -41,11 +41,12 @@ function get_checkout(req, res, next) {
 function get_orders(req, res, next) {
   let total_price = 0;
 
-  req.user
-    .get_orders()
+  Order.find({ user_id: req.user._id })
     .then((orders) => {
-      for (let order_item of orders) {
-        total_price += order_item.total_price;
+      for (let order of orders) {
+        for (let order_item of order.products) {
+          total_price += order_item.price * order_item.quantity;
+        }
       }
 
       res.render("shop/orders", {
