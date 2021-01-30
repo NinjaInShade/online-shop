@@ -5,7 +5,10 @@ const productSchema = new mongoose.Schema({
   description: String,
   price: Number,
   image_url: String,
-  // user_id: mongoose.ObjectId,
+  user_id: {
+    type: mongoose.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model("Product", productSchema);

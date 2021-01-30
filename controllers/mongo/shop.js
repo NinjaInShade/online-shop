@@ -62,11 +62,10 @@ function post_cart(req, res, next) {
   const productID = req.body.productID;
 
   // Get product info
-  Product.findByPk(productID)
-    .then((product) => {
-      return req.user.add_to_cart(product);
-    })
+  req.user
+    .add_to_cart(productID)
     .then((result) => {
+      console.log("Successfully added to cart");
       res.redirect("/cart");
     })
     .catch((err) => console.log(err));
