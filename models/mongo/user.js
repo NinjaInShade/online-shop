@@ -27,4 +27,33 @@ userSchema.methods.add_to_cart = function (productID) {
   }
 };
 
+userSchema.methods.get_cart = function () {
+  // return in format {total_price: ..., products: [...]}
+  let total_price = 0;
+  const products = [];
+
+  return this.populate("cart.items.product_id")
+    .execPopulate()
+    .then((populated_user) => {
+      for (product of populated_user.cart.items) {
+        const prod = product.product_id;
+
+        total_price += product.quantity * product.product_id.price;
+        // I tried to do {...product.product_id, quantity: product.quantity} as the quantity isn't stored in the populated field, but the spread op also nested the product object again.
+        products.push({
+          _id: prod._id,
+          title: prod.title,
+          description: prod.title,
+          price: prod.price,
+          image_url: prod.image_url,
+          user_id: prod.user_id,
+          quantity: product.quantity,
+        });
+      }
+
+      return { total_price, products };
+    })
+    .catch((err) => console.log(err));
+};
+
 module.exports = mongoose.model("User", userSchema);
