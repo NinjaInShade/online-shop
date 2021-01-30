@@ -27,6 +27,14 @@ userSchema.methods.add_to_cart = function (productID) {
   }
 };
 
+userSchema.methods.delete_from_cart = function (productID) {
+  const updated_cart_items = this.cart.items.filter((item) => item.product_id.toString() !== productID.toString());
+
+  this.cart.items = updated_cart_items;
+
+  return this.save();
+};
+
 userSchema.methods.get_cart = function () {
   // return in format {total_price: ..., products: [...]}
   let total_price = 0;
