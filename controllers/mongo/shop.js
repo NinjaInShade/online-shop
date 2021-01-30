@@ -1,4 +1,5 @@
 const Product = require("../../models/mongo/Product");
+const Order = require("../../models/mongo/Order");
 
 // GET Reqs
 function get_index(req, res, next) {
@@ -84,8 +85,22 @@ function post_remove_cart(req, res, next) {
 
 function post_create_order(req, res, next) {
   req.user
-    .add_order()
-    .then(() => {
+    .populate("cart.items.product_id")
+    .execPopulate()
+    .then((populated_user) => {
+      const products = populated_user.cart.items.map((item) => {
+        return { ...item.product_id._doc, quantity: item.quantity };
+      });
+      const order = new Order({ products, user_id: req.user._id });
+
+      return order.save();
+    })
+    .then((result) => {
+      req.user.cart.items = [];
+      return req.user.save();
+    })
+    .then((result) => {
+      console.log("Successfully created order");
       res.redirect("/orders");
     })
     .catch((err) => console.log(err));

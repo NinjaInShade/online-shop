@@ -8,12 +8,12 @@
             <% for (let order of orders) { %>
                     <div class="my-3">
                         <h1 class="order-id">#<%= order._id %></h1>
-                            <% for (let product of order.items) { %>
+                            <% for (let product of order.products) { %>
                                 <div class="my-3 d-flex">
-                                    <img src=<%= product.image_url %> class="cart-image me-5" alt="Product image for <%= product.title %>">
+                                    <img src=<%= product.product_data.image_url %> class="cart-image me-5" alt="Product image for <%= product.product_data.title %>">
                                     <div class="d-flex flex-column justify-content-between">
                                         <div>
-                                            <h3 class="mb-3"><%= product.title %> | £<%= product.price %></h3>
+                                            <h3 class="mb-3"><%= product.product_data.title %> | £<%= product.product_data.price %></h3>
                                             <!-- MYSQL -->
                                             <!-- <h4 class="mb-5">Quantity: product.orderitem.quantity</h4> -->
                                             <h4 class="mb-5">Quantity: <%= product.quantity %></h4>
