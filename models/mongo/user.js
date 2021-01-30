@@ -44,17 +44,10 @@ userSchema.methods.get_cart = function () {
     .execPopulate()
     .then((populated_user) => {
       for (product of populated_user.cart.items) {
-        const prod = product.product_id;
-
         total_price += product.quantity * product.product_id.price;
-        // I tried to do {...product.product_id, quantity: product.quantity} as the quantity isn't stored in the populated field, but the spread op also nested the product object again.
+
         products.push({
-          _id: prod._id,
-          title: prod.title,
-          description: prod.title,
-          price: prod.price,
-          image_url: prod.image_url,
-          user_id: prod.user_id,
+          ...product.product_id._doc,
           quantity: product.quantity,
         });
       }
