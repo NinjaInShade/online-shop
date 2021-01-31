@@ -101,7 +101,7 @@ function post_create_order(req, res, next) {
       return order.save();
     })
     .then((result) => {
-      req.session.user.cart.items = [];
+      req.user.cart.items = [];
       return req.user.save();
     })
     .then((result) => {

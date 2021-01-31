@@ -14,7 +14,13 @@ function post_login(req, res, next) {
     .then((user) => {
       req.session.is_authenticated = true;
       req.session.user = user;
-      res.redirect("/");
+      req.session.save((err) => {
+        if (err) {
+          console.log(err);
+        }
+
+        res.redirect("/");
+      });
     })
     .catch((err) => console.log(err));
 }

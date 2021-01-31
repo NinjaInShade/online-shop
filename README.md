@@ -18,6 +18,7 @@
 
 - User logins through a form, sending a POST request to backend.
 - Login controller finds the user, creates a session and stores is authenticated state in the session and the user object.
+- If the user has methods you need to use, since req.session.user won't store all metadata only fields, you can add a middleware function in app.js grabbing the full user from db using the req.session.user.\_id proprty and setting it in req.user. This is allowed because you grab the user from a persistent storage.
 - On logout controller we destroy the session
 
 ### Cookies notes

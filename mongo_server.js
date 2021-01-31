@@ -30,6 +30,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 
 app.use((req, res, next) => {
+  // If user not authed, their is no user to find so we skip setting req.user
+  if (!req.session.is_authenticated) {
+    return next();
+  }
+
   User.findById(req.session.user._id)
     .then((user) => {
       req.user = user;
