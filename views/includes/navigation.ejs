@@ -23,7 +23,13 @@
         <a class="<%= path === '/cart' ? 'nav-link active' : 'nav-link' %>" aria-current="page" href="/cart">Cart</a>
         <a class="<%= path === '/orders' ? 'nav-link active' : 'nav-link' %>" aria-current="page" href="/orders">Orders</a>
         <div class="d-flex login-box">
+          <% if(is_authenticated){ %>
+          <form method="POST" action="/auth/logout">
+            <button class="<%= path === '/login' ? 'nav-link active' : 'nav-link' %> nav-link-logout" aria-current="page">Logout</button>
+          </form>
+          <% }else{ %>
           <a class="<%= path === '/login' ? 'nav-link active' : 'nav-link' %>" aria-current="page" href="/auth/login">Login</a>
+          <% } %>
           <i class="fas fa-sign-in-alt login-icon <%= path === '/login' ? 'nav-link active' : 'nav-link' %>"></i>
         </div>
       </div>

@@ -19,7 +19,18 @@ function post_login(req, res, next) {
     .catch((err) => console.log(err));
 }
 
+function post_logout(req, res, next) {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    }
+
+    res.redirect("/");
+  });
+}
+
 module.exports = {
   get_login,
   post_login,
+  post_logout,
 };

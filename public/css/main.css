@@ -69,6 +69,18 @@ main {
   max-width: 800px !important;
 }
 
+.nav-link-logout {
+  cursor: pointer;
+  background: none;
+  outline: none;
+  border: none;
+}
+
+.nav-link-logout:active {
+  outline: none;
+  border: none;
+}
+
 @media (max-width: 700px) {
   .products-container {
     justify-content: center;
