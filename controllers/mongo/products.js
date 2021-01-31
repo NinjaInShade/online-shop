@@ -88,7 +88,7 @@ function post_add_product(req, res, next) {
   const price = req.body.price;
   const description = req.body.description;
 
-  const new_prod = new Product({ title, description, price, image_url, user_id: req.session.user._id });
+  const new_prod = new Product({ title, description, price, image_url, user_id: req.user._id });
 
   new_prod
     .save()

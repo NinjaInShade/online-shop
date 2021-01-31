@@ -34,6 +34,7 @@ main {
 .product-detail-img {
   min-width: 250px;
   height: auto;
+  max-width: 100%;
 }
 
 .cart-image {
@@ -55,7 +56,8 @@ main {
   color: rgba(255, 255, 255, 0.75) !important;
 }
 
-.login-box a {
+.login-box a,
+.login-box button {
   padding-right: 2px !important;
 }
 

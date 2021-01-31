@@ -29,6 +29,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 
+app.use((req, res, next) => {
+  User.findById(req.session.user._id)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => console.log(err));
+});
+
 // Route middlewares
 app.use("/auth", auth_routes.routes);
 app.use("/admin", admin_routes.routes);

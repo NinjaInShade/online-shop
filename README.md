@@ -17,7 +17,8 @@
 ### Auth workflow for later reading:
 
 - User logins through a form, sending a POST request to backend.
--
+- Login controller finds the user, creates a session and stores is authenticated state in the session and the user object.
+- On logout controller we destroy the session
 
 ### Cookies notes
 

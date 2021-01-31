@@ -18,11 +18,13 @@
                             <!-- MYSQL: -->
                             <!-- <a href="/products/product.id" class="btn btn-primary flex-grow-1 me-1">Detail</a> -->
                             <a href="/products/<%= product._id %>" class="btn btn-primary flex-grow-1 me-1">Detail</a>
-                            <form action="/cart" method="POST" class="flex-grow-1 ms-1">
-                                <button class="btn btn-primary w-100" type="submit">Add to cart</button>
-                                <input type="hidden" name="productID" value="<%= product._id %>"/>
-                                <input type="hidden" name="productPrice" value="<%= product.price %>"/>
-                            </form>
+                            <% if(is_authenticated){ %>
+                                <form action="/cart" method="POST" class="flex-grow-1 ms-1">
+                                    <button class="btn btn-primary w-100" type="submit">Add to cart</button>
+                                    <input type="hidden" name="productID" value="<%= product._id %>"/>
+                                    <input type="hidden" name="productPrice" value="<%= product.price %>"/>
+                                </form>
+                            <% } %>
                         </div>
                         </div>
                     </div>
