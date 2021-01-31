@@ -7,22 +7,24 @@
         <div class="container max-width">
             <% for (let cart_item of products) { %>
                     <div class="my-5 d-flex">
-                        <img src="<%= cart_item.image_url %>" class="cart-image me-5" alt="Product image for <%= cart_item.title %>">
-                        <div class="d-flex flex-column justify-content-between">
-                            <div>
-                                <h3 class="mb-3"><%= cart_item.title %> | £<%= cart_item.price %></h3>
-                                <h4 class="mb-5">Quantity: <%= cart_item.quantity %></h4>
+                        <div class="d-flex">
+                            <img src="<%= cart_item.image_url %>" class="cart-image me-5" alt="Product image for <%= cart_item.title %>">
+                            <div class="d-flex flex-column justify-content-between">
+                                <div>
+                                    <h3 class="mb-3"><%= cart_item.title %> | £<%= cart_item.price %></h3>
+                                    <h4 class="mb-5">Quantity: <%= cart_item.quantity %></h4>
+                                </div>
+                                <form action="/delete-cart/<%= cart_item._id %>" method="POST" class="w-100">
+                                    <button class="btn btn-primary w-100" type="submit">Remove</button>
+                                </form>
                             </div>
-                            <form action="/delete-cart/<%= cart_item._id %>" method="POST" class="w-100">
-                                <button class="btn btn-primary w-100" type="submit">Remove</button>
-                            </form>
                         </div>
                     </div>
             <% } %>
                     <!-- Should be the total price: -->
             <div class="mt-5">
                 <h2 class="my-3">Total price: £<%= total_price %></h2>
-                <form action="/create-order" method="POST" class="w-25">
+                <form action="/create-order" method="POST" class="checkout-btn">
                     <button class="btn btn-success w-100" type="submit">Checkout</button>
                 </form>
             </div>

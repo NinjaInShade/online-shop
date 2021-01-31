@@ -8,10 +8,10 @@
 
 - MVC pattern.
 - Templating engines.
-- Using middleware functions.
+- Middleware functions.
 - Dynamic routing.
 - Using SQL and NOSQL databases and ORM's - MySQL (sequelize) and MongoDB (mongoose) => and connecting them to a node application.
-- How to create and use models => A decent part of the project used OOP and storing data in a file. This helped me understand how databases work a bit better.
-- Advanced models.
+- How to create and use advanced models => A decent part of the project used OOP and storing data in a file. This helped me understand how databases work a bit better.
 - Querying databases inside nodeJS.
 - Reading documentation properly.
+- Using sessions and cookies effectively.

@@ -7,7 +7,7 @@
         <div class="container max-width">
             <% for (let order of orders) { %>
                     <div class="my-3">
-                        <h1 class="order-id">#<%= order._id %></h1>
+                        <h1 class="order-id">Order #<%= order._id %></h1>
                             <% for (let product of order.products) { %>
                                 <div class="my-3 d-flex">
                                     <img src=<%= product.image_url %> class="cart-image me-5" alt="Product image for <%= product.title %>">
@@ -26,7 +26,7 @@
                     <!-- Should be the total price: -->
             <div class="mt-5">
                 <h2>Total price: £<%= total_price %></h1>
-                <form action="/checkout" method="POST" class="w-25 mt-3">
+                <form action="/checkout" method="POST" class="checkout-btn mt-3">
                     <button class="btn btn-success w-100" type="submit">Pay</button>
                 </form>
             </div>
