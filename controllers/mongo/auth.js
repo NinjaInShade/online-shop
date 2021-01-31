@@ -7,8 +7,7 @@ function get_login(req, res, next) {
 }
 
 function post_login(req, res, next) {
-  // Handle login then redirect to some page.
-  req.is_authenticated = true;
+  // Handle login, set is auth state then redirect to some page.
 
   res.redirect("/");
 }

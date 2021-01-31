@@ -15,3 +15,20 @@
 - Querying databases inside nodeJS.
 - Reading documentation properly.
 - Using sessions and cookies effectively.
+
+### Auth workflow for later reading if i forget:
+
+- User logins through a form, sending a POST request to backend.
+-
+
+### Cookies notes
+
+- Client side storage for key:value pairs.
+- Not great for setting an is authenticated state as user's can easily modify it.
+- Can set an expiration date.
+- Since cookies contain which domain they come from, this is why they are used for tracking as it can still be accessed even if not on the site.
+
+### Sessions notes
+
+- Great for setting persistent sensitive data as it is handled by the backend and can't be accessed through the frontend.
+- You can store a session id in a cookie, but it is a hashed value which would be detected if tampered with on the backend.
