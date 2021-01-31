@@ -23,6 +23,7 @@
 
 ### Cookies notes
 
+- MDN docs for cookies, great doc: <https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies>
 - Client side storage for key:value pairs.
 - Not great for setting an is authenticated state as user's can easily modify it.
 - Can set an expiration date.
@@ -30,7 +31,9 @@
 
 ### Sessions notes
 
+- Short explanation of what a session is: <https://www.quora.com/What-is-a-session-in-a-Web-Application>
 - Great for setting persistent sensitive data as it is handled by the backend and can't be accessed through the frontend.
 - You can store a session id in a cookie, but it is a hashed value which would be detected if tampered with on the backend.
 - Express has a useful package called "express-session" to help with sessions. To get started setup it's middleware function.
-- As we want to store it in our db instead of memory, we can use a useful package called "connect-mongodb-session"
+- As we want to store it in our db instead of memory, we can use a useful package called "connect-mongodb-session".
+- Can store any data in a session - often for authentication states/metadata though.
