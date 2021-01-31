@@ -1,0 +1,21 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main class="max-width auth-form py-5"> 
+        <form class="m-auto" action="/auth/login" method="POST">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control" id="email" name="email" aria-describedby="emailForUser">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordForUser">
+            </div>
+            <button type="submit" class="btn btn-primary w-100 my-3">Login</button>
+            <p>Don't have an account? <a href="/auth/register">Register</a></p>
+          </form>
+    </main>
+<%- include('../includes/end.ejs') %>

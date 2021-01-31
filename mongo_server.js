@@ -14,6 +14,7 @@ app.set("views", "views");
 
 const admin_routes = require("./routes/mongo/admin");
 const shop_routes = require("./routes/mongo/shop");
+const auth_routes = require("./routes/mongo/auth");
 const unmatched_route_controller = require("./controllers/mongo/unmatched_route");
 
 // External middlewares
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 });
 
 // Route middlewares
+app.use("/auth", auth_routes.routes);
 app.use("/admin", admin_routes.routes);
 app.use(shop_routes.routes);
 

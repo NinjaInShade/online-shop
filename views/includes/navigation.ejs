@@ -20,6 +20,10 @@
         <a class="<%= path === '/admin/products' ? 'nav-link active' : 'nav-link' %>" href="/admin/products">Admin Products</a>
         <a class="<%= path === '/cart' ? 'nav-link active' : 'nav-link' %>" aria-current="page" href="/cart">Cart</a>
         <a class="<%= path === '/orders' ? 'nav-link active' : 'nav-link' %>" aria-current="page" href="/orders">Orders</a>
+        <div class="d-flex login-box">
+          <a class="<%= path === '/login' ? 'nav-link active' : 'nav-link' %>" aria-current="page" href="/auth/login">Login</a>
+          <i class="fas fa-sign-in-alt login-icon <%= path === '/login' ? 'nav-link active' : 'nav-link' %>"></i>
+        </div>
       </div>
     </div>
   </div>
