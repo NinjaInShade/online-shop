@@ -1,8 +1,6 @@
 # Welcome to my online shop project (e-commerce).
 
-## Live build: [...]
-
-#### NOTE: Styling/Responsiveness was not the main focus, but backend inplementation. You may find one or two things that slightly overflow on smaller screen, but this isn't my priority. If i get time i may come back for this, but it's just not the reason i've made this project.
+# Live build: [...]
 
 ## This is an online store made with node that incorporates concepts and technologies like:
 
@@ -16,7 +14,7 @@
 - Reading documentation properly.
 - Using sessions and cookies effectively.
 
-### Auth workflow for later reading if i forget:
+### Auth workflow for later reading:
 
 - User logins through a form, sending a POST request to backend.
 -
@@ -32,3 +30,5 @@
 
 - Great for setting persistent sensitive data as it is handled by the backend and can't be accessed through the frontend.
 - You can store a session id in a cookie, but it is a hashed value which would be detected if tampered with on the backend.
+- Express has a useful package called "express-session" to help with sessions. To get started setup it's middleware function.
+- As we want to store it in our db instead of memory, we can use a useful package called "connect-mongodb-session"

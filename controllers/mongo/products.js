@@ -10,7 +10,7 @@ function get_admin_products(req, res, next) {
         pageTitle: "Admin Products",
         path: "/admin/products",
         hasProducts: result.length > 0,
-        is_authenticated: req.is_authenticated,
+        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => {
@@ -22,7 +22,7 @@ function get_add_product(req, res, next) {
   res.render("admin/add-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
-    is_authenticated: req.is_authenticated,
+    is_authenticated: req.session.is_authenticated,
   });
 }
 
@@ -39,7 +39,7 @@ function get_edit_product(req, res, next) {
         pageTitle: "Product",
         path: `/admin/products`,
         product: result,
-        is_authenticated: req.is_authenticated,
+        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => {
@@ -55,7 +55,7 @@ function get_products(req, res, next) {
         pageTitle: "Products",
         path: "/products",
         hasProducts: products.length > 0,
-        is_authenticated: req.is_authenticated,
+        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => {
@@ -72,7 +72,7 @@ function get_product_detail(req, res, next) {
         pageTitle: "Product",
         path: `/products`,
         product,
-        is_authenticated: req.is_authenticated,
+        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => {
@@ -88,7 +88,7 @@ function post_add_product(req, res, next) {
   const price = req.body.price;
   const description = req.body.description;
 
-  const new_prod = new Product({ title, description, price, image_url, user_id: req.user._id });
+  const new_prod = new Product({ title, description, price, image_url, user_id: req.session.user._id });
 
   new_prod
     .save()
