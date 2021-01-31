@@ -7,6 +7,9 @@ const router = express.Router();
 // GET Routes
 router.get("/login", auth_controller.get_login);
 
+// POST routes
+router.post("/login", auth_controller.post_login);
+
 module.exports = {
   routes: router,
 };
