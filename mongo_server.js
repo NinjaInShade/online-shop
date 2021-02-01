@@ -51,20 +51,7 @@ app.use(shop_routes.routes);
 app.use(unmatched_route_controller.get404);
 
 db()
-  .then((result) => {
-    return User.find();
-  })
-  .then((users) => {
-    if (users.length === 0) {
-      const new_user = new User({ name: "leon", email: "leon@gmail", cart: { items: [] } });
-      new_user
-        .save()
-        .then((result) => {
-          console.log("New user created");
-        })
-        .catch((err) => console.log(err));
-    }
-
+  .then(() => {
     app.listen(process.env.PORT, () => {
       console.log("Server started and database connection succeeded");
     });
