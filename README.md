@@ -20,7 +20,7 @@
 
 - The workflow: <https://prnt.sc/xz0e98>
 - User logins through a form, sending a POST request to backend.
-- Login/sign up controller validates inputs, finds or creates the user, creates a session and stores is authenticated state in the session and the user object.
+- Login/sign up controller validates inputs, finds or creates the user (hash password if creating new user), creates a session and stores is authenticated state in the session and the user object.
 - Store session id in a cookie, then with every new request the cookie is sent and is checked if it's a valid session or if it's run out - if so then deny the request as the user's identity can't be proven.
 - On logout controller we destroy the session.
 

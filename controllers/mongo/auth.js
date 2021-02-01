@@ -1,4 +1,5 @@
 const User = require("../../models/mongo/user");
+const bcrypt = require("bcryptjs");
 
 function get_login(req, res, next) {
   res.render("auth/login", {
@@ -48,10 +49,15 @@ function post_signup(req, res, next) {
       if (user) {
         return res.redirect("/auth/signup");
       } else {
-        // If doesn't, create a new user in db.
-        const new_user = new User({ name, email, password, cart: { items: [] } });
+        // If doesn't, create a new user in db - hash password first.
+        return bcrypt
+          .hash(password, 12)
+          .then((hashed_password) => {
+            const new_user = new User({ name, email, password: hashed_password, cart: { items: [] } });
 
-        return new_user.save();
+            return new_user.save();
+          })
+          .catch((err) => console.log(err));
       }
     })
     .then((result) => {
