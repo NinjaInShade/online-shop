@@ -16,10 +16,17 @@
 
 ### Auth workflow for later reading:
 
+#### Authentication (proving identity of a user)
+
+- The workflow: ![Auth workflow](https://prnt.sc/xz0e98)
 - User logins through a form, sending a POST request to backend.
-- Login controller finds the user, creates a session and stores is authenticated state in the session and the user object.
-- If the user has methods you need to use, since req.session.user won't store all metadata only fields, you can add a middleware function in app.js grabbing the full user from db using the req.session.user.\_id proprty and setting it in req.user. This is allowed because you grab the user from a persistent storage.
-- On logout controller we destroy the session
+- Login controller validates inputs, finds the user, creates a session and stores is authenticated state in the session and the user object.
+- Store session id in a cookie, then with every new request the cookie is sent and is checked if it's a valid session or if it's run out - if so then deny the request as the user's identity can't be proven.
+- On logout controller we destroy the session.
+
+#### Authorization (limiting what a user can view/do depending on type of user)
+
+- .....
 
 ### Cookies notes
 
