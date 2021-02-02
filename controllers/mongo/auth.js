@@ -1,5 +1,9 @@
 const User = require("../../models/mongo/user");
+
 const bcrypt = require("bcryptjs");
+const sgMail = require("@sendgrid/mail");
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 function get_login(req, res, next) {
   res.render("auth/login", {
@@ -90,6 +94,18 @@ function post_signup(req, res, next) {
     })
     .then((result) => {
       // then redirect to login page for user to login.
+
+      const msg = {
+        from: "leonmichalak6@gmail.com",
+        to: email,
+        subject: "Leons online shop",
+        text: "Sign up",
+        html: "<h1>You successfully signed up for my online shop!</h1>",
+      };
+
+      return sgMail.send(msg);
+    })
+    .then((result) => {
       res.redirect("/auth/login");
     })
     .catch((err) => console.log(err));
