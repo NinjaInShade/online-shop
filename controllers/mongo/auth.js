@@ -5,6 +5,7 @@ function get_login(req, res, next) {
   res.render("auth/login", {
     pageTitle: "Login",
     path: "/login",
+    error_msg: req.flash("error"),
   });
 }
 
@@ -12,6 +13,7 @@ function get_signup(req, res, next) {
   res.render("auth/signup", {
     pageTitle: "Sign up",
     path: "/login",
+    error_msg: req.flash("error"),
   });
 }
 
@@ -23,7 +25,10 @@ function post_login(req, res, next) {
   User.findOne({ email })
     .then((user) => {
       if (!user) {
-        return res.redirect("/auth/login");
+        req.flash("error", "Invalid email or password");
+        return req.session.save((err) => {
+          res.redirect("/auth/login");
+        });
       }
 
       // Compare password entered to hash in db, if hash is valid user is loggd in.
@@ -42,7 +47,10 @@ function post_login(req, res, next) {
             });
           }
 
-          return res.redirect("/auth/login");
+          req.flash("error", "Invalid email or password");
+          return req.session.save((err) => {
+            res.redirect("/auth/login");
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -65,7 +73,10 @@ function post_signup(req, res, next) {
     .then((user) => {
       // if exists redirect back to signup form with error msgs.
       if (user) {
-        return res.redirect("/auth/signup");
+        req.flash("error", "User already exists");
+        req.session.save((err) => {
+          return res.redirect("/auth/signup");
+        });
       }
       // If doesn't, create a new user in db - hash password first.
       return bcrypt

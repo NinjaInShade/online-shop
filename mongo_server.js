@@ -5,9 +5,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const csrf = require("csurf");
-const mongo_store = require("connect-mongodb-session")(session);
+const flash = require("connect-flash");
 require("dotenv").config();
 
+const mongo_store = require("connect-mongodb-session")(session);
 const app = express();
 const db = require("./util/database").mongo;
 const User = require("./models/mongo/user");
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 
 app.use(csrf_protection);
+app.use(flash());
 
 app.use((req, res, next) => {
   // If user not authed, their is no user to find so we skip setting req.user

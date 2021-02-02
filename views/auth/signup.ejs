@@ -24,6 +24,9 @@
               </div>
               <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
             <button type="submit" class="btn btn-primary w-100 my-3">Sign up</button>
+            <% if(error_msg[0]) { %>
+              <p class="text-danger"><%= error_msg %></p>
+            <% } %>
             <p>Already have an account? <a href="/auth/login">Login</a></p>
         </form>
     </main>
