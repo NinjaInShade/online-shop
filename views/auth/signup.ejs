@@ -22,6 +22,7 @@
                 <label for="confirmpassword" class="form-label">Confirm password</label>
                 <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" aria-describedby="confirmpasswordForUser">
               </div>
+              <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
             <button type="submit" class="btn btn-primary w-100 my-3">Sign up</button>
             <p>Already have an account? <a href="/auth/login">Login</a></p>
         </form>

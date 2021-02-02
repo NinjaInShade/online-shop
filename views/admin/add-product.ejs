@@ -22,6 +22,7 @@
               <label for="image_url" class="form-label">Image url</label>
               <input type="text" class="form-control" id="image_url" name="image_url" aria-describedby="imageForNewProduct">
             </div>
+            <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
             <button type="submit" class="btn btn-primary w-100">Add</button>
           </form>
     </main>

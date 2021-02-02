@@ -14,6 +14,7 @@
                     <button class="btn btn-primary w-25" type="submit">Add to cart</button>
                     <!-- MYSQL: -->
                     <!-- <input type="hidden" name="productID" value="product.id"/> -->
+                    <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
                     <input type="hidden" name="productID" value="<%= product._id %>"/>
                     <input type="hidden" name="productPrice" value="<%= product.price %>"/>
                 </form>

@@ -5,7 +5,6 @@ function get_login(req, res, next) {
   res.render("auth/login", {
     pageTitle: "Login",
     path: "/login",
-    is_authenticated: req.session.is_authenticated,
   });
 }
 
@@ -13,7 +12,6 @@ function get_signup(req, res, next) {
   res.render("auth/signup", {
     pageTitle: "Sign up",
     path: "/login",
-    is_authenticated: req.session.is_authenticated,
   });
 }
 

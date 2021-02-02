@@ -27,6 +27,7 @@
             <!-- MYSQL -->
             <!-- <input type="hidden" name="id" value="<%= product.id %>"/> -->
             <input type="hidden" name="id" value="<%= product._id %>"/>
+            <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
             <button type="submit" class="btn btn-primary w-100">Edit</button>
           </form>
     </main>

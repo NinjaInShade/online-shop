@@ -10,7 +10,6 @@ function get_admin_products(req, res, next) {
         pageTitle: "Admin Products",
         path: "/admin/products",
         hasProducts: result.length > 0,
-        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => {
@@ -22,7 +21,6 @@ function get_add_product(req, res, next) {
   res.render("admin/add-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
-    is_authenticated: req.session.is_authenticated,
   });
 }
 
@@ -39,7 +37,6 @@ function get_edit_product(req, res, next) {
         pageTitle: "Product",
         path: `/admin/products`,
         product: result,
-        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => {
@@ -55,7 +52,6 @@ function get_products(req, res, next) {
         pageTitle: "Products",
         path: "/products",
         hasProducts: products.length > 0,
-        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => {
@@ -72,7 +68,6 @@ function get_product_detail(req, res, next) {
         pageTitle: "Product",
         path: `/products`,
         product,
-        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => {

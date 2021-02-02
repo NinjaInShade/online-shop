@@ -10,7 +10,6 @@ function get_index(req, res, next) {
         pageTitle: "Products",
         path: "/",
         hasProducts: result.length > 0,
-        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => {
@@ -27,7 +26,6 @@ function get_cart(req, res, next) {
         path: "/cart",
         total_price: cart.total_price,
         products: cart.products,
-        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => console.log(err));
@@ -37,7 +35,6 @@ function get_checkout(req, res, next) {
   res.render("shop/checkout", {
     pageTitle: "Checkout",
     path: "/checkout",
-    is_authenticated: req.session.is_authenticated,
   });
 }
 
@@ -57,7 +54,6 @@ function get_orders(req, res, next) {
         path: "/orders",
         orders,
         total_price,
-        is_authenticated: req.session.is_authenticated,
       });
     })
     .catch((err) => console.log(err));

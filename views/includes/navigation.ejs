@@ -25,6 +25,7 @@
         <div class="d-flex login-box">
           <% if(is_authenticated){ %>
           <form method="POST" action="/auth/logout">
+            <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
             <button class="<%= path === '/login' ? 'nav-link active' : 'nav-link' %> nav-link-logout" aria-current="page" type="submit">
               Logout
             </button>

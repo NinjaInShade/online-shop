@@ -21,6 +21,7 @@
                             <!-- MYSQL: -->
                             <!-- <form action="/admin/delete-product/product.id" method="POST" class="flex-grow-1 ms-1"> -->
                             <form action="/admin/delete-product/<%= product._id %>" method="POST" class="flex-grow-1 ms-1">
+                                <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
                                 <button class="btn btn-danger w-100" type="submit">Delete</button>
                             </form>
                         </div>

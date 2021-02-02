@@ -4,17 +4,20 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const csrf = require("csurf");
 const mongo_store = require("connect-mongodb-session")(session);
 require("dotenv").config();
+
+const app = express();
+const db = require("./util/database").mongo;
+const User = require("./models/mongo/user");
 
 const store = new mongo_store({
   uri: `mongodb+srv://leon-michalak:${process.env.MONGO_PASSWORD}@mongoapp.puyp7.mongodb.net/${process.env.MONGO_DB_NAME}`,
   collection: "sessions",
 });
 
-const app = express();
-const db = require("./util/database").mongo;
-const User = require("./models/mongo/user");
+const csrf_protection = csrf();
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -29,6 +32,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 
+app.use(csrf_protection);
+
 app.use((req, res, next) => {
   // If user not authed, their is no user to find so we skip setting req.user
   if (!req.session.is_authenticated) {
@@ -41,6 +46,13 @@ app.use((req, res, next) => {
       next();
     })
     .catch((err) => console.log(err));
+});
+
+app.use((req, res, next) => {
+  res.locals.is_authenticated = req.session.is_authenticated;
+  res.locals.csrf_token = req.csrfToken();
+
+  next();
 });
 
 // Route middlewares
