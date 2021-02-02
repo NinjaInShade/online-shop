@@ -28,6 +28,7 @@ function post_login(req, res, next) {
         return res.redirect("/auth/login");
       }
 
+      // Compare password entered to hash in db, if hash is valid user is loggd in.
       bcrypt
         .compare(password, user.password)
         .then((do_match) => {
