@@ -39,7 +39,7 @@ function get_new_password(req, res, next) {
     .then((user) => {
       if (!user) {
         req.flash("error", "Token expired.");
-        return res.redirect("/auth/get_reset");
+        return res.redirect("/auth/reset");
       }
 
       res.render("auth/new_password", {
@@ -47,6 +47,7 @@ function get_new_password(req, res, next) {
         path: "/login",
         error_msg: req.flash("error"),
         user_id: user._id.toString(),
+        token,
       });
     })
     .catch((err) => console.log(err));
@@ -159,7 +160,7 @@ function post_reset(req, res, next) {
 
   crypto.randomBytes(32, (err, buffer) => {
     if (err) {
-      console.log(err);
+      console.log("Error occured", err);
       res.redirect("/auth/reset");
     }
 
@@ -197,7 +198,39 @@ function post_reset(req, res, next) {
 }
 
 function post_new_password(req, res, next) {
-  res.redirect("/");
+  const password = req.body.newpassword;
+  const user_id = req.body.user_id;
+  const token = req.body.token;
+
+  let reset_user;
+
+  console.log(token, user_id);
+
+  User.findOne({ reset_token: token, reset_token_expiration: { $gt: Date.now() }, _id: user_id })
+    .then((user) => {
+      console.log(user);
+      if (!user) {
+        req.flash("error", "Invalid token");
+        return res.redirect(`/auth/reset/${token}`);
+      }
+
+      reset_user = user;
+
+      return bcrypt.hash(password, 12);
+    })
+    .then((hashed_password) => {
+      reset_user.password = hashed_password;
+      reset_user.reset_token = undefined;
+      reset_user.reset_token_expiration = undefined;
+
+      return reset_user.save();
+    })
+    .then((result) => {
+      return res.redirect("/auth/login");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 module.exports = {
