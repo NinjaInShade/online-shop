@@ -1,9 +1,12 @@
 const User = require("../../models/mongo/user");
 
+const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const sgMail = require("@sendgrid/mail");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+// GET reqs
 
 function get_login(req, res, next) {
   res.render("auth/login", {
@@ -20,6 +23,36 @@ function get_signup(req, res, next) {
     error_msg: req.flash("error"),
   });
 }
+
+function get_reset(req, res, next) {
+  res.render("auth/reset_password", {
+    pageTitle: "Reset password",
+    path: "/login",
+    error_msg: req.flash("error"),
+  });
+}
+
+function get_new_password(req, res, next) {
+  const token = req.params.token;
+
+  User.findOne({ reset_token: token, reset_token_expiration: { $gt: Date.now() } })
+    .then((user) => {
+      if (!user) {
+        req.flash("error", "Token expired.");
+        return res.redirect("/auth/get_reset");
+      }
+
+      res.render("auth/new_password", {
+        pageTitle: "Reset password",
+        path: "/login",
+        error_msg: req.flash("error"),
+        user_id: user._id.toString(),
+      });
+    })
+    .catch((err) => console.log(err));
+}
+
+// POST reqs
 
 function post_login(req, res, next) {
   // Find user, if user found login (if not redirect and send error msg back to view), validate and set all auth states and metadata then redirect to some page.
@@ -121,10 +154,60 @@ function post_logout(req, res, next) {
   });
 }
 
+function post_reset(req, res, next) {
+  const email = req.body.email;
+
+  crypto.randomBytes(32, (err, buffer) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/auth/reset");
+    }
+
+    const token = buffer.toString("hex");
+
+    User.findOne({ email })
+      .then((user) => {
+        if (!user) {
+          req.flash("error", "No user for that email");
+          return res.redirect("/auth/reset");
+        }
+
+        user.reset_token = token;
+        user.reset_token_expiration = Date.now() + 1000 * 60 * 60;
+        return user.save();
+      })
+      .then((result) => {
+        const msg = {
+          from: "leonmichalak6@gmail.com",
+          to: email,
+          subject: "Reset password",
+          text: "reset password",
+          html: `<p>You requested to reset your password</p>
+                <a href='http://localhost:5000/auth/reset/${token}'>Click this link to reset.</a>
+          `,
+        };
+
+        return sgMail.send(msg);
+      })
+      .then((result) => {
+        return res.redirect("/auth/login");
+      })
+      .catch((err) => console.log(err));
+  });
+}
+
+function post_new_password(req, res, next) {
+  res.redirect("/");
+}
+
 module.exports = {
   get_login,
   get_signup,
+  get_reset,
+  get_new_password,
   post_signup,
   post_login,
   post_logout,
+  post_reset,
+  post_new_password,
 };
