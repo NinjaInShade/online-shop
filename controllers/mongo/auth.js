@@ -204,11 +204,8 @@ function post_new_password(req, res, next) {
 
   let reset_user;
 
-  console.log(token, user_id);
-
   User.findOne({ reset_token: token, reset_token_expiration: { $gt: Date.now() }, _id: user_id })
     .then((user) => {
-      console.log(user);
       if (!user) {
         req.flash("error", "Invalid token");
         return res.redirect(`/auth/reset/${token}`);

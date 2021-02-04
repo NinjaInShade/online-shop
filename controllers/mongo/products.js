@@ -4,6 +4,7 @@ const Product = require("../../models/mongo/Product");
 
 function get_admin_products(req, res, next) {
   Product.find()
+    .populate("user_id")
     .then((result) => {
       res.render("admin/products", {
         prods: result,
