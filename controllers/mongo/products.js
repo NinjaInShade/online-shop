@@ -3,7 +3,7 @@ const Product = require("../../models/mongo/Product");
 // GET controllers
 
 function get_admin_products(req, res, next) {
-  Product.find()
+  Product.find({ user_id: req.user._id })
     .populate("user_id")
     .then((result) => {
       res.render("admin/products", {
@@ -101,10 +101,15 @@ function post_edit_product(req, res, next) {
   const productID = req.params.productID;
   const body = req.body;
 
+  const user_id = req.body.user_id;
   const title = body.title;
   const description = body.description;
   const price = body.price;
   const image_url = body.image_url;
+
+  if (req.user._id.toString() !== user_id.toString()) {
+    return res.redirect("/");
+  }
 
   Product.updateOne({ _id: productID }, { title, description, price, image_url })
     .then(() => {
@@ -118,6 +123,11 @@ function post_edit_product(req, res, next) {
 
 function post_delete_product(req, res, next) {
   const productID = req.params.productID;
+  const user_id = req.body.user_id;
+
+  if (req.user._id.toString() !== user_id.toString()) {
+    return res.redirect("/");
+  }
 
   Product.deleteOne({ _id: productID })
     .then((result) => {
