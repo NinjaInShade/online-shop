@@ -1,5 +1,6 @@
 const User = require("../../models/mongo/user");
 
+const { validationResult } = require("express-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const sgMail = require("@sendgrid/mail");
@@ -102,9 +103,25 @@ function post_signup(req, res, next) {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
-  const confirmed_password = req.body.confirmpassword;
+
+  const msg = {
+    from: "leonmichalak6@gmail.com",
+    to: email,
+    subject: "Leons online shop",
+    text: "Sign up",
+    html: "<h1>You successfully signed up for my online shop!</h1>",
+  };
 
   // Validate inputs
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/signup", {
+      pageTitle: "Sign up",
+      path: "/login",
+      error_msg: errors.array()[0].msg,
+    });
+  }
 
   // Check if user exists
   User.findOne({ email })
@@ -112,35 +129,27 @@ function post_signup(req, res, next) {
       // if exists redirect back to signup form with error msgs.
       if (user) {
         req.flash("error", "User already exists");
-        req.session.save((err) => {
+        return req.session.save((err) => {
           return res.redirect("/auth/signup");
         });
       }
+
       // If doesn't, create a new user in db - hash password first.
-      return bcrypt
+      bcrypt
         .hash(password, 12)
         .then((hashed_password) => {
           const new_user = new User({ name, email, password: hashed_password, cart: { items: [] } });
 
           return new_user.save();
         })
+        .then((result) => {
+          // then redirect to login page for user to login.
+          return sgMail.send(msg);
+        })
+        .then((result) => {
+          return res.redirect("/auth/login");
+        })
         .catch((err) => console.log(err));
-    })
-    .then((result) => {
-      // then redirect to login page for user to login.
-
-      const msg = {
-        from: "leonmichalak6@gmail.com",
-        to: email,
-        subject: "Leons online shop",
-        text: "Sign up",
-        html: "<h1>You successfully signed up for my online shop!</h1>",
-      };
-
-      return sgMail.send(msg);
-    })
-    .then((result) => {
-      res.redirect("/auth/login");
     })
     .catch((err) => console.log(err));
 }

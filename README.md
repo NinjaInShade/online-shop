@@ -8,10 +8,8 @@
 - Templating engines.
 - Middleware functions.
 - Dynamic routing.
-- Using SQL and NOSQL databases and ORM's - MySQL (sequelize) and MongoDB (mongoose) => and connecting them to a node application.
-- How to create and use advanced models => A decent part of the project used OOP and storing data in a file. This helped me understand how databases work a bit better.
-- Querying databases inside nodeJS.
-- Reading documentation properly.
+- Using SQL and NOSQL databases, using advanced models and querying db's inside node js.
+- Authentication/Authorization system.
 - Using sessions and cookies together to build an authentication system.
 
 ### Auth workflow for later reading:

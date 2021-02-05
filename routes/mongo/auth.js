@@ -1,4 +1,5 @@
 const express = require("express");
+const { check } = require("express-validator");
 
 const auth_controller = require("../../controllers/mongo/auth");
 
@@ -16,7 +17,22 @@ router.get("/reset", auth_controller.get_reset);
 // POST routes
 router.post("/login", auth_controller.post_login);
 
-router.post("/signup", auth_controller.post_signup);
+router.post(
+  "/signup",
+  [
+    check("name").isLength({ min: 2 }).withMessage("Name must not be empty"),
+    check("email").isEmail().withMessage("Invalid email"),
+    check("password").isLength({ min: 6 }).withMessage("Password must have 6 characters"),
+    check("confirmpassword").custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error("Passwords don't match");
+      }
+
+      return true;
+    }),
+  ],
+  auth_controller.post_signup
+);
 
 router.post("/logout", auth_controller.post_logout);
 
