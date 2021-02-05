@@ -15,7 +15,11 @@ router.get("/reset/:token", auth_controller.get_new_password);
 router.get("/reset", auth_controller.get_reset);
 
 // POST routes
-router.post("/login", auth_controller.post_login);
+router.post(
+  "/login",
+  [check("email").isEmail().withMessage("Invalid email"), check("password").isLength({ min: 6 }).withMessage("Password must have 6 characters")],
+  auth_controller.post_login
+);
 
 router.post(
   "/signup",

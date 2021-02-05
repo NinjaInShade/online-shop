@@ -61,6 +61,17 @@ function post_login(req, res, next) {
   const email = req.body.email;
   const password = req.body.password;
 
+  // Validate inputs
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/login", {
+      pageTitle: "Login",
+      path: "/login",
+      error_msg: errors.array()[0].msg,
+    });
+  }
+
   User.findOne({ email })
     .then((user) => {
       if (!user) {
