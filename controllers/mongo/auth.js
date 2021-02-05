@@ -14,6 +14,10 @@ function get_login(req, res, next) {
     pageTitle: "Login",
     path: "/login",
     error_msg: req.flash("error"),
+    input_fields: {
+      email: "",
+      password: "",
+    },
   });
 }
 
@@ -22,6 +26,12 @@ function get_signup(req, res, next) {
     pageTitle: "Sign up",
     path: "/login",
     error_msg: req.flash("error"),
+    input_fields: {
+      name: "",
+      email: "",
+      password: "",
+      confirm_password: "",
+    },
   });
 }
 
@@ -69,6 +79,10 @@ function post_login(req, res, next) {
       pageTitle: "Login",
       path: "/login",
       error_msg: errors.array()[0].msg,
+      input_fields: {
+        email,
+        password,
+      },
     });
   }
 
@@ -114,6 +128,7 @@ function post_signup(req, res, next) {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
+  const confirm_password = req.body.confirmpassword;
 
   const msg = {
     from: "leonmichalak6@gmail.com",
@@ -131,6 +146,12 @@ function post_signup(req, res, next) {
       pageTitle: "Sign up",
       path: "/login",
       error_msg: errors.array()[0].msg,
+      input_fields: {
+        name: name,
+        email: email,
+        password: password,
+        confirm_password: confirm_password,
+      },
     });
   }
 

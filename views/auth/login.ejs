@@ -8,11 +8,11 @@
         <form class="m-auto" action="/auth/login" method="POST">
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="text" class="form-control" id="email" name="email" aria-describedby="emailForUser">
+              <input type="text" class="form-control" id="email" name="email" aria-describedby="emailForUser" value="<%= input_fields.email %>">
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordForUser">
+              <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordForUser" value="<%= input_fields.password %>">
             </div>
             <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
             <button type="submit" class="btn btn-primary w-100 my-3">Login</button>
