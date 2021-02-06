@@ -17,16 +17,19 @@ router.get("/reset", auth_controller.get_reset);
 // POST routes
 router.post(
   "/login",
-  [check("email").isEmail().withMessage("Invalid email"), check("password").isLength({ min: 6 }).withMessage("Password must have 6 characters")],
+  [
+    check("email").normalizeEmail().isEmail().withMessage("Invalid email"),
+    check("password").trim().isLength({ min: 6 }).withMessage("Password must have 6 characters"),
+  ],
   auth_controller.post_login
 );
 
 router.post(
   "/signup",
   [
-    check("name").isLength({ min: 2 }).withMessage("Name must not be empty"),
-    check("email").isEmail().withMessage("Invalid email"),
-    check("password").isLength({ min: 6 }).withMessage("Password must have 6 characters"),
+    check("name").trim().isLength({ min: 2 }).withMessage("Name must not be empty"),
+    check("email").normalizeEmail().isEmail().withMessage("Invalid email"),
+    check("password").trim().isLength({ min: 6 }).withMessage("Password must have 6 characters"),
     check("confirmpassword").custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error("Passwords don't match");

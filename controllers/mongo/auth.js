@@ -144,8 +144,6 @@ function post_signup(req, res, next) {
   // Validate inputs
   const errors = validationResult(req);
 
-  console.log(errors.array());
-
   if (!errors.isEmpty()) {
     return res.status(422).render("auth/signup", {
       pageTitle: "Sign up",

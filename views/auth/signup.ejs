@@ -19,8 +19,8 @@
               <input type="password" class="form-control <%= validation_errors.find(e => e.param === "password") ? "invalid-input" : "" %>" id="password" name="password" aria-describedby="passwordForUser" value="<%= input_fields.password %>">
             </div>
             <div class="mb-3">
-                <label for="confirmpassword <%= validation_errors.find(e => e.param === "confirmpassword") ? "text-danger" : "" %>" class="form-label">Confirm password</label>
-                <input type="password" class="form-control <%= validation_errors.find(e => e.param === "confirmpassword") ? "invalid-input" : "" %>" id="confirmpassword" name="confirmpassword" aria-describedby="confirmpasswordForUser" value="<%= input_fields.confirm_password %>">
+                <label for="confirmpassword <%= validation_errors.find(e => e.param === "password") ? "text-danger" : "" %>" class="form-label">Confirm password</label>
+                <input type="password" class="form-control <%= validation_errors.find(e => e.param === "password") ? "invalid-input" : "" %>" id="confirmpassword" name="confirmpassword" aria-describedby="confirmpasswordForUser" value="<%= input_fields.confirm_password %>">
               </div>
               <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
             <button type="submit" class="btn btn-primary w-100 my-3">Sign up</button>
