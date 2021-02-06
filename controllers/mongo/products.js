@@ -47,6 +47,14 @@ function get_edit_product(req, res, next) {
         pageTitle: "Product",
         path: `/admin/products`,
         product: result,
+        error_msg: req.flash("error"),
+        input_fields: {
+          title: result.title,
+          description: result.description,
+          price: result.price,
+          image_url: result.image_url,
+        },
+        validation_errors: [],
       });
     })
     .catch((err) => {
@@ -135,6 +143,32 @@ function post_edit_product(req, res, next) {
 
   if (req.user._id.toString() !== user_id.toString()) {
     return res.redirect("/");
+  }
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return Product.findOne({ _id: productID })
+      .then((product) => {
+        if (!product) {
+          return res.redirect("/");
+        }
+
+        return res.status(422).render("admin/edit-product", {
+          pageTitle: "Product",
+          path: `/admin/products`,
+          product: product,
+          error_msg: errors.array()[0].msg,
+          input_fields: {
+            title: title,
+            description: description,
+            price: price,
+            image_url: image_url,
+          },
+          validation_errors: errors.array(),
+        });
+      })
+      .catch((err) => console.log(err));
   }
 
   Product.updateOne({ _id: productID }, { title, description, price, image_url })
