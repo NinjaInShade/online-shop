@@ -12,7 +12,7 @@
 - Authentication/Authorization system.
 - Using sessions and cookies together to build an authentication system.
 
-### Auth workflow for later reading:
+## Auth workflow for later reading:
 
 #### Authentication (proving identity of a user)
 
