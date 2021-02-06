@@ -1,4 +1,5 @@
 const Product = require("../../models/mongo/Product");
+const { validationResult } = require("express-validator");
 
 // GET controllers
 
@@ -22,6 +23,14 @@ function get_add_product(req, res, next) {
   res.render("admin/add-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
+    error_msg: req.flash("error"),
+    input_fields: {
+      title: "",
+      description: "",
+      price: "",
+      image_url: "",
+    },
+    validation_errors: [],
   });
 }
 
@@ -83,6 +92,23 @@ function post_add_product(req, res, next) {
   const image_url = req.body.image_url;
   const price = req.body.price;
   const description = req.body.description;
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render("admin/add-product", {
+      pageTitle: "Add Product",
+      path: "/admin/add-product",
+      error_msg: errors.array()[0].msg,
+      input_fields: {
+        title: title,
+        description: description,
+        price: price,
+        image_url: image_url,
+      },
+      validation_errors: errors.array(),
+    });
+  }
 
   const new_prod = new Product({ title, description, price, image_url, user_id: req.user._id });
 

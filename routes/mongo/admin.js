@@ -1,4 +1,5 @@
 const express = require("express");
+const { check } = require("express-validator");
 
 const router = express.Router();
 const products_controller = require("../../controllers/mongo/products");
@@ -12,7 +13,17 @@ router.get("/edit-product/:productID", is_auth, products_controller.get_edit_pro
 router.get("/add-product", is_auth, products_controller.get_add_product);
 
 // POST Routes
-router.post("/add-product", is_auth, products_controller.post_add_product);
+router.post(
+  "/add-product",
+  is_auth,
+  [
+    check("title").trim().isLength({ min: 2 }).withMessage("Title must have 2 letters"),
+    check("description").trim().isLength({ min: 8, max: 400 }).withMessage("Description must have atleast 8 and max 400 letters."),
+    check("price").trim().isFloat().withMessage("Title must have 2 letters"),
+    check("image_url").trim().isURL().withMessage("Image url must be a valid URL"),
+  ],
+  products_controller.post_add_product
+);
 
 router.post("/edit-product/:productID", is_auth, products_controller.post_edit_product);
 

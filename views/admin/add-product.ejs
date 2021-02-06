@@ -7,21 +7,24 @@
     <main class="max-width py-5">
         <form class="m-auto" action="/admin/add-product" method="POST">
             <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="title" name="title" aria-describedby="titleForNewProduct">
+              <label for="title" class="form-label <%= validation_errors.find(e => e.param === "title") ? "text-danger" : "" %>">Title</label>
+              <input type="text" class="form-control <%= validation_errors.find(e => e.param === "title") ? "invalid-input" : "" %>" id="title" name="title" aria-describedby="titleForNewProduct" value="<%= input_fields.title %>">
             </div>
             <div class="mb-3">
-              <label for="description" class="form-label">Description</label>
-              <input type="text" class="form-control" id="description" name="description" aria-describedby="descriptionForNewProduct">
+              <label for="description" class="form-label <%= validation_errors.find(e => e.param === "description") ? "text-danger" : "" %>">Description</label>
+              <input type="text" class="form-control <%= validation_errors.find(e => e.param === "description") ? "invalid-input" : "" %>" id="description" name="description" aria-describedby="descriptionForNewProduct"  value="<%= input_fields.description %>">
             </div>
             <div class="mb-3">
-              <label for="price" class="form-label">Price</label>
-              <input type="number" class="form-control" id="price" name="price" aria-describedby="priceForNewProduct">
+              <label for="price" class="form-label <%= validation_errors.find(e => e.param === "price") ? "text-danger" : "" %>">Price</label>
+              <input type="number" class="form-control <%= validation_errors.find(e => e.param === "price") ? "invalid-input" : "" %>" id="price" name="price" aria-describedby="priceForNewProduct"  value="<%= input_fields.price %>">
             </div>
             <div class="mb-3">
-              <label for="image_url" class="form-label">Image url</label>
-              <input type="text" class="form-control" id="image_url" name="image_url" aria-describedby="imageForNewProduct">
+              <label for="image_url" class="form-label <%= validation_errors.find(e => e.param === "image_url") ? "text-danger" : "" %>">Image url</label>
+              <input type="text" class="form-control <%= validation_errors.find(e => e.param === "image_url") ? "invalid-input" : "" %>" id="image_url" name="image_url" aria-describedby="imageForNewProduct"  value="<%= input_fields.image_url %>">
             </div>
+            <% if(error_msg[0]) { %>
+              <p class="text-danger"><%= error_msg %></p>
+            <% } %>
             <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
             <button type="submit" class="btn btn-primary w-100">Add</button>
           </form>
