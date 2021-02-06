@@ -18,6 +18,7 @@ function get_login(req, res, next) {
       email: "",
       password: "",
     },
+    validation_errors: [],
   });
 }
 
@@ -32,6 +33,7 @@ function get_signup(req, res, next) {
       password: "",
       confirm_password: "",
     },
+    validation_errors: [],
   });
 }
 
@@ -83,6 +85,7 @@ function post_login(req, res, next) {
         email,
         password,
       },
+      validation_errors: errors.array(),
     });
   }
 
@@ -141,6 +144,8 @@ function post_signup(req, res, next) {
   // Validate inputs
   const errors = validationResult(req);
 
+  console.log(errors.array());
+
   if (!errors.isEmpty()) {
     return res.status(422).render("auth/signup", {
       pageTitle: "Sign up",
@@ -152,6 +157,7 @@ function post_signup(req, res, next) {
         password: password,
         confirm_password: confirm_password,
       },
+      validation_errors: errors.array(),
     });
   }
 

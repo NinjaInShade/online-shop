@@ -7,20 +7,20 @@
     <main class="max-width auth-form py-5"> 
         <form class="m-auto" action="/auth/signup" method="POST">
           <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name" aria-describedby="nameForUser" value="<%= input_fields.name %>">
+            <label for="name" class="form-label <%= validation_errors.find(e => e.param === "name") ? "text-danger" : "" %>">Name</label>
+            <input type="text" class="<%= validation_errors.find(e => e.param === "name") ? "invalid-input" : "" %> form-control" id="name" name="name" aria-describedby="nameForUser" value="<%= input_fields.name %>">
           </div>
             <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="text" class="form-control" id="email" name="email" aria-describedby="emailForUser" value="<%= input_fields.email %>">
+              <label for="email" class="<%= validation_errors.find(e => e.param === "email") ? "text-danger" : "" %> form-label">Email</label>
+              <input type="text" class="form-control <%= validation_errors.find(e => e.param === "email") ? "invalid-input" : "" %>" id="email" name="email" aria-describedby="emailForUser" value="<%= input_fields.email %>">
             </div>
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordForUser" value="<%= input_fields.password %>">
+              <label for="password" class="form-label <%= validation_errors.find(e => e.param === "password") ? "text-danger" : "" %>">Password</label>
+              <input type="password" class="form-control <%= validation_errors.find(e => e.param === "password") ? "invalid-input" : "" %>" id="password" name="password" aria-describedby="passwordForUser" value="<%= input_fields.password %>">
             </div>
             <div class="mb-3">
-                <label for="confirmpassword" class="form-label">Confirm password</label>
-                <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" aria-describedby="confirmpasswordForUser" value="<%= input_fields.confirm_password %>">
+                <label for="confirmpassword <%= validation_errors.find(e => e.param === "confirmpassword") ? "text-danger" : "" %>" class="form-label">Confirm password</label>
+                <input type="password" class="form-control <%= validation_errors.find(e => e.param === "confirmpassword") ? "invalid-input" : "" %>" id="confirmpassword" name="confirmpassword" aria-describedby="confirmpasswordForUser" value="<%= input_fields.confirm_password %>">
               </div>
               <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
             <button type="submit" class="btn btn-primary w-100 my-3">Sign up</button>
