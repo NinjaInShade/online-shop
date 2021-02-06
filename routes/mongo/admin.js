@@ -18,7 +18,7 @@ router.post(
   is_auth,
   [
     check("title").trim().isLength({ min: 2 }).withMessage("Title must have 2 letters"),
-    check("description").trim().isLength({ min: 8, max: 400 }).withMessage("Description must have atleast 8 and max 400 letters."),
+    check("description").trim().isLength({ min: 8, max: 400 }).withMessage("Description must have atleast 8 letters."),
     check("price").trim().isFloat().withMessage("Price must be a number"),
     check("image_url").trim().isURL().withMessage("Image url must be a valid URL"),
   ],
@@ -30,7 +30,7 @@ router.post(
   is_auth,
   [
     check("title").trim().isLength({ min: 2 }).withMessage("Title must have 2 letters"),
-    check("description").trim().isLength({ min: 8, max: 400 }).withMessage("Description must have atleast 8 and max 400 letters."),
+    check("description").trim().isLength({ min: 8, max: 400 }).withMessage("Description must have atleast 8 letters."),
     check("price").trim().isFloat().withMessage("Price must be a number"),
     check("image_url").trim().isURL().withMessage("Image url must be a valid URL"),
   ],
