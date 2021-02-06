@@ -30,13 +30,15 @@ router.post(
     check("name").trim().isLength({ min: 2 }).withMessage("Name must not be empty"),
     check("email").normalizeEmail().isEmail().withMessage("Invalid email"),
     check("password").trim().isLength({ min: 6 }).withMessage("Password must have 6 characters"),
-    check("confirmpassword").custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error("Passwords don't match");
-      }
+    check("confirmpassword")
+      .trim()
+      .custom((value, { req }) => {
+        if (value !== req.body.password) {
+          throw new Error("Passwords don't match");
+        }
 
-      return true;
-    }),
+        return true;
+      }),
   ],
   auth_controller.post_signup
 );
