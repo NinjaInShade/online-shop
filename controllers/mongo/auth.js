@@ -66,7 +66,7 @@ function get_new_password(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -101,7 +101,7 @@ function post_login(req, res, next) {
           if (err) {
             const error = new Error(`ERROR: ${err}, \nSaving session operation failed.`);
             error.httpStatusCode(500);
-            next(error);
+            return next(error);
           }
 
           res.redirect("/auth/login");
@@ -117,7 +117,9 @@ function post_login(req, res, next) {
             req.session.user = user;
             return req.session.save((err) => {
               if (err) {
-                console.log(err);
+                const error = new Error(`ERROR: ${err}, \nSession saving operation failed.`);
+                error.httpStatusCode(500);
+                return next(error);
               }
 
               res.redirect("/");
@@ -129,7 +131,7 @@ function post_login(req, res, next) {
             if (err) {
               const error = new Error(`ERROR: ${err}, \nSession saving operation failed.`);
               error.httpStatusCode(500);
-              next(error);
+              return next(error);
             }
 
             res.redirect("/auth/login");
@@ -138,13 +140,13 @@ function post_login(req, res, next) {
         .catch((err) => {
           const error = new Error(`ERROR: ${err}, \nComparing password with hashed password operation failed.`);
           error.httpStatusCode(500);
-          next(error);
+          return next(error);
         });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -190,7 +192,7 @@ function post_signup(req, res, next) {
           if (err) {
             const error = new Error(`ERROR: ${err}, \nSaving session operation failed.`);
             error.httpStatusCode(500);
-            next(error);
+            return next(error);
           }
 
           return res.redirect("/auth/signup");
@@ -215,13 +217,13 @@ function post_signup(req, res, next) {
         .catch((err) => {
           const error = new Error(`ERROR: ${err}, \nHashing a password operation failed.`);
           error.httpStatusCode(500);
-          next(error);
+          return next(error);
         });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -230,7 +232,7 @@ function post_logout(req, res, next) {
     if (err) {
       const error = new Error(`ERROR: ${err}, \nDestroying session operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     }
 
     res.redirect("/");
@@ -278,7 +280,7 @@ function post_reset(req, res, next) {
       .catch((err) => {
         const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
         error.httpStatusCode(500);
-        next(error);
+        return next(error);
       });
   });
 }

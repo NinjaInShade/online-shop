@@ -17,7 +17,7 @@ function get_admin_products(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding products operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -62,7 +62,7 @@ function get_edit_product(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding a product operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -79,7 +79,7 @@ function get_products(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \Finding all products operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -97,7 +97,7 @@ function get_product_detail(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \Finding a product operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -143,7 +143,7 @@ function post_add_product(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nCreating new product operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -187,7 +187,7 @@ function post_edit_product(req, res, next) {
       .catch((err) => {
         const error = new Error(`ERROR: ${err}, \Finding a product operation failed.`);
         error.httpStatusCode(500);
-        next(error);
+        return next(error);
       });
   }
 
@@ -199,7 +199,7 @@ function post_edit_product(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \Updating a product operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -219,7 +219,7 @@ function post_delete_product(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \Deleting a product operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 

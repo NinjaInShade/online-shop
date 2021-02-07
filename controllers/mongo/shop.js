@@ -15,7 +15,7 @@ function get_index(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding a product operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -33,7 +33,7 @@ function get_cart(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nGetting cart operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -65,7 +65,7 @@ function get_orders(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding an order operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -83,7 +83,7 @@ function post_cart(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nAdding to cart operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -98,7 +98,7 @@ function post_remove_cart(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nRemoving from cart operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
@@ -125,7 +125,7 @@ function post_create_order(req, res, next) {
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nCreating order operation failed.`);
       error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
