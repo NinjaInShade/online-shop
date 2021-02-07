@@ -15,7 +15,9 @@ function get_admin_products(req, res, next) {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(`ERROR: ${err}, \nFinding products operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
     });
 }
 
@@ -58,7 +60,9 @@ function get_edit_product(req, res, next) {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(`ERROR: ${err}, \nFinding a product operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
     });
 }
 
@@ -73,7 +77,9 @@ function get_products(req, res, next) {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(`ERROR: ${err}, \Finding all products operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
     });
 }
 
@@ -89,7 +95,9 @@ function get_product_detail(req, res, next) {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(`ERROR: ${err}, \Finding a product operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
     });
 }
 
@@ -176,7 +184,11 @@ function post_edit_product(req, res, next) {
           validation_errors: errors.array(),
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        const error = new Error(`ERROR: ${err}, \Finding a product operation failed.`);
+        error.httpStatusCode(500);
+        next(error);
+      });
   }
 
   Product.updateOne({ _id: productID }, { title, description, price, image_url })
@@ -185,7 +197,9 @@ function post_edit_product(req, res, next) {
       res.redirect("/admin/products");
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(`ERROR: ${err}, \Updating a product operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
     });
 }
 
@@ -202,7 +216,11 @@ function post_delete_product(req, res, next) {
       console.log("Deleted product successfully");
       res.redirect("/admin/products");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(`ERROR: ${err}, \Deleting a product operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
+    });
 }
 
 module.exports = {

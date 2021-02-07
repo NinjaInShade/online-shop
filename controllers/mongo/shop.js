@@ -13,7 +13,9 @@ function get_index(req, res, next) {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(`ERROR: ${err}, \nFinding a product operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
     });
 }
 
@@ -28,7 +30,11 @@ function get_cart(req, res, next) {
         products: cart.products,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(`ERROR: ${err}, \nGetting cart operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
+    });
 }
 
 function get_checkout(req, res, next) {
@@ -56,7 +62,11 @@ function get_orders(req, res, next) {
         total_price,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(`ERROR: ${err}, \nFinding an order operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
+    });
 }
 
 // POST Reqs
@@ -70,7 +80,11 @@ function post_cart(req, res, next) {
       console.log("Successfully added to cart");
       res.redirect("/cart");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(`ERROR: ${err}, \nAdding to cart operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
+    });
 }
 
 function post_remove_cart(req, res, next) {
@@ -81,7 +95,11 @@ function post_remove_cart(req, res, next) {
     .then(() => {
       res.redirect("/cart");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(`ERROR: ${err}, \nRemoving from cart operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
+    });
 }
 
 function post_create_order(req, res, next) {
@@ -104,7 +122,11 @@ function post_create_order(req, res, next) {
       console.log("Successfully created order");
       res.redirect("/orders");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(`ERROR: ${err}, \nCreating order operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
+    });
 }
 
 module.exports = { get_index, get_cart, get_checkout, get_orders, post_cart, post_remove_cart, post_create_order };
