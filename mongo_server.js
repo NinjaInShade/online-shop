@@ -26,7 +26,7 @@ app.set("views", "views");
 const admin_routes = require("./routes/mongo/admin");
 const shop_routes = require("./routes/mongo/shop");
 const auth_routes = require("./routes/mongo/auth");
-const unmatched_route_controller = require("./controllers/mongo/unmatched_route");
+const error_controller = require("./controllers/mongo/error");
 
 // External middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -44,10 +44,16 @@ app.use((req, res, next) => {
 
   User.findById(req.session.user._id)
     .then((user) => {
+      if (!user) {
+        return next();
+      }
+
       req.user = user;
       next();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      throw new Error(err);
+    });
 });
 
 app.use((req, res, next) => {
@@ -62,7 +68,8 @@ app.use("/auth", auth_routes.routes);
 app.use("/admin", admin_routes.routes);
 app.use(shop_routes.routes);
 
-app.use(unmatched_route_controller.get404);
+app.use("/500", error_controller.get500);
+app.use(error_controller.get404);
 
 db()
   .then(() => {

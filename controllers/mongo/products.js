@@ -118,7 +118,13 @@ function post_add_product(req, res, next) {
     });
   }
 
-  const new_prod = new Product({ title, description, price, image_url, user_id: req.user._id });
+  const new_prod = new Product({
+    title,
+    description,
+    price,
+    image_url,
+    user_id: req.user._id,
+  });
 
   new_prod
     .save()
@@ -127,7 +133,7 @@ function post_add_product(req, res, next) {
       res.redirect("/admin/products");
     })
     .catch((err) => {
-      console.log(err);
+      return res.redirect("/500");
     });
 }
 

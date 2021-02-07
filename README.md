@@ -53,3 +53,8 @@
 
 - 3rd party packages can be useful as you just put your validation checks as a middleware before your controller function ( express-validator is good for this ).
 - Before actually validating data with checks, you must sanitize the data ( put it into a format that is ready for validation ), such as trimming excess whitespace, normalizing an email etc...
+
+### Error handling notes
+
+- Useful diagram of types of errors and possible ways to handle: <https://prnt.sc/yn33od>
+- It's important to handle all errors, especially ones that would otherwise crash your server. If you handle these ones correctly, you can continue code execution even though their was an error.
