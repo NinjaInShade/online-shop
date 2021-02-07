@@ -133,7 +133,9 @@ function post_add_product(req, res, next) {
       res.redirect("/admin/products");
     })
     .catch((err) => {
-      return res.redirect("/500");
+      const error = new Error(`ERROR: ${err}, \nCreating new product operation failed.`);
+      error.httpStatusCode(500);
+      next(error);
     });
 }
 

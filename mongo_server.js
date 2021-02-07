@@ -71,6 +71,11 @@ app.use(shop_routes.routes);
 app.use("/500", error_controller.get500);
 app.use(error_controller.get404);
 
+// Error middleware
+app.use((error, req, res, next) => {
+  return res.redirect("/500");
+});
+
 db()
   .then(() => {
     app.listen(process.env.PORT, () => {

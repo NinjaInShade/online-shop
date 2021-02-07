@@ -58,3 +58,4 @@
 
 - Useful diagram of types of errors and possible ways to handle: <https://prnt.sc/yn33od>
 - It's important to handle all errors, especially ones that would otherwise crash your server. If you handle these ones correctly, you can continue code execution even though their was an error.
+- For bigger problems, having a redirect to an error page which says we are working on this is a good idea. You could also make it so that it lets you know somehow so you can go back and fix it.
