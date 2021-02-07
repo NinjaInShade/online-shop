@@ -48,3 +48,8 @@
 - Stands for cross site request forgery. It's a security risk that an attacker could exploit. Basically an attacker would send a fake email pretending to be your site, and actually have a link to your site, typically a form page, which sends a request and it would have fields already filled out. Since that user probably has a session, and the user clicked it himself, this could be a problem. The attacker could fill in some field to send you money, when the person didn't intend that.
 - To prevent against this we include a so called "CSRF token" on all our views. This is used in all requests and if that token is not there it mean's the user didn't send that request from a view, so it isn't a legit request. The attacker has no way to guess the token because 1) it is a long hashed value, and 2) a new token is generated every time a new view is loaded.
 - The csurf package is good for this. It can manage the generation of a new token every view (using it's middleware function it sets a req.csrfToken which you can pass to views to be stored in a hidden input) and can validate if a token is valid.
+
+### Validation notes
+
+- 3rd party packages can be useful as you just put your validation checks as a middleware before your controller function ( express-validator is good for this ).
+- Before actually validating data with checks, you must sanitize the data ( put it into a format that is ready for validation ), such as trimming excess whitespace, normalizing an email etc...
