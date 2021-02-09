@@ -5,7 +5,7 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main class="max-width py-5">
-        <form class="m-auto" action="/admin/add-product" method="POST">
+        <form class="m-auto" action="/admin/add-product" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
               <label for="title" class="form-label <%= validation_errors.find(e => e.param === "title") ? "text-danger" : "" %>">Title</label>
               <input type="text" class="form-control <%= validation_errors.find(e => e.param === "title") ? "invalid-input" : "" %>" id="title" name="title" aria-describedby="titleForNewProduct" value="<%= input_fields.title %>">

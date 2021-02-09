@@ -20,7 +20,7 @@ router.post(
     check("title").trim().isLength({ min: 2 }).withMessage("Title must have 2 letters"),
     check("description").trim().isLength({ min: 8, max: 400 }).withMessage("Description must have atleast 8 letters."),
     check("price").trim().isFloat().withMessage("Price must be a number"),
-    check("image_url").trim().isURL().withMessage("Image url must be a valid URL"),
+    // check("image").trim().withMessage("Image url must be a valid URL"),
   ],
   products_controller.post_add_product
 );
@@ -32,7 +32,7 @@ router.post(
     check("title").trim().isLength({ min: 2 }).withMessage("Title must have 2 letters"),
     check("description").trim().isLength({ min: 8, max: 400 }).withMessage("Description must have atleast 8 letters."),
     check("price").trim().isFloat().withMessage("Price must be a number"),
-    check("image_url").trim().isURL().withMessage("Image url must be a valid URL"),
+    // check("image").trim().withMessage("Image url must be a valid URL"),
   ],
   products_controller.post_edit_product
 );

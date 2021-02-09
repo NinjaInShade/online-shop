@@ -3,6 +3,7 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require("multer");
 const session = require("express-session");
 const csrf = require("csurf");
 const flash = require("connect-flash");
@@ -30,6 +31,7 @@ const error_controller = require("./controllers/mongo/error");
 
 // External middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ dest: "images" }).single("image"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 

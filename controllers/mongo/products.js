@@ -105,7 +105,7 @@ function get_product_detail(req, res, next) {
 
 function post_add_product(req, res, next) {
   const title = req.body.title;
-  const image_url = req.body.image_url;
+  const image = req.file;
   const price = req.body.price;
   const description = req.body.description;
 
@@ -120,7 +120,6 @@ function post_add_product(req, res, next) {
         title: title,
         description: description,
         price: price,
-        image_url: image_url,
       },
       validation_errors: errors.array(),
     });
@@ -155,7 +154,7 @@ function post_edit_product(req, res, next) {
   const title = body.title;
   const description = body.description;
   const price = body.price;
-  const image_url = body.image_url;
+  const image = req.file;
 
   if (req.user._id.toString() !== user_id.toString()) {
     return res.redirect("/");
@@ -179,7 +178,6 @@ function post_edit_product(req, res, next) {
             title: title,
             description: description,
             price: price,
-            image_url: image_url,
           },
           validation_errors: errors.array(),
         });
