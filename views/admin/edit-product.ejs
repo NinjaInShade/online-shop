@@ -21,8 +21,8 @@
               <input type="number" class="form-control <%= validation_errors.find(e => e.param === "price") ? "invalid-input" : "" %>" id="price" name="price" aria-describedby="priceForNewProduct"  value="<%= input_fields.price %>">
             </div>
             <div class="mb-3">
-              <label for="image_url" class="form-label <%= validation_errors.find(e => e.param === "image_url") ? "text-danger" : "" %>">Image url</label>
-              <input type="text" class="form-control <%= validation_errors.find(e => e.param === "image_url") ? "invalid-input" : "" %>" id="image_url" name="image_url" aria-describedby="imageForNewProduct"  value="<%= input_fields.image_url %>">
+              <label for="image" class="form-label <%= validation_errors.find(e => e.param === "image_url") ? "text-danger" : "" %>">Image</label>
+              <input type="file" class="form-control" id="image" name="image" aria-describedby="imageForNewProduct">
             </div>
             <% if(error_msg[0]) { %>
               <p class="text-danger"><%= error_msg %></p>
