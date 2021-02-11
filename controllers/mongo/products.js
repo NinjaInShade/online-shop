@@ -111,6 +111,20 @@ function post_add_product(req, res, next) {
 
   const errors = validationResult(req);
 
+  if (!image) {
+    return res.status(422).render("admin/add-product", {
+      pageTitle: "Add Product",
+      path: "/admin/add-product",
+      error_msg: "Attatched file is not an image or incorrect format.",
+      input_fields: {
+        title: title,
+        description: description,
+        price: price,
+      },
+      validation_errors: errors.array(),
+    });
+  }
+
   if (!errors.isEmpty()) {
     return res.status(422).render("admin/add-product", {
       pageTitle: "Add Product",
@@ -124,6 +138,8 @@ function post_add_product(req, res, next) {
       validation_errors: errors.array(),
     });
   }
+
+  const image_url = image.path;
 
   const new_prod = new Product({
     title,
@@ -156,11 +172,38 @@ function post_edit_product(req, res, next) {
   const price = body.price;
   const image = req.file;
 
+  const errors = validationResult(req);
+
+  if (!image) {
+    return Product.findOne({ _id: productID })
+      .then((product) => {
+        if (!product) {
+          return res.redirect("/");
+        }
+
+        return res.status(422).render("admin/edit-product", {
+          pageTitle: "Product",
+          path: `/admin/products`,
+          product: product,
+          error_msg: "Attatched file is not an image or incorrect format.",
+          input_fields: {
+            title: title,
+            description: description,
+            price: price,
+          },
+          validation_errors: errors.array(),
+        });
+      })
+      .catch((err) => {
+        const error = new Error(`ERROR: ${err}, \Finding a product operation failed.`);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
+  }
+
   if (req.user._id.toString() !== user_id.toString()) {
     return res.redirect("/");
   }
-
-  const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     return Product.findOne({ _id: productID })
@@ -184,10 +227,12 @@ function post_edit_product(req, res, next) {
       })
       .catch((err) => {
         const error = new Error(`ERROR: ${err}, \Finding a product operation failed.`);
-        error.httpStatusCode(500);
+        error.httpStatusCode = 500;
         return next(error);
       });
   }
+
+  const image_url = image.path;
 
   Product.updateOne({ _id: productID }, { title, description, price, image_url })
     .then(() => {

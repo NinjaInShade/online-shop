@@ -14,16 +14,16 @@ const file_storage = multer.diskStorage({
     cb(null, "images");
   },
   filename: (req, file, cb) => {
-    cb(null, `${new Date().toISOString()}-${file.originalname}`);
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
 const file_filter = (req, file, cb) => {
   if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
-    return cb(null, true);
+    cb(null, true);
+  } else {
+    cb(null, false);
   }
-
-  cb(null, false);
 };
 
 const mongo_store = require("connect-mongodb-session")(session);
