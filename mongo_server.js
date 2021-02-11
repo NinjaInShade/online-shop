@@ -18,6 +18,14 @@ const file_storage = multer.diskStorage({
   },
 });
 
+const file_filter = (req, file, cb) => {
+  if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
+    return cb(null, true);
+  }
+
+  cb(null, false);
+};
+
 const mongo_store = require("connect-mongodb-session")(session);
 const app = express();
 const db = require("./util/database").mongo;
@@ -40,7 +48,7 @@ const error_controller = require("./controllers/mongo/error");
 
 // External middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: file_storage }).single("image"));
+app.use(multer({ storage: file_storage, fileFilter: file_filter }).single("image"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 
