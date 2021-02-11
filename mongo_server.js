@@ -9,6 +9,15 @@ const csrf = require("csurf");
 const flash = require("connect-flash");
 require("dotenv").config();
 
+const file_storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${new Date().toISOString()}-${file.originalname}`);
+  },
+});
+
 const mongo_store = require("connect-mongodb-session")(session);
 const app = express();
 const db = require("./util/database").mongo;
@@ -31,7 +40,7 @@ const error_controller = require("./controllers/mongo/error");
 
 // External middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ dest: "images" }).single("image"));
+app.use(multer({ storage: file_storage }).single("image"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 
