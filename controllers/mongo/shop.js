@@ -1,5 +1,6 @@
 const Product = require("../../models/mongo/Product");
 const Order = require("../../models/mongo/Order");
+const pdf_document = require("pdfkit");
 const fs = require("fs");
 const path = require("path");
 
@@ -86,20 +87,22 @@ function get_invoice(req, res, next) {
       if (order.user_id.toString() !== req.user._id.toString()) {
         return res.redirect("/orders");
       }
+
+      const pdf_doc = new pdf_document();
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", `inline; filename="${invoice_file}"`);
+
+      pdf_doc.pipe(fs.createWriteStream(invoice_path));
+      pdf_doc.pipe(res);
+
+      pdf_doc.text("Invoice file");
+      pdf_doc.end();
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding an order operation failed.`);
       error.httpStatusCode(500);
       return next(error);
     });
-
-  // res.download(invoice_path);
-  const file = fs.createReadStream(invoice_path);
-
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", `inline; filename="${invoice_file}"`);
-
-  file.pipe(res);
 }
 
 // POST Reqs
