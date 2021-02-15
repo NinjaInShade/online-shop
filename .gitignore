@@ -112,3 +112,12 @@ dist
 .yarn/cache
 .yarn/unplugged
 .yarn/bui
+
+images/
+data/
+/images
+/data
+.png
+.pdf
+.jpg
+.jpeg
