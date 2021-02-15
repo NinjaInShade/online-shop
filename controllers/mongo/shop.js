@@ -88,6 +88,8 @@ function get_invoice(req, res, next) {
         return res.redirect("/orders");
       }
 
+      let total_price = 0;
+
       const pdf_doc = new pdf_document();
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader("Content-Disposition", `inline; filename="${invoice_file}"`);
@@ -95,7 +97,15 @@ function get_invoice(req, res, next) {
       pdf_doc.pipe(fs.createWriteStream(invoice_path));
       pdf_doc.pipe(res);
 
-      pdf_doc.text("Invoice file");
+      pdf_doc.fontSize(35).text("Invoice file", { underline: true });
+      pdf_doc.text("----------");
+      order.products.forEach((prod) => {
+        total_price += prod.quantity * prod.price;
+        pdf_doc.fontSize(24).text(`${prod.title} - £${prod.price} x ${prod.quantity}`);
+      });
+
+      pdf_doc.fontSize(28).text(`Total price: £${total_price}`);
+
       pdf_doc.end();
     })
     .catch((err) => {

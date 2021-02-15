@@ -60,3 +60,7 @@
 - It's important to handle all errors, especially ones that would otherwise crash your server. If you handle these ones correctly, you can continue code execution even though their was an error.
 - You can setup an error handling middleware after all middlewares which comes by default in express if you include an error param before req, res, next, you can then forward errors to it by using next(error).
 - For bigger problems, having a redirect to an error page which says we are working on this is a good idea. You could also make it so that it lets you know somehow so you can go back and fix it.
+
+### Git ignore notes
+
+- Once you've added the file/folder/extension you want to ignore, git needs to be updated. Do `git rm --cached . -r` then `git add .` Which updated what github is tracking.
