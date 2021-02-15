@@ -98,7 +98,7 @@ function get_invoice(req, res, next) {
       pdf_doc.pipe(res);
 
       pdf_doc.fontSize(35).text("Invoice file", { underline: true });
-      pdf_doc.text("----------");
+      pdf_doc.text("--------------");
       order.products.forEach((prod) => {
         total_price += prod.quantity * prod.price;
         pdf_doc.fontSize(24).text(`${prod.title} - £${prod.price} x ${prod.quantity}`);

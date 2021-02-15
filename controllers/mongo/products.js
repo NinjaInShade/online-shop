@@ -1,4 +1,5 @@
 const Product = require("../../models/mongo/Product");
+const { delete_file } = require("../../util/file");
 const { validationResult } = require("express-validator");
 
 // GET controllers
@@ -166,44 +167,12 @@ function post_edit_product(req, res, next) {
   const productID = req.params.productID;
   const body = req.body;
 
-  const user_id = req.body.user_id;
   const title = body.title;
   const description = body.description;
   const price = body.price;
   const image = req.file;
 
   const errors = validationResult(req);
-
-  if (!image) {
-    return Product.findOne({ _id: productID })
-      .then((product) => {
-        if (!product) {
-          return res.redirect("/");
-        }
-
-        return res.status(422).render("admin/edit-product", {
-          pageTitle: "Product",
-          path: `/admin/products`,
-          product: product,
-          error_msg: "Attatched file is not an image or incorrect format.",
-          input_fields: {
-            title: title,
-            description: description,
-            price: price,
-          },
-          validation_errors: errors.array(),
-        });
-      })
-      .catch((err) => {
-        const error = new Error(`ERROR: ${err}, \Finding a product operation failed.`);
-        error.httpStatusCode = 500;
-        return next(error);
-      });
-  }
-
-  if (req.user._id.toString() !== user_id.toString()) {
-    return res.redirect("/");
-  }
 
   if (!errors.isEmpty()) {
     return Product.findOne({ _id: productID })
@@ -232,16 +201,29 @@ function post_edit_product(req, res, next) {
       });
   }
 
-  const image_url = image.path;
+  Product.findById(productID)
+    .then((product) => {
+      if (product.user_id.toString() !== req.user._id.toString()) {
+        return res.redirect("/");
+      }
 
-  Product.updateOne({ _id: productID }, { title, description, price, image_url })
-    .then(() => {
-      console.log("Updated product successfully");
-      res.redirect("/admin/products");
+      product.title = title;
+      product.price = price;
+      product.description = description;
+
+      if (image) {
+        delete_file(product.image_url);
+        product.image_url = image.path;
+      }
+
+      return product.save().then((result) => {
+        console.log("Updated product successfully");
+        res.redirect("/admin/products");
+      });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \Updating a product operation failed.`);
-      error.httpStatusCode(500);
+      error.httpStatusCode = 500;
       return next(error);
     });
 }
@@ -254,7 +236,15 @@ function post_delete_product(req, res, next) {
     return res.redirect("/");
   }
 
-  Product.deleteOne({ _id: productID })
+  Product.findOneAndDelete({ _id: productID }, (err, product) => {
+    if (err) {
+      const error = new Error(`ERROR: ${err}, \Deleting a product operation failed.`);
+      error.httpStatusCode = 500;
+      return next(error);
+    }
+
+    delete_file(product.image_url);
+  })
     .then((result) => {
       console.log("Deleted product successfully");
       res.redirect("/admin/products");
