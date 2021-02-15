@@ -94,16 +94,12 @@ function get_invoice(req, res, next) {
     });
 
   // res.download(invoice_path);
+  const file = fs.createReadStream(invoice_path);
 
-  fs.readFile(invoice_path, (err, data) => {
-    if (err) {
-      return next(err);
-    }
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", `inline; filename="${invoice_file}"`);
 
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", `inline; filename="${invoice_file}"`);
-    res.send(data);
-  });
+  file.pipe(res);
 }
 
 // POST Reqs
