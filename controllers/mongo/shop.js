@@ -77,11 +77,15 @@ function get_invoice(req, res, next) {
   const invoice_file = `invoice-${order_id}.pdf`;
   const invoice_path = path.join("data", "invoices", invoice_file);
 
+  // res.download(invoice_path);
+
   fs.readFile(invoice_path, (err, data) => {
     if (err) {
       return next(err);
     }
 
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", `inline; filename="${invoice_file}"`);
     res.send(data);
   });
 }
