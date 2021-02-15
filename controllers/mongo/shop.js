@@ -1,5 +1,7 @@
 const Product = require("../../models/mongo/Product");
 const Order = require("../../models/mongo/Order");
+const fs = require("fs");
+const path = require("path");
 
 // GET Reqs
 function get_index(req, res, next) {
@@ -69,6 +71,21 @@ function get_orders(req, res, next) {
     });
 }
 
+function get_invoice(req, res, next) {
+  const order_id = req.params.orderId;
+
+  const invoice_file = `invoice-${order_id}.pdf`;
+  const invoice_path = path.join("data", "invoices", invoice_file);
+
+  fs.readFile(invoice_path, (err, data) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.send(data);
+  });
+}
+
 // POST Reqs
 function post_cart(req, res, next) {
   const productID = req.body.productID;
@@ -129,4 +146,4 @@ function post_create_order(req, res, next) {
     });
 }
 
-module.exports = { get_index, get_cart, get_checkout, get_orders, post_cart, post_remove_cart, post_create_order };
+module.exports = { get_index, get_cart, get_checkout, get_orders, post_cart, post_remove_cart, post_create_order, get_invoice };

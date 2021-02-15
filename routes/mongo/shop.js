@@ -19,6 +19,8 @@ router.get("/checkout", is_auth, shop_controller.get_checkout);
 
 router.get("/orders", is_auth, shop_controller.get_orders);
 
+router.get("/orders/:orderId", is_auth, shop_controller.get_invoice);
+
 // POST Routes
 router.post("/cart", is_auth, shop_controller.post_cart);
 

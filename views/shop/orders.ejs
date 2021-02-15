@@ -7,7 +7,7 @@
         <div class="container max-width">
             <% for (let order of orders) { %>
                     <div class="my-3">
-                        <h1 class="order-id">Order #<%= order._id %></h1>
+                        <h2 class="order-id">Order #<%= order._id %> - <a href="orders/<%= order._id%>">Invoice</a></h2>
                             <% for (let product of order.products) { %>
                                 <div class="my-3 d-flex">
                                     <img src="/<%= product.image_url %>" class="cart-image me-5" alt="Product image for <%= product.title %>">
