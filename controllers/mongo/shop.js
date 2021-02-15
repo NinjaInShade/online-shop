@@ -77,6 +77,22 @@ function get_invoice(req, res, next) {
   const invoice_file = `invoice-${order_id}.pdf`;
   const invoice_path = path.join("data", "invoices", invoice_file);
 
+  Order.findById(order_id)
+    .then((order) => {
+      if (!order) {
+        return res.redirect("/orders");
+      }
+
+      if (order.user_id.toString() !== req.user._id.toString()) {
+        return res.redirect("/orders");
+      }
+    })
+    .catch((err) => {
+      const error = new Error(`ERROR: ${err}, \nFinding an order operation failed.`);
+      error.httpStatusCode(500);
+      return next(error);
+    });
+
   // res.download(invoice_path);
 
   fs.readFile(invoice_path, (err, data) => {
