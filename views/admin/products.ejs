@@ -9,7 +9,7 @@
             <div class="container max-width products-container">
                 <% for (let product of prods) { %>
                     <div class="card mt-5" style="width: 18rem;">
-                        <img src=<%= product.image_url %> class="card-img-top" alt="Product image for <%= product.title %>">
+                        <img src="/<%= product.image_url %>" class="card-img-top" alt="Product image for <%= product.title %>">
                         <div class="card-body">
                         <h2 class="card-title"><%= product.title %></h2>
                         <h4 class="card-text">£<%= product.price %></h4>

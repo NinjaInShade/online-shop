@@ -7,7 +7,7 @@
         <div class="mt-5">
             <h1><%= product.title %> | £<%= product.price %></h1>
             <hr>
-            <img src=<%= product.image_url %> class="product-detail-img" alt="Product image for <%= product.title %>">
+            <img src="/<%= product.image_url %>" class="product-detail-img" alt="Product image for <%= product.title %>">
             <h3 class="mt-3"><%= product.description %></h3>
             <% if(is_authenticated) { %>
                 <form action="/cart" method="POST" class="flex-grow-1 ms-1 mt-3">

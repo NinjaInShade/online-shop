@@ -10,7 +10,7 @@
                         <h1 class="order-id">Order #<%= order._id %></h1>
                             <% for (let product of order.products) { %>
                                 <div class="my-3 d-flex">
-                                    <img src=<%= product.image_url %> class="cart-image me-5" alt="Product image for <%= product.title %>">
+                                    <img src="/<%= product.image_url %>" class="cart-image me-5" alt="Product image for <%= product.title %>">
                                     <div class="d-flex flex-column justify-content-between">
                                         <div>
                                             <h3 class="mb-3"><%= product.title %> | £<%= product.price %></h3>
