@@ -2,7 +2,7 @@ const Product = require("../../models/mongo/Product");
 const { delete_file } = require("../../util/file");
 const { validationResult } = require("express-validator");
 
-const items_per_page = 6;
+const items_per_page = 3;
 
 // GET controllers
 
@@ -70,11 +70,11 @@ function get_edit_product(req, res, next) {
 }
 
 function get_products(req, res, next) {
-  const page = req.query.page;
+  const page = parseInt(req.query.page) || 1;
   let total_products;
 
   Product.find()
-    .count()
+    .countDocuments()
     .then((num) => {
       total_products = num;
 
@@ -91,6 +91,7 @@ function get_products(req, res, next) {
         total_products,
         has_next_page: items_per_page * page < total_products,
         has_previous_page: page > 1,
+        current_page: page,
         next_page: page + 1,
         previous_page: page - 1,
         highest_page: Math.ceil(total_products / items_per_page),
