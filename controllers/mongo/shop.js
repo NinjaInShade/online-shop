@@ -8,7 +8,7 @@ const path = require("path");
 function get_index(req, res, next) {
   Product.find()
     .then((result) => {
-      res.render("shop/product-list", {
+      res.render("shop/index", {
         prods: result,
         pageTitle: "Products",
         path: "/",

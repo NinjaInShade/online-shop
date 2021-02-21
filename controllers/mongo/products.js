@@ -2,6 +2,8 @@ const Product = require("../../models/mongo/Product");
 const { delete_file } = require("../../util/file");
 const { validationResult } = require("express-validator");
 
+const items_per_page = 6;
+
 // GET controllers
 
 function get_admin_products(req, res, next) {
@@ -68,7 +70,11 @@ function get_edit_product(req, res, next) {
 }
 
 function get_products(req, res, next) {
+  const page = req.query.page;
+
   Product.find()
+    .skip((page - 1) * items_per_page)
+    .limit(items_per_page)
     .then((products) => {
       res.render("shop/product-list", {
         prods: products,
