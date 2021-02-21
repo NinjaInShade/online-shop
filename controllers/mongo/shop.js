@@ -4,20 +4,41 @@ const pdf_document = require("pdfkit");
 const fs = require("fs");
 const path = require("path");
 
+const items_per_page = 3;
+
 // GET Reqs
 function get_index(req, res, next) {
+  const page = parseInt(req.query.page) || 1;
+  let total_products;
+
   Product.find()
-    .then((result) => {
+    .countDocuments()
+    .then((num) => {
+      total_products = num;
+
+      return Product.find()
+        .skip((page - 1) * items_per_page)
+        .limit(items_per_page);
+    })
+    .then((products) => {
       res.render("shop/index", {
-        prods: result,
+        prods: products,
         pageTitle: "Products",
         path: "/",
-        hasProducts: result.length > 0,
+        hasProducts: products.length > 0,
+        total_products,
+        has_next_page: items_per_page * page < total_products,
+        has_previous_page: page > 1,
+        current_page: page,
+        next_page: page + 1,
+        previous_page: page - 1,
+        highest_page: Math.ceil(total_products / items_per_page),
       });
     })
     .catch((err) => {
-      const error = new Error(`ERROR: ${err}, \nFinding a product operation failed.`);
-      error.httpStatusCode(500);
+      const error = new Error(`ERROR: ${err}, \Finding all products operation failed.`);
+      console.log(err);
+      error.httpStatusCode = 500;
       return next(error);
     });
 }
