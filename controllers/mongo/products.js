@@ -71,16 +71,29 @@ function get_edit_product(req, res, next) {
 
 function get_products(req, res, next) {
   const page = req.query.page;
+  let total_products;
 
   Product.find()
-    .skip((page - 1) * items_per_page)
-    .limit(items_per_page)
+    .count()
+    .then((num) => {
+      total_products = num;
+
+      return Product.find()
+        .skip((page - 1) * items_per_page)
+        .limit(items_per_page);
+    })
     .then((products) => {
       res.render("shop/product-list", {
         prods: products,
         pageTitle: "Products",
         path: "/products",
         hasProducts: products.length > 0,
+        total_products,
+        has_next_page: items_per_page * page < total_products,
+        has_previous_page: page > 1,
+        next_page: page + 1,
+        previous_page: page - 1,
+        highest_page: Math.ceil(total_products / items_per_page),
       });
     })
     .catch((err) => {
