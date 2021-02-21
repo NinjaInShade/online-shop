@@ -87,6 +87,10 @@ main {
   border: 1px solid #dc3545;
 }
 
+.card-img-top {
+  height: 300px !important;
+}
+
 @media (max-width: 700px) {
   .products-container {
     justify-content: center;

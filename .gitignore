@@ -115,6 +115,7 @@ dist
 
 images/
 data/
+data/invoices
 /images
 /data
 .png
