@@ -21,11 +21,10 @@
                             <a href="/admin/edit-product/<%= product._id %>" class="btn btn-warning flex-grow-1 me-1">Edit</a>
                             <!-- MYSQL: -->
                             <!-- <form action="/admin/delete-product/product.id" method="POST" class="flex-grow-1 ms-1"> -->
-                            <form action="/admin/delete-product/<%= product._id %>" method="POST" class="flex-grow-1 ms-1">
-                                <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
-                                <input type="hidden" name="user_id" value="<%= product.user_id._id %>" />
-                                <button class="btn btn-danger w-100" type="submit">Delete</button>
-                            </form>
+                                <input type="hidden" name="_csrf" value="<%= csrf_token %>" id="_csrf"/>
+                                <input type="hidden" name="prod_id" value="<%= product._id %>" id="prod_id"/>
+                                <button class="btn btn-danger flex-grow-1" type="button" onclick="delete_product(this)">Delete</button>
+
                         </div>
                         </div>
                     </div>
@@ -35,4 +34,5 @@
             <div class="max-width m-auto px-2"><h1>No Products Found!</h1></div>
         <% } %>
     </main>
+    <script src="/js/admin.js"></script>
 <%- include('../includes/end.ejs') %>

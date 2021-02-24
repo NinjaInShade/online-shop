@@ -248,15 +248,10 @@ function post_edit_product(req, res, next) {
     });
 }
 
-function post_delete_product(req, res, next) {
+function delete_product(req, res, next) {
   const productID = req.params.productID;
-  const user_id = req.body.user_id;
 
-  if (req.user._id.toString() !== user_id.toString()) {
-    return res.redirect("/");
-  }
-
-  Product.findOneAndDelete({ _id: productID }, (err, product) => {
+  Product.findOneAndDelete({ _id: productID, user_id: req.user._id }, (err, product) => {
     if (err) {
       const error = new Error(`ERROR: ${err}, \Deleting a product operation failed.`);
       error.httpStatusCode = 500;
@@ -266,13 +261,10 @@ function post_delete_product(req, res, next) {
     delete_file(product.image_url);
   })
     .then((result) => {
-      console.log("Deleted product successfully");
-      res.redirect("/admin/products");
+      return res.status(200).json({ message: "Product deleted successfully." });
     })
     .catch((err) => {
-      const error = new Error(`ERROR: ${err}, \Deleting a product operation failed.`);
-      error.httpStatusCode(500);
-      return next(error);
+      return res.status(500).json({ message: "Product deletion failed." });
     });
 }
 
@@ -284,5 +276,5 @@ module.exports = {
   get_product_detail,
   get_edit_product,
   post_edit_product,
-  post_delete_product,
+  delete_product,
 };
