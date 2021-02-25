@@ -1,5 +1,6 @@
 const Product = require("../../models/mongo/Product");
 const Order = require("../../models/mongo/Order");
+const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 const pdf_document = require("pdfkit");
 const fs = require("fs");
 const path = require("path");
@@ -62,10 +63,50 @@ function get_cart(req, res, next) {
 }
 
 function get_checkout(req, res, next) {
-  res.render("shop/checkout", {
-    pageTitle: "Checkout",
-    path: "/checkout",
-  });
+  let total_price;
+  let products;
+
+  req.user
+    .get_cart()
+    .then((cart) => {
+      total_price = cart.total_price;
+      products = cart.products;
+
+      return stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: products.map((prod) => {
+          return {
+            price_data: {
+              currency: "gbp",
+              product_data: {
+                name: prod.title,
+                description: prod.description,
+              },
+              unit_amount: parseInt(prod.price) * 100,
+            },
+            quantity: 1,
+          };
+        }),
+        mode: "payment",
+        success_url: `${req.protocol}://${req.get("host")}/checkout/success`,
+        cancel_url: `${req.protocol}://${req.get("host")}/checkout/cancel`,
+      });
+    })
+    .then((stripe_session) => {
+      res.render("shop/checkout", {
+        pageTitle: "Checkout",
+        path: "/checkout",
+        products,
+        total_price,
+        session_id: stripe_session.id,
+      });
+    })
+    .catch((err) => {
+      console.log("ERROR", err);
+      const error = new Error(`ERROR: ${err}, \nGetting cart operation failed.`);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 }
 
 function get_orders(req, res, next) {

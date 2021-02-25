@@ -25,10 +25,7 @@
                     <!-- Should be the total price: -->
             <div class="mt-5">
                 <h2 class="my-3">Total price: £<%= total_price %></h2>
-                <form action="/create-order" method="POST" class="checkout-btn">
-                    <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
-                    <button class="btn btn-success w-100" type="submit">Checkout</button>
-                </form>
+                <a href="/checkout" class="btn btn-success w-25">Checkout</a>
             </div>
         </div>
     <% } else { %>

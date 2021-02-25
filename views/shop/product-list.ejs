@@ -40,18 +40,12 @@
                         <% if(current_page !== 1) { %>
                             <li class="page-item"><a class="page-link" href="/products?page=1">1</a></li>
                         <% } %>
-                        <% if(!has_next_page) { %>
-                            <li class="page-item"><a class="page-link" href="/products?page=<%= previous_page - 1 %>"><%= previous_page - 1 %></a></li> 
-                        <% } %>
                         <% if(has_previous_page && previous_page !== 1) { %>
                             <li class="page-item"><a class="page-link" href="/products?page=<%= previous_page %>"><%= previous_page %></a></li> 
                         <% } %>
                         <li class="page-item active"><a class="page-link" href="/products?page=<%= current_page %>"><%= current_page %></a></li>
                         <% if(has_next_page) { %>
                             <li class="page-item"><a class="page-link" href="/products?page=<%= next_page %>"><%= next_page %></a></li>
-                        <% } %>
-                        <% if(!has_previous_page) { %>
-                            <li class="page-item"><a class="page-link" href="/products?page=<%= next_page + 1 %>"><%= next_page + 1 %></a></li>
                         <% } %>
                         <% if(has_next_page && highest_page !== next_page){ %>
                             <li class="page-item"><a class="page-link" href="/products?page=<%= highest_page %>"><%= highest_page %></a></li>

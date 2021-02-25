@@ -3,6 +3,46 @@
 
 <body>
     <%- include('../includes/navigation.ejs') %>
-    <div class="max-width m-auto px-2 mt-3"><h1>Checkout!</h1></div>
+        <% if (products.length > 0) { %>
+        <div class="container max-width">
+            <% for (let cart_item of products) { %>
+                    <div class="my-5 d-flex">
+                        <div class="d-flex">
+                            <img src="/<%= cart_item.image_url %>" class="cart-image me-5" alt="Product image for <%= cart_item.title %>">
+                            <div class="d-flex flex-column justify-content-between">
+                                <div>
+                                    <h3 class="mb-3"><%= cart_item.title %> | £<%= cart_item.price %></h3>
+                                    <h4 class="mb-5">Quantity: <%= cart_item.quantity %></h4>
+                                </div>
+                                <form action="/delete-cart/<%= cart_item._id %>" method="POST" class="w-100">
+                                    <input type="hidden" name="_csrf" value="<%= csrf_token %>" />
+                                    <button class="btn btn-primary w-100" type="submit">Remove</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            <% } %>
+                    <!-- Should be the total price: -->
+            <div class="mt-5">
+                <h2 class="my-3">Total price: £<%= total_price %></h2>
+                <button class="btn btn-success w-25" type="submit" id="checkout-button">Pay</button>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="max-width m-auto px-2"><h1>Nothing in cart</h1></div>
+    <% } %>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe("pk_test_51IOivFKNCnwrXJXD991l8CcbdeBz5KvRYQlGtgyAXJMLLxmBuIKhfoWL01qhE2ousZLh4m5tjOLDJbgbnA81SPw900Ce37YvDN")
+
+        const order_btn = document.getElementById("checkout-button");
+
+        order_btn.addEventListener("click", function(){
+            console.log("<%= session_id %>")
+            stripe.redirectToCheckout({
+                sessionId: "<%= session_id %>"
+            })
+        })
+    </script>
 
 <%- include('../includes/end.ejs') %>
