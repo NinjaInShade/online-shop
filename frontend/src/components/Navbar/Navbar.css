@@ -1,0 +1,59 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  max-width: 1200px;
+  padding: 0 20px;
+  height: 60px;
+}
+
+.navbar .brand-image {
+  width: 45px;
+  margin-right: 0.8rem;
+}
+
+.navbar .brand-header {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.nav-links li {
+  margin-left: 1.6rem;
+}
+
+.nav-link {
+  position: relative;
+  border-radius: 0 0 4px 4px;
+  font-size: 1.4rem;
+  padding: 10px 0;
+  color: var(--neutral-600);
+}
+
+.nav-link-icon {
+  padding: 10px 0 1px 0;
+}
+
+.nav-link span {
+  margin-top: 7px;
+  font-size: 2rem;
+}
+
+.nav-link-active,
+.nav-link:hover {
+  border-bottom: 4px solid var(--blue-500);
+  color: var(--neutral-900);
+}
+
+.cart-number {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: var(--green-500);
+  border-radius: 50%;
+  padding: 3px;
+}
+
+.cart-value {
+  color: var(--neutral-100);
+  font-size: 0.6rem;
+}

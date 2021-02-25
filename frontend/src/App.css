@@ -1,0 +1,54 @@
+/* Reset & custom vars */
+
+body {
+  min-height: 100vh;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Source Sans Pro", sans-serif;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Greens */
+  --green-500: #287d3c;
+
+  /* Blues */
+  --blue-500: #0b63ce;
+
+  /* Neutrals */
+  --neutral-900: #000;
+  --neutral-600: #545d69;
+  --neutral-100: #fff;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  outline: none;
+  border: none;
+  background: none;
+}
+
+li,
+ul {
+  list-style: none;
+}
+
+/* Util classes */
+
+.underline {
+  text-decoration: underline;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
