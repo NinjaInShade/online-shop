@@ -2,8 +2,8 @@
 
 body {
   min-height: 100vh;
-  overflow: auto;
-  overflow-x: hidden;
+  /* overflow: auto;
+  overflow-x: hidden; */
 }
 
 * {
