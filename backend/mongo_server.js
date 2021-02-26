@@ -7,6 +7,7 @@ const multer = require("multer");
 const session = require("express-session");
 const csrf = require("csurf");
 const flash = require("connect-flash");
+const cors = require("cors");
 require("dotenv").config();
 
 const file_storage = multer.diskStorage({
@@ -30,13 +31,14 @@ const mongo_store = require("connect-mongodb-session")(session);
 const app = express();
 const db = require("./util/database").mongo;
 const User = require("./models/mongo/user");
+app.use(cors());
 
 const store = new mongo_store({
   uri: `mongodb+srv://leon-michalak:${process.env.MONGO_PASSWORD}@mongoapp.puyp7.mongodb.net/${process.env.MONGO_DB_NAME}`,
   collection: "sessions",
 });
 
-const csrf_protection = csrf();
+// const csrf_protection = csrf();
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -47,13 +49,13 @@ const auth_routes = require("./routes/mongo/auth");
 const error_controller = require("./controllers/mongo/error");
 
 // External middlewares
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(multer({ storage: file_storage, fileFilter: file_filter }).single("image"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 
-app.use(csrf_protection);
+// app.use(csrf_protection);
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -78,7 +80,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   res.locals.is_authenticated = req.session.is_authenticated;
-  res.locals.csrf_token = req.csrfToken();
+  // res.locals.csrf_token = req.csrfToken();
 
   next();
 });
@@ -93,6 +95,7 @@ app.use(error_controller.get404);
 
 // Error middleware
 app.use((error, req, res, next) => {
+  console.log(error);
   return res.redirect("/500");
 });
 

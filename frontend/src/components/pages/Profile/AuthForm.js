@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Input from "./Input";
 import Button from "../../Button/Button";
+import authContext from "../../../AuthContext";
+import axios from "axios";
 
 import "./AuthForm.css";
 
 export default function AuthForm() {
   const [mode, setMode] = useState("signup");
+  const [loading, setLoading] = useState(false);
   const [globalError, setGlobalError] = useState(undefined);
+  const { setAuth } = useContext(authContext);
 
   const [name, setName] = useState({
     value: "",
@@ -35,6 +39,11 @@ export default function AuthForm() {
   function changeMode(e) {
     e.preventDefault();
 
+    // If already sending a req, don't let the user change mode
+    if (loading) {
+      return setGlobalError("Cannot change mode while sending request");
+    }
+
     if (mode === "signup") {
       return setMode("signin");
     }
@@ -44,6 +53,11 @@ export default function AuthForm() {
 
   function submitForm(e) {
     e.preventDefault();
+
+    // Dont let user send new req/resubmit form is already sending
+    if (loading) {
+      return;
+    }
 
     // Fields present in both modes
     if (!email.hasTyped || !password.hasTyped) {
@@ -69,16 +83,38 @@ export default function AuthForm() {
       }
     }
 
-    return setGlobalError("FORM VALID!");
+    // Form is now valid, set loading state while sending request to backend
+    setLoading(true);
+
+    // Sign user up
+    if (mode === "signup") {
+    } else {
+      // Sign in user
+      axios
+        .post(`${process.env.REACT_APP_API_DOMAIN}auth/login`, {
+          email: email.value,
+          password: password.value,
+        })
+        .then((response) => {
+          const data = response.data;
+
+          setAuth({ isAuth: true, user: { name: data.user.name, email: data.user.email, cart: data.user.cart, isAdmin: true } });
+        })
+        .catch((error) => {
+          const response = error.response;
+          setLoading(false);
+          setGlobalError(response.data.error_message);
+        });
+    }
   }
 
   return (
     <form className="auth-form">
       <h2 className="header">{mode === "signup" ? "Create your account" : "Log in to your account"}</h2>
       <p className="lead">
-        Don't have an account?{" "}
+        {mode === "signup" ? "Already have an account?" : "Don't have an account?"}{" "}
         <button className="form-link" onClick={(e) => changeMode(e)}>
-          Sign up
+          {mode === "signup" ? "Sign in" : "Sign up"}
         </button>
       </p>
       {mode === "signup" && <Input label="name" placeholder="John doe..." type="text" value={name} setValue={setName} />}
@@ -88,7 +124,11 @@ export default function AuthForm() {
         <Input label="confirm password" placeholder="StrongPassword..." type="password" value={confirmPassword} setValue={setConfirmPassword} />
       )}
       <Button onClick={(e) => submitForm(e)} className="submit-form">
-        Sign up
+        {mode === "signup" && loading ? <p className="loading">Signing up</p> : <p></p>}
+        {mode === "signup" && !loading ? <p>Sign up</p> : <p></p>}
+
+        {mode === "signin" && loading ? <p className="loading">Signing in</p> : <p></p>}
+        {mode === "signin" && !loading ? <p>Sign in</p> : <p></p>}
         <i className="fas fa-arrow-right"></i>
       </Button>
       {mode === "signin" && (

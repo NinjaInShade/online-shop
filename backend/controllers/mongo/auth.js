@@ -9,33 +9,33 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // GET reqs
 
-function get_login(req, res, next) {
-  res.render("auth/login", {
-    pageTitle: "Login",
-    path: "/login",
-    error_msg: req.flash("error"),
-    input_fields: {
-      email: "",
-      password: "",
-    },
-    validation_errors: [],
-  });
-}
+// function get_login(req, res, next) {
+//   res.render("auth/login", {
+//     pageTitle: "Login",
+//     path: "/login",
+//     error_msg: req.flash("error"),
+//     input_fields: {
+//       email: "",
+//       password: "",
+//     },
+//     validation_errors: [],
+//   });
+// }
 
-function get_signup(req, res, next) {
-  res.render("auth/signup", {
-    pageTitle: "Sign up",
-    path: "/login",
-    error_msg: req.flash("error"),
-    input_fields: {
-      name: "",
-      email: "",
-      password: "",
-      confirm_password: "",
-    },
-    validation_errors: [],
-  });
-}
+// function get_signup(req, res, next) {
+//   res.render("auth/signup", {
+//     pageTitle: "Sign up",
+//     path: "/login",
+//     error_msg: req.flash("error"),
+//     input_fields: {
+//       name: "",
+//       email: "",
+//       password: "",
+//       confirm_password: "",
+//     },
+//     validation_errors: [],
+//   });
+// }
 
 function get_reset(req, res, next) {
   res.render("auth/reset_password", {
@@ -81,30 +81,20 @@ function post_login(req, res, next) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(422).render("auth/login", {
-      pageTitle: "Login",
-      path: "/login",
-      error_msg: errors.array()[0].msg,
+    return res.status(422).json({
+      error_message: errors.array()[0].msg,
       input_fields: {
         email,
         password,
       },
-      validation_errors: errors.array(),
     });
   }
 
   User.findOne({ email })
     .then((user) => {
       if (!user) {
-        req.flash("error", "Invalid email or password");
-        return req.session.save((err) => {
-          if (err) {
-            const error = new Error(`ERROR: ${err}, \nSaving session operation failed.`);
-            error.httpStatusCode(500);
-            return next(error);
-          }
-
-          res.redirect("/auth/login");
+        return res.status(404).json({
+          error_message: "No user with that email",
         });
       }
 
@@ -118,34 +108,39 @@ function post_login(req, res, next) {
             return req.session.save((err) => {
               if (err) {
                 const error = new Error(`ERROR: ${err}, \nSession saving operation failed.`);
-                error.httpStatusCode(500);
+                error.httpStatusCode = 500;
                 return next(error);
               }
 
-              res.redirect("/");
+              return res.status(200).json({
+                error_message: undefined,
+                user,
+                message: "User authenticated",
+              });
             });
           }
 
-          req.flash("error", "Invalid email or password");
           return req.session.save((err) => {
             if (err) {
               const error = new Error(`ERROR: ${err}, \nSession saving operation failed.`);
-              error.httpStatusCode(500);
+              error.httpStatusCode = 500;
               return next(error);
             }
 
-            res.redirect("/auth/login");
+            return res.status(401).json({
+              error_message: "Incorrect password",
+            });
           });
         })
         .catch((err) => {
           const error = new Error(`ERROR: ${err}, \nComparing password with hashed password operation failed.`);
-          error.httpStatusCode(500);
+          error.httpStatusCode = 500;
           return next(error);
         });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
-      error.httpStatusCode(500);
+      error.httpStatusCode = 500;
       return next(error);
     });
 }
@@ -321,10 +316,10 @@ function post_new_password(req, res, next) {
 }
 
 module.exports = {
-  get_login,
-  get_signup,
-  get_reset,
-  get_new_password,
+  // get_login,
+  // get_signup,
+  // get_reset,
+  // get_new_password,
   post_signup,
   post_login,
   post_logout,

@@ -56,6 +56,28 @@
   font-size: 1.4rem;
 }
 
+.loading:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4, end) 1200ms infinite;
+  animation: ellipsis steps(4, end) 1200ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 20px;
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 20px;
+  }
+}
+
 @media (max-width: 600px) {
   .auth-form {
     width: fit-content;

@@ -34,8 +34,8 @@ export default function Input({ label, placeholder, type = "text", value, setVal
       }
 
       // Atleast one capital letter
-      const re = /^[a-zA-Z]*[A-Z]+[a-zA-Z]*$/;
-      return setValue((prevState) => ({ ...prevState, error: re.test(String(value)) ? "default" : "Atleast one capital letter" }));
+      // const re = /^[a-zA-Z]*[A-Z]+[a-zA-Z]*$/;
+      // return setValue((prevState) => ({ ...prevState, error: re.test(String(value)) ? "default" : "Atleast one capital letter" }));
     }
 
     // Name validator
