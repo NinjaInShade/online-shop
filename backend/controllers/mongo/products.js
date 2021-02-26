@@ -83,23 +83,22 @@ function get_products(req, res, next) {
         .limit(items_per_page);
     })
     .then((products) => {
-      res.render("shop/product-list", {
-        prods: products,
-        pageTitle: "Products",
-        path: "/products",
-        hasProducts: products.length > 0,
-        total_products,
-        has_next_page: items_per_page * page < total_products,
-        has_previous_page: page > 1,
-        current_page: page,
-        next_page: page + 1,
-        previous_page: page - 1,
-        highest_page: Math.ceil(total_products / items_per_page),
+      res.status(200).json({
+        products: products,
+        pageData: {
+          total_products,
+          has_next_page: items_per_page * page < total_products,
+          has_previous_page: page > 1,
+          current_page: page,
+          next_page: page + 1,
+          previous_page: page - 1,
+          highest_page: Math.ceil(total_products / items_per_page),
+        },
       });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \Finding all products operation failed.`);
-      error.httpStatusCode(500);
+      error.httpStatusCode = 500;
       return next(error);
     });
 }

@@ -1,48 +1,12 @@
 const Product = require("../../models/mongo/Product");
+const User = require("../../models/mongo/user");
 const Order = require("../../models/mongo/Order");
 const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 const pdf_document = require("pdfkit");
 const fs = require("fs");
 const path = require("path");
 
-const items_per_page = 3;
-
 // GET Reqs
-function get_index(req, res, next) {
-  const page = parseInt(req.query.page) || 1;
-  let total_products;
-
-  Product.find()
-    .countDocuments()
-    .then((num) => {
-      total_products = num;
-
-      return Product.find()
-        .skip((page - 1) * items_per_page)
-        .limit(items_per_page);
-    })
-    .then((products) => {
-      res.render("shop/index", {
-        prods: products,
-        pageTitle: "Products",
-        path: "/",
-        hasProducts: products.length > 0,
-        total_products,
-        has_next_page: items_per_page * page < total_products,
-        has_previous_page: page > 1,
-        current_page: page,
-        next_page: page + 1,
-        previous_page: page - 1,
-        highest_page: Math.ceil(total_products / items_per_page),
-      });
-    })
-    .catch((err) => {
-      const error = new Error(`ERROR: ${err}, \Finding all products operation failed.`);
-      console.log(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
-}
 
 function get_cart(req, res, next) {
   req.user
@@ -177,6 +141,31 @@ function get_invoice(req, res, next) {
     });
 }
 
+function get_user(req, res, next) {
+  const user_id = req.params.user_id;
+
+  User.findById(user_id)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          error_message: "No user found",
+        });
+      }
+
+      req.session.is_authenticated = true;
+      req.session.user = user;
+
+      return res.status(200).json({
+        user: { id: user._id, name: user.name, cart: user.cart, is_admin: user.is_admin },
+      });
+    })
+    .catch((err) => {
+      const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+}
+
 // POST Reqs
 function post_cart(req, res, next) {
   const productID = req.body.productID;
@@ -237,4 +226,4 @@ function post_create_order(req, res, next) {
     });
 }
 
-module.exports = { get_index, get_cart, get_checkout, get_orders, post_cart, post_remove_cart, post_create_order, get_invoice };
+module.exports = { get_cart, get_checkout, get_orders, get_user, post_cart, post_remove_cart, post_create_order, get_invoice };

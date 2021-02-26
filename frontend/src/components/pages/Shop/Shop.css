@@ -1,0 +1,12 @@
+.products-container {
+  min-height: calc(100vh - 60px);
+  max-width: 1200px;
+  padding: 40px 20px;
+  margin: auto;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.products-container ul {
+  flex-wrap: wrap;
+}

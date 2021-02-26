@@ -113,10 +113,8 @@ dist
 .yarn/unplugged
 .yarn/bui
 
-images/
 data/
 data/invoices
-/images
 /data
 .png
 .pdf

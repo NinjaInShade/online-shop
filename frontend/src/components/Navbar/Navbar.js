@@ -25,7 +25,7 @@ export default function Navbar() {
           {/* Regular links */}
           {NAV_LINKS.map((navItem, index) => {
             // Don't render admin links like add product, admin product etc... if user is not an admin.
-            if (navItem.admin && !auth.user.isAdmin) {
+            if (navItem.admin && !auth.user.is_admin) {
               return <li key={index} style={{ display: "none" }}></li>;
             }
 

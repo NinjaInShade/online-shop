@@ -1,0 +1,48 @@
+.pagination {
+  margin: 20px 0;
+}
+
+.pagination .lead,
+.pagination svg {
+  color: var(--neutral-400);
+  font-size: 0.8rem;
+}
+
+.pagination .lead {
+  font-weight: 600;
+}
+
+.pagination svg {
+  margin: 0 5px;
+}
+
+.active,
+.active svg {
+  color: var(--blue-600) !important;
+}
+
+.pages-container {
+  margin: 0 2rem;
+}
+
+.pages-container p {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 300px) {
+  .pagination {
+    flex-direction: column;
+  }
+
+  .pagination svg {
+    display: none;
+  }
+
+  .previous-btn,
+  .next-btn {
+    margin: 8px 0;
+  }
+}

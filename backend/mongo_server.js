@@ -5,7 +5,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const session = require("express-session");
-const csrf = require("csurf");
 const flash = require("connect-flash");
 const cors = require("cors");
 require("dotenv").config();
@@ -38,8 +37,6 @@ const store = new mongo_store({
   collection: "sessions",
 });
 
-// const csrf_protection = csrf();
-
 app.set("view engine", "ejs");
 app.set("views", "views");
 
@@ -55,7 +52,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 
-// app.use(csrf_protection);
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -80,8 +76,6 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   res.locals.is_authenticated = req.session.is_authenticated;
-  // res.locals.csrf_token = req.csrfToken();
-
   next();
 });
 

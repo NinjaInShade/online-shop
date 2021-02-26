@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   password: String,
   reset_token: String,
   reset_token_expiration: Date,
+  is_admin: Boolean,
   cart: {
     items: [
       {

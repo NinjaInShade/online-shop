@@ -98,7 +98,8 @@ export default function AuthForm() {
         .then((response) => {
           const data = response.data;
 
-          setAuth({ isAuth: true, user: { name: data.user.name, email: data.user.email, cart: data.user.cart, isAdmin: true } });
+          localStorage.setItem("user_id", response.data.user.user_id);
+          setAuth({ isAuth: true, user: { name: data.user.name, cart: data.user.cart, is_admin: data.user.is_admin, id: data.user.user_id } });
         })
         .catch((error) => {
           const response = error.response;

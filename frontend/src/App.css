@@ -15,6 +15,7 @@ body {
 
 :root {
   /* Greens */
+  --green-hover: #226e34;
   --green-500: #287d3c;
 
   /* Reds */
@@ -29,8 +30,10 @@ body {
 
   /* Neutrals */
   --neutral-900: #000;
+  --neutral-700: #2c3a4b;
   --neutral-600: #545d69;
   --neutral-500: #6d7580;
+  --neutral-400: #a5abb3;
   --neutral-300: #dadee3;
   --neutral-200: #f4f6f9;
   --neutral-100: #fff;
