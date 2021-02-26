@@ -8,26 +8,27 @@ import NAV_LINKS from "../../data";
 import "./Navbar.css";
 
 export default function Navbar() {
-  const [show, setShow] = useState(false);
+  const [sidebar, setSidebar] = useState(false);
   const { auth } = useContext(authContext);
-
-  function enableTooltip(type) {}
 
   return (
     <div>
-      <Sidebar show={show} setShow={setShow} />
+      <Sidebar show={sidebar} setShow={setSidebar} />
       <nav className="navbar">
         <div className="brand flex">
           <Link to="/">
             <img src={logo} alt="Brand logo" className="brand-image" />
           </Link>
-          <h2 className="brand-header" onClick={() => setShow(!show)}>
-            Shop
-          </h2>
+          <h2 className="brand-header">Shop</h2>
         </div>
-        <ul className="nav-links flex">
+        <ul className="nav-links">
           {/* Regular links */}
           {NAV_LINKS.map((navItem, index) => {
+            // Don't render admin links like add product, admin product etc... if user is not an admin.
+            if (navItem.admin && !auth.user.isAdmin) {
+              return <li key={index} style={{ display: "none" }}></li>;
+            }
+
             return (
               <li key={index}>
                 <NavLink
@@ -41,38 +42,25 @@ export default function Navbar() {
               </li>
             );
           })}
-          {/* Icon links to cart and profile, had to extract out of data.js file as cart's value is dynamic and profile & cart need state. */}
           <li>
-            {auth.isAuth ? (
-              <NavLink to="/cart" exact activeClassName="nav-link-active" className={`nav-link nav-link-icon`}>
-                <div className="cart-number">
-                  <p className="cart-value">02</p>
-                </div>
-                <span className="material-icons">shopping_cart</span>
-              </NavLink>
-            ) : (
-              <span className="nav-link nav-link-icon" onClick={() => enableTooltip("cart")}>
-                <div className="cart-number">
-                  <p className="cart-value" style={{ visibility: "hidden" }}>
-                    00
-                  </p>
-                </div>
-                <span className="material-icons">shopping_cart</span>
-              </span>
-            )}
+            <NavLink to="/cart" exact activeClassName="nav-link-active" className={`nav-link nav-link-icon`}>
+              <div className="cart-number">
+                <p className="cart-value" style={auth.isAuth ? {} : { visibility: "hidden" }}>
+                  {auth.isAuth ? "02" : "00"}
+                </p>
+              </div>
+              <span className="material-icons">shopping_cart</span>
+            </NavLink>
           </li>
           <li>
-            {auth.isAuth ? (
-              <NavLink to="/profile" exact activeClassName="nav-link-active" className={`nav-link nav-link-icon`}>
-                <span className="material-icons">account_circle</span>
-              </NavLink>
-            ) : (
-              <span className="nav-link nav-link-icon" onClick={() => enableTooltip("profile")}>
-                <span className="material-icons">account_circle</span>
-              </span>
-            )}
+            <NavLink to="/profile" exact activeClassName="nav-link-active" className={`nav-link nav-link-icon`}>
+              <span className="material-icons">account_circle</span>
+            </NavLink>
           </li>
         </ul>
+        <button className="hamburger" onClick={() => setSidebar(!sidebar)}>
+          <i className="fas fa-bars"></i>
+        </button>
       </nav>
     </div>
   );

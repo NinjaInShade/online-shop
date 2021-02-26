@@ -9,8 +9,10 @@ import "./App.css";
 
 function App() {
   const [auth, setAuth] = useState({
-    isAuth: false,
-    user: undefined,
+    isAuth: true,
+    user: {
+      isAdmin: true,
+    },
   });
 
   useEffect(() => {

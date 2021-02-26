@@ -7,6 +7,10 @@
   background: #fff;
   transition: right 0.3s ease-in-out;
   z-index: 5;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .sidebar-overlay {
@@ -19,4 +23,25 @@
   transition: all 0.3s ease-in-out;
   pointer-events: none;
   z-index: 4;
+}
+
+.sidebar-links li {
+  margin: 15px 0;
+  text-align: right;
+}
+
+.sidebar-links .nav-link {
+  padding: 4px 0;
+}
+
+.sidebar-links .nav-link-icon {
+  padding: 0;
+}
+
+.sidebar-links .nav-link span {
+  margin-top: 0;
+}
+
+.sidebar-links .cart-number {
+  top: -15px;
 }
