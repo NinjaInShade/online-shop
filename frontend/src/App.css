@@ -17,12 +17,22 @@ body {
   /* Greens */
   --green-500: #287d3c;
 
+  /* Reds */
+  --red-600: #da1414;
+  --red-100: #feefef;
+
   /* Blues */
+  --blue-hover: #0053f0;
+  --blue-700: #004ad7;
+  --blue-600: #0b5fff;
   --blue-500: #0b63ce;
 
   /* Neutrals */
   --neutral-900: #000;
   --neutral-600: #545d69;
+  --neutral-500: #6d7580;
+  --neutral-300: #dadee3;
+  --neutral-200: #f4f6f9;
   --neutral-100: #fff;
 }
 

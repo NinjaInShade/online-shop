@@ -43,5 +43,11 @@
 }
 
 .sidebar-links .cart-number {
-  top: -15px;
+  z-index: 1;
+  top: -10px;
+}
+
+.sidebar-links .shopping-cart-icon {
+  position: relative;
+  top: 4px;
 }

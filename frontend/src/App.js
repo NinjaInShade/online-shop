@@ -3,14 +3,18 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Unmatched from "./components/pages/Unmatched/Unmatched";
 import Shop from "./components/pages/Shop/Shop";
+import Profile from "./components/pages/Profile/Profile";
 import AuthContext from "./AuthContext";
 
 import "./App.css";
 
 function App() {
   const [auth, setAuth] = useState({
-    isAuth: true,
+    isAuth: false,
     user: {
+      name: "leon",
+      email: "leon@gmail.com",
+      cart: { items: ["", "", "", ""] },
       isAdmin: true,
     },
   });
@@ -26,6 +30,9 @@ function App() {
         <Switch>
           <Route path="/" exact>
             <Shop />
+          </Route>
+          <Route path="/profile" exact>
+            <Profile />
           </Route>
           <Route>
             <Unmatched />

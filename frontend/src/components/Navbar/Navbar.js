@@ -46,7 +46,7 @@ export default function Navbar() {
             <NavLink to="/cart" exact activeClassName="nav-link-active" className={`nav-link nav-link-icon`}>
               <div className="cart-number">
                 <p className="cart-value" style={auth.isAuth ? {} : { visibility: "hidden" }}>
-                  {auth.isAuth ? "02" : "00"}
+                  {auth.isAuth ? `0${auth.user.cart.items.length}` : "00"}
                 </p>
               </div>
               <span className="material-icons">shopping_cart</span>

@@ -19,7 +19,7 @@ export default function Sidebar({ show, setShow }) {
       ></div>
       <nav className="sidebar" style={show ? {} : { right: "-250px" }}>
         <button className="hamburger" onClick={() => setShow(!show)}>
-          <i class="fas fa-times"></i>
+          <i className="fas fa-times"></i>
         </button>
         <ul className="sidebar-links">
           {/* Regular links */}
@@ -57,10 +57,10 @@ export default function Sidebar({ show, setShow }) {
             >
               <div className="cart-number">
                 <p className="cart-value" style={auth.isAuth ? {} : { visibility: "hidden" }}>
-                  {auth.isAuth ? "02" : "00"}
+                  {auth.isAuth ? `0${auth.user.cart.items.length}` : "00"}
                 </p>
               </div>
-              <span className="material-icons">shopping_cart</span>
+              <span className="material-icons shopping-cart-icon">shopping_cart</span>
             </NavLink>
           </li>
           <li>

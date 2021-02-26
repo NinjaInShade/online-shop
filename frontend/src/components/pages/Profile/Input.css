@@ -1,0 +1,38 @@
+.input-container {
+  margin: 1.5rem 0;
+}
+
+.input-label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.input-box {
+  width: 100%;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: var(--neutral-200);
+  border: 2px solid var(--neutral-300);
+  font-size: 1.2rem;
+  font-weight: 600;
+  outline: none;
+}
+
+.input-box ::placeholder {
+  color: var(--neutral-500);
+}
+
+.input-box:active,
+.input-box:focus {
+  border: 2px solid var(--blue-600);
+  background: var(--neutral-100);
+}
+
+.error-text {
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--red-600);
+}
