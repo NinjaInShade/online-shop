@@ -6,24 +6,6 @@ const items_per_page = 3;
 
 // GET controllers
 
-function get_admin_products(req, res, next) {
-  Product.find({ user_id: req.user._id })
-    .populate("user_id")
-    .then((result) => {
-      res.render("admin/products", {
-        prods: result,
-        pageTitle: "Admin Products",
-        path: "/admin/products",
-        hasProducts: result.length > 0,
-      });
-    })
-    .catch((err) => {
-      const error = new Error(`ERROR: ${err}, \nFinding products operation failed.`);
-      error.httpStatusCode(500);
-      return next(error);
-    });
-}
-
 function get_add_product(req, res, next) {
   res.render("admin/add-product", {
     pageTitle: "Add Product",
@@ -98,7 +80,6 @@ function get_products(req, res, next) {
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \Finding all products operation failed.`);
-      error.httpStatusCode = 500;
       return next(error);
     });
 }
@@ -271,7 +252,6 @@ module.exports = {
   get_add_product,
   post_add_product,
   get_products,
-  get_admin_products,
   get_product_detail,
   get_edit_product,
   post_edit_product,

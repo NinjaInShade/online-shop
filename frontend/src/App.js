@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./components/Navbar/Navbar";
 import Unmatched from "./components/pages/Unmatched/Unmatched";
-import Shop from "./components/pages/Shop/Shop";
+import ProductsList from "./components/pages/ProductsList/ProductsList";
 import Profile from "./components/pages/Profile/Profile";
 import AuthContext from "./AuthContext";
 
@@ -43,10 +43,16 @@ function App() {
         <Navbar />
         <Switch>
           <Route path="/" exact>
-            <Shop />
+            <ProductsList admin={false} />
+          </Route>
+          <Route path="/products" exact>
+            <ProductsList admin={false} />
           </Route>
           <Route path="/profile" exact>
             <Profile />
+          </Route>
+          <Route path="/admin/products" exact>
+            <ProductsList admin={true} />
           </Route>
           <Route>
             <Unmatched />

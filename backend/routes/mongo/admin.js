@@ -6,7 +6,6 @@ const products_controller = require("../../controllers/mongo/products");
 const is_auth = require("../../util/is_auth");
 
 // GET Routes
-router.get("/products", is_auth, products_controller.get_admin_products);
 
 router.get("/edit-product/:productID", is_auth, products_controller.get_edit_product);
 

@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Redirect } from "react-router-dom";
 import ProductCard from "../../ProductCard/ProductCard";
 import Pagination from "../../Pagination/Pagination";
+import AuthContext from "../../../AuthContext";
 import axios from "axios";
 
-import "./Shop.css";
+import "./ProductsList.css";
 
-export default function Shop() {
+export default function Shop({ admin }) {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageData, setPageData] = useState({
@@ -18,9 +20,11 @@ export default function Shop() {
     total_products: undefined,
   });
 
+  const { auth } = useContext(AuthContext);
+
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_DOMAIN}products`, {
+      .get(`${process.env.REACT_APP_MOBILE_API_DOMAIN}products`, {
         params: {
           page: currentPage,
         },
@@ -35,6 +39,10 @@ export default function Shop() {
         return console.log(error);
       });
   }, [currentPage]);
+
+  if (admin && !auth.isAuth) {
+    return <Redirect to="/products" />;
+  }
 
   return (
     <main className="products-container flex">
@@ -56,7 +64,9 @@ export default function Shop() {
                 title={product.title}
                 description={product.description}
                 price={product.price}
-                image_url={`${process.env.REACT_APP_API_DOMAIN}${product.image_url}`}
+                image_url={`${process.env.REACT_APP_MOBILE_API_DOMAIN}${product.image_url}`}
+                id={product._id}
+                admin={admin}
               />
             </li>
           );

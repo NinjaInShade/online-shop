@@ -52,8 +52,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 
-app.use(flash());
-
 app.use((req, res, next) => {
   // If user not authed, their is no user to find so we skip setting req.user
   if (!req.session.is_authenticated) {
@@ -89,8 +87,10 @@ app.use(error_controller.get404);
 
 // Error middleware
 app.use((error, req, res, next) => {
-  console.log(error);
-  return res.redirect("/500");
+  return res.status(500).json({
+    message: "There was a server error",
+    error,
+  });
 });
 
 db()
