@@ -1,16 +1,15 @@
 import React, { useState, useContext } from "react";
+import { nameValidate, emailValidate, passwordValidate } from "../../../validators";
+import useForm from "../../../hooks/useForm";
 import Input from "./Input";
 import Button from "../../Button/Button";
 import authContext from "../../../AuthContext";
-import axios from "axios";
-
 import "./AuthForm.css";
 
 export default function AuthForm() {
   const [mode, setMode] = useState("signup");
-  const [loading, setLoading] = useState(false);
-  const [globalError, setGlobalError] = useState(undefined);
   const { setAuth } = useContext(authContext);
+  const { loading, globalError, validateAndSendForm } = useForm();
 
   const [name, setName] = useState({
     value: "",
@@ -41,7 +40,7 @@ export default function AuthForm() {
 
     // If already sending a req, don't let the user change mode
     if (loading) {
-      return setGlobalError("Cannot change mode while sending request");
+      return;
     }
 
     if (mode === "signup") {
@@ -54,63 +53,27 @@ export default function AuthForm() {
   function submitForm(e) {
     e.preventDefault();
 
-    // Dont let user send new req/resubmit form is already sending
-    if (loading) {
-      return;
-    }
+    if (mode === "signin") {
+      validateAndSendForm(
+        [email, password],
+        `${process.env.REACT_APP_API_DOMAIN}auth/login`,
+        { email: email.value, password: password.value },
+        (err, data) => {
+          if (err) {
+            return console.log(err);
+          }
 
-    // Fields present in both modes
-    if (!email.hasTyped || !password.hasTyped) {
-      return setGlobalError("Form not filled in");
-    }
-
-    if (email.error !== "default" || password.error !== "default") {
-      return setGlobalError("Form invalid");
-    }
-
-    // Signup specific
-    if (mode === "signup") {
-      if (!name.hasTyped || !confirmPassword.hasTyped) {
-        return setGlobalError("Form not filled in");
-      }
-
-      if (name.error !== "default" || confirmPassword.error !== "default") {
-        return setGlobalError("Form invalid");
-      }
-
-      if (password.value !== confirmPassword.value) {
-        return setGlobalError("Passwords don't match");
-      }
-    }
-
-    // Form is now valid, set loading state while sending request to backend
-    setLoading(true);
-
-    // Sign user up
-    if (mode === "signup") {
-    } else {
-      // Sign in user
-      axios
-        .post(`${process.env.REACT_APP_API_DOMAIN}auth/login`, {
-          email: email.value,
-          password: password.value,
-        })
-        .then((response) => {
-          const data = response.data;
-
-          localStorage.setItem("user_id", response.data.user.user_id);
+          localStorage.setItem("user_id", data.user.user_id);
           setAuth({ isAuth: true, user: { name: data.user.name, cart: data.user.cart, is_admin: data.user.is_admin, id: data.user.user_id } });
-        })
-        .catch((error) => {
-          const response = error.response;
-          setLoading(false);
-          setGlobalError(response.data.error_message);
-        });
+        }
+      );
+    } else {
+      validateAndSendForm();
     }
   }
 
   return (
-    <form className="auth-form">
+    <form>
       <h2 className="header">{mode === "signup" ? "Create your account" : "Log in to your account"}</h2>
       <p className="lead">
         {mode === "signup" ? "Already have an account?" : "Don't have an account?"}{" "}
@@ -118,11 +81,18 @@ export default function AuthForm() {
           {mode === "signup" ? "Sign in" : "Sign up"}
         </button>
       </p>
-      {mode === "signup" && <Input label="name" placeholder="John doe..." type="text" value={name} setValue={setName} />}
-      <Input label="email" placeholder="email@email.com..." type="email" value={email} setValue={setEmail} />
-      <Input label="password" placeholder="StrongPassword..." type="password" value={password} setValue={setPassword} />
+      {mode === "signup" && <Input label="name" placeholder="John doe..." type="text" value={name} setValue={setName} validate={nameValidate} />}
+      <Input label="email" placeholder="email@email.com..." type="email" value={email} setValue={setEmail} validate={emailValidate} />
+      <Input label="password" placeholder="StrongPassword..." type="password" value={password} setValue={setPassword} validate={passwordValidate} />
       {mode === "signup" && (
-        <Input label="confirm password" placeholder="StrongPassword..." type="password" value={confirmPassword} setValue={setConfirmPassword} />
+        <Input
+          label="confirm password"
+          placeholder="StrongPassword..."
+          type="password"
+          value={confirmPassword}
+          setValue={setConfirmPassword}
+          validate={passwordValidate}
+        />
       )}
       <Button onClick={(e) => submitForm(e)} className="submit-form">
         {mode === "signup" && loading ? <p className="loading">Signing up</p> : <p></p>}
