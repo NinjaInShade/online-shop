@@ -68,9 +68,9 @@ export default function EditProduct() {
         }
 
         return history.push("/admin/products");
-      }
+      },
+      { enableTyped: false }
     );
-    // edit-product/:productID
   }
 
   return (

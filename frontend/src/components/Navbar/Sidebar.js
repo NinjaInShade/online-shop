@@ -35,7 +35,7 @@ export default function Sidebar({ show, setShow }) {
                   to={navItem.to}
                   exact
                   isActive={(match, location) => {
-                    if (navItem.alternative && location.pathname.includes(navItem.alternative)) {
+                    if ((navItem.alternative && location.pathname.includes(navItem.alternative)) || location.pathname === navItem.to) {
                       return true;
                     }
                   }}

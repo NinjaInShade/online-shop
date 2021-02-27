@@ -34,13 +34,13 @@ export default function Navbar() {
                 <NavLink
                   to={navItem.to}
                   exact
-                  activeClassName="nav-link-active"
-                  className={`nav-link ${navItem.to === "/cart" ? "nav-link-icon" : navItem.to === "/profile" ? "nav-link-icon" : ""}`}
                   isActive={(match, location) => {
-                    if (navItem.alternative && location.pathname.includes(navItem.alternative)) {
+                    if ((navItem.alternative && location.pathname.includes(navItem.alternative)) || location.pathname === navItem.to) {
                       return true;
                     }
                   }}
+                  activeClassName="nav-link-active"
+                  className={`nav-link ${navItem.to === "/cart" ? "nav-link-icon" : navItem.to === "/profile" ? "nav-link-icon" : ""}`}
                 >
                   {navItem.title}
                 </NavLink>
