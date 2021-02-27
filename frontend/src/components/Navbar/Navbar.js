@@ -36,6 +36,11 @@ export default function Navbar() {
                   exact
                   activeClassName="nav-link-active"
                   className={`nav-link ${navItem.to === "/cart" ? "nav-link-icon" : navItem.to === "/profile" ? "nav-link-icon" : ""}`}
+                  isActive={(match, location) => {
+                    if (navItem.alternative && location.pathname.includes(navItem.alternative)) {
+                      return true;
+                    }
+                  }}
                 >
                   {navItem.title}
                 </NavLink>

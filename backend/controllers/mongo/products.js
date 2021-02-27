@@ -231,10 +231,9 @@ function post_edit_product(req, res, next) {
 function delete_product(req, res, next) {
   const productID = req.params.productID;
 
-  Product.findOneAndDelete({ _id: productID, user_id: req.user._id }, (err, product) => {
+  Product.findOneAndDelete({ _id: productID }, (err, product) => {
     if (err) {
       const error = new Error(`ERROR: ${err}, \Deleting a product operation failed.`);
-      error.httpStatusCode = 500;
       return next(error);
     }
 
@@ -244,7 +243,7 @@ function delete_product(req, res, next) {
       return res.status(200).json({ message: "Product deleted successfully." });
     })
     .catch((err) => {
-      return res.status(500).json({ message: "Product deletion failed." });
+      return res.status(500).json({ error_message: "Product deletion failed." });
     });
 }
 

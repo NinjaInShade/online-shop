@@ -34,6 +34,11 @@ export default function Sidebar({ show, setShow }) {
                 <NavLink
                   to={navItem.to}
                   exact
+                  isActive={(match, location) => {
+                    if (navItem.alternative && location.pathname.includes(navItem.alternative)) {
+                      return true;
+                    }
+                  }}
                   activeClassName="nav-link-active"
                   className={`nav-link ${navItem.to === "/cart" ? "nav-link-icon" : navItem.to === "/profile" ? "nav-link-icon" : ""}`}
                   onClick={() => {

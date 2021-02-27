@@ -24,7 +24,7 @@ export default function Shop({ admin }) {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_MOBILE_API_DOMAIN}products`, {
+      .get(`${process.env.REACT_APP_API_DOMAIN}products`, {
         params: {
           page: currentPage,
         },
@@ -64,9 +64,11 @@ export default function Shop({ admin }) {
                 title={product.title}
                 description={product.description}
                 price={product.price}
-                image_url={`${process.env.REACT_APP_MOBILE_API_DOMAIN}${product.image_url}`}
+                image_url={`${process.env.REACT_APP_API_DOMAIN}${product.image_url}`}
                 id={product._id}
                 admin={admin}
+                setProducts={setProducts}
+                products={products}
               />
             </li>
           );
