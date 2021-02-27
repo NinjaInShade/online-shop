@@ -7,8 +7,6 @@ const is_auth = require("../../util/is_auth");
 
 // GET Routes
 
-router.get("/edit-product/:productID", is_auth, products_controller.get_edit_product);
-
 router.get("/add-product", is_auth, products_controller.get_add_product);
 
 // POST Routes
@@ -25,10 +23,9 @@ router.post(
 
 router.post(
   "/edit-product/:productID",
-  is_auth,
   [
     check("title").trim().isLength({ min: 2 }).withMessage("Title must have 2 letters"),
-    check("description").trim().isLength({ min: 8, max: 400 }).withMessage("Description must have atleast 8 letters."),
+    check("description").trim().isLength({ min: 8, max: 50 }).withMessage("Description must have atleast 8 letters."),
     check("price").trim().isFloat().withMessage("Price must be a number"),
   ],
   products_controller.post_edit_product

@@ -14,6 +14,7 @@ export default function useForm() {
     for (let i = 0; i < states.length; i++) {
       // Validate if user has typed
       if (!states[i].hasTyped) {
+        console.log(states, states[i]);
         return setGlobalError("Form not filled in");
       }
 

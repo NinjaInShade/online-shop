@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/products", products_controller.get_products);
 
-router.get("/products/:productId", products_controller.get_product_detail);
+router.get("/products/:productId", products_controller.get_product);
 
 router.get("/cart", is_auth, shop_controller.get_cart);
 

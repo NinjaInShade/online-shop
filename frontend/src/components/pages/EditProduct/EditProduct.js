@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { titleValidate, descriptionValidate, priceValidate } from "../../../validators";
 import Button from "../../Button/Button";
 import Input from "../Profile/Input";
+import useForm from "../../../hooks/useForm";
+import axios from "axios";
 
 export default function EditProduct() {
-  const [product, setProduct] = useState();
+  const { loading, globalError, validateAndSendForm } = useForm();
 
-  const [mode, setMode] = useState("signup");
-  const [loading, setLoading] = useState(false);
-  const [globalError, setGlobalError] = useState(undefined);
+  let history = useHistory();
+  const { prod_id } = useParams();
 
   const [title, setTitle] = useState({
     value: "",
@@ -33,24 +36,60 @@ export default function EditProduct() {
     error: "default",
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_DOMAIN}products/${prod_id}`)
+      .then((response) => {
+        const data = response.data;
+
+        setTitle((prevState) => ({ ...prevState, value: data.product.title }));
+        setDescription((prevState) => ({ ...prevState, value: data.product.description }));
+        setPrice((prevState) => ({ ...prevState, value: data.product.price }));
+      })
+      .catch((error) => {
+        return console.log(error);
+      });
+  }, [prod_id]);
 
   function submitForm(e) {
     e.preventDefault();
+
+    validateAndSendForm(
+      [title, description, price],
+      `${process.env.REACT_APP_API_DOMAIN}admin/edit-product/${prod_id}`,
+      {
+        title: title.value,
+        description: description.value,
+        price: price.value,
+      },
+      (err, data) => {
+        if (err) {
+          return console.log(err);
+        }
+
+        return history.push("/admin/products");
+      }
+    );
+    // edit-product/:productID
   }
 
   return (
     <main className="page-center">
       <form>
         <h2 className="header">Edit Product</h2>
-        {/* {mode === "signup" && <Input label="name" placeholder="John doe..." type="text" value={name} setValue={setName} />}
-        <Input label="email" placeholder="email@email.com..." type="email" value={email} setValue={setEmail} />
-        <Input label="password" placeholder="StrongPassword..." type="password" value={password} setValue={setPassword} />
-        {mode === "signup" && (
-          <Input label="confirm password" placeholder="StrongPassword..." type="password" value={confirmPassword} setValue={setConfirmPassword} />
-        )} */}
+        <Input label="title" placeholder="shoe..." type="text" value={title} setValue={setTitle} validate={titleValidate} />
+        <Input
+          label="description"
+          placeholder="Size 9 UK men's shoe, Nike..."
+          type="text"
+          value={description}
+          setValue={setDescription}
+          validate={descriptionValidate}
+        />
+        <Input label="price" placeholder="£25..." type="number" value={price} setValue={setPrice} validate={priceValidate} />
+
         <Button onClick={(e) => submitForm(e)} className="submit-form">
-          {loading ? <p className="loading">Edit product</p> : <p>Edit product</p>}
+          {loading ? <p className="loading">Editing product</p> : <p>Edit product</p>}
         </Button>
         <p className="error-text" style={globalError === undefined ? { visibility: "hidden" } : {}}>
           *{globalError}

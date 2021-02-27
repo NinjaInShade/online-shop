@@ -21,36 +21,6 @@ function get_add_product(req, res, next) {
   });
 }
 
-function get_edit_product(req, res, next) {
-  const product_id = req.params.productID;
-
-  Product.findById(product_id)
-    .then((result) => {
-      if (!result) {
-        res.redirect("/");
-      }
-
-      res.render("admin/edit-product", {
-        pageTitle: "Product",
-        path: `/admin/products`,
-        product: result,
-        error_msg: req.flash("error"),
-        input_fields: {
-          title: result.title,
-          description: result.description,
-          price: result.price,
-          image_url: result.image_url,
-        },
-        validation_errors: [],
-      });
-    })
-    .catch((err) => {
-      const error = new Error(`ERROR: ${err}, \nFinding a product operation failed.`);
-      error.httpStatusCode(500);
-      return next(error);
-    });
-}
-
 function get_products(req, res, next) {
   const page = parseInt(req.query.page) || 1;
   let total_products;
@@ -84,20 +54,17 @@ function get_products(req, res, next) {
     });
 }
 
-function get_product_detail(req, res, next) {
+function get_product(req, res, next) {
   const product_id = req.params.productId;
 
   Product.findById(product_id)
     .then((product) => {
-      res.render("shop/product-detail", {
-        pageTitle: "Product",
-        path: `/products`,
+      res.status(200).json({
         product,
       });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \Finding a product operation failed.`);
-      error.httpStatusCode(500);
       return next(error);
     });
 }
@@ -175,38 +142,11 @@ function post_edit_product(req, res, next) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return Product.findOne({ _id: productID })
-      .then((product) => {
-        if (!product) {
-          return res.redirect("/");
-        }
-
-        return res.status(422).render("admin/edit-product", {
-          pageTitle: "Product",
-          path: `/admin/products`,
-          product: product,
-          error_msg: errors.array()[0].msg,
-          input_fields: {
-            title: title,
-            description: description,
-            price: price,
-          },
-          validation_errors: errors.array(),
-        });
-      })
-      .catch((err) => {
-        const error = new Error(`ERROR: ${err}, \Finding a product operation failed.`);
-        error.httpStatusCode = 500;
-        return next(error);
-      });
+    return res.status(500).json({ error_message: "Invaid fields" });
   }
 
   Product.findById(productID)
     .then((product) => {
-      if (product.user_id.toString() !== req.user._id.toString()) {
-        return res.redirect("/");
-      }
-
       product.title = title;
       product.price = price;
       product.description = description;
@@ -217,13 +157,11 @@ function post_edit_product(req, res, next) {
       }
 
       return product.save().then((result) => {
-        console.log("Updated product successfully");
-        res.redirect("/admin/products");
+        res.status(200).json({ message: "Product updated successfully" });
       });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \Updating a product operation failed.`);
-      error.httpStatusCode = 500;
       return next(error);
     });
 }
@@ -251,8 +189,7 @@ module.exports = {
   get_add_product,
   post_add_product,
   get_products,
-  get_product_detail,
-  get_edit_product,
+  get_product,
   post_edit_product,
   delete_product,
 };
