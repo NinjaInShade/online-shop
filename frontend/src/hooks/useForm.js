@@ -19,8 +19,6 @@ export default function useForm() {
       formData.append("price", postBody.price);
       formData.append("image", postBody.image);
 
-      console.log(formData.getAll("image"));
-
       postBody = formData;
     }
 
@@ -63,5 +61,5 @@ export default function useForm() {
       });
   }
 
-  return { loading, globalError, setGlobalError, validateAndSendForm };
+  return { loading, globalError, validateAndSendForm };
 }

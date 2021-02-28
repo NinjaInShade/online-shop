@@ -8,7 +8,7 @@ import useForm from "../../../hooks/useForm";
 import axios from "axios";
 
 export default function EditProduct({ add }) {
-  const { loading, globalError, setGlobalError, validateAndSendForm } = useForm();
+  const { loading, globalError, validateAndSendForm } = useForm();
 
   let history = useHistory();
   const { prod_id } = useParams();
@@ -43,6 +43,7 @@ export default function EditProduct({ add }) {
       .then((response) => {
         const data = response.data;
 
+        setImage({ name: data.product.image_url });
         setTitle((prevState) => ({ ...prevState, value: data.product.title }));
         setDescription((prevState) => ({ ...prevState, value: data.product.description }));
         setPrice((prevState) => ({ ...prevState, value: data.product.price }));
