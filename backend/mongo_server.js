@@ -53,11 +53,11 @@ app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUniniti
 
 app.use((req, res, next) => {
   // If user not authed, their is no user to find so we skip setting req.user
-  if (!req.session.is_authenticated) {
-    return next();
-  }
+  // if (!req.session.is_authenticated) {
+  //   return next();
+  // }
 
-  User.findById(req.session.user._id)
+  User.findById("6017fe58f4c3ef93e076a3ea")
     .then((user) => {
       if (!user) {
         return next();

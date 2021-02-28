@@ -174,12 +174,10 @@ function post_cart(req, res, next) {
   req.user
     .add_to_cart(productID)
     .then((result) => {
-      console.log("Successfully added to cart");
-      res.redirect("/cart");
+      res.status(200).json({ message: "Product successfully added to cart" });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nAdding to cart operation failed.`);
-      error.httpStatusCode(500);
       return next(error);
     });
 }

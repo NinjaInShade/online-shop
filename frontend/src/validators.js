@@ -32,6 +32,10 @@ function descriptionValidate(value) {
     return "Cannot exceed 50 chars";
   }
 
+  if (value.length < 8) {
+    return "Minimum 8 chars";
+  }
+
   return "default";
 }
 

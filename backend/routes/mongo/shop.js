@@ -27,7 +27,7 @@ router.get("/orders/:orderId", is_auth, shop_controller.get_invoice);
 router.get("/user/:user_id", shop_controller.get_user);
 
 // POST Routes
-router.post("/cart", is_auth, shop_controller.post_cart);
+router.post("/cart", shop_controller.post_cart);
 
 router.post("/delete-cart/:productID", is_auth, shop_controller.post_remove_cart);
 

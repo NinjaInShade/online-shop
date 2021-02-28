@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Unmatched from "./components/pages/Unmatched/Unmatched";
 import ProductsList from "./components/pages/ProductsList/ProductsList";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Cart from "./components/pages/Cart/Cart";
 import AddOrEditProduct from "./components/pages/AddOrEditProduct/AddOrEditProduct";
 import Profile from "./components/pages/Profile/Profile";
 import AuthContext from "./AuthContext";
@@ -47,7 +48,11 @@ function App() {
           <Route path="/" exact>
             <ProductsList admin={false} />
           </Route>
+          <ProtectedRoute path="/cart" exact={true} component={<Cart />} />
           <Route path="/products" exact>
+            <ProductsList admin={false} />
+          </Route>
+          <Route path="/products/:prod_id" exact>
             <ProductsList admin={false} />
           </Route>
           <Route path="/profile" exact>
