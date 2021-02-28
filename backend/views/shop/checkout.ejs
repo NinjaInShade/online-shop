@@ -31,18 +31,5 @@
     <% } else { %>
         <div class="max-width m-auto px-2"><h1>Nothing in cart</h1></div>
     <% } %>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
-        const stripe = Stripe("pk_test_51IOivFKNCnwrXJXD991l8CcbdeBz5KvRYQlGtgyAXJMLLxmBuIKhfoWL01qhE2ousZLh4m5tjOLDJbgbnA81SPw900Ce37YvDN")
-
-        const order_btn = document.getElementById("checkout-button");
-
-        order_btn.addEventListener("click", function(){
-            console.log("<%= session_id %>")
-            stripe.redirectToCheckout({
-                sessionId: "<%= session_id %>"
-            })
-        })
-    </script>
 
 <%- include('../includes/end.ejs') %>

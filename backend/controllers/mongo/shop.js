@@ -50,22 +50,16 @@ function get_checkout(req, res, next) {
         }),
         mode: "payment",
         success_url: `${req.protocol}://${req.get("host")}/checkout/success`,
-        cancel_url: `${req.protocol}://${req.get("host")}/checkout/cancel`,
+        cancel_url: `${process.env.CLIENT_DOMAIN}cart`,
       });
     })
     .then((stripe_session) => {
-      res.render("shop/checkout", {
-        pageTitle: "Checkout",
-        path: "/checkout",
-        products,
-        total_price,
+      return res.status(200).json({
         session_id: stripe_session.id,
       });
     })
     .catch((err) => {
-      console.log("ERROR", err);
       const error = new Error(`ERROR: ${err}, \nGetting cart operation failed.`);
-      error.httpStatusCode = 500;
       return next(error);
     });
 }
@@ -90,7 +84,6 @@ function get_orders(req, res, next) {
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding an order operation failed.`);
-      error.httpStatusCode(500);
       return next(error);
     });
 }
@@ -133,7 +126,6 @@ function get_invoice(req, res, next) {
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding an order operation failed.`);
-      error.httpStatusCode(500);
       return next(error);
     });
 }
@@ -158,7 +150,6 @@ function get_user(req, res, next) {
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
-      error.httpStatusCode = 500;
       return next(error);
     });
 }
@@ -210,12 +201,10 @@ function post_create_order(req, res, next) {
       return req.user.save();
     })
     .then((result) => {
-      console.log("Successfully created order");
-      res.redirect("/orders");
+      res.status(200).redirect(`${process.env.CLIENT_DOMAIN}profile`);
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nCreating order operation failed.`);
-      error.httpStatusCode(500);
       return next(error);
     });
 }

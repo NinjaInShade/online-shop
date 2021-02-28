@@ -65,7 +65,8 @@ export default function AuthForm() {
 
           localStorage.setItem("user_id", data.user.user_id);
           setAuth({ isAuth: true, user: { name: data.user.name, cart: data.user.cart, is_admin: data.user.is_admin, id: data.user.user_id } });
-        }
+        },
+        { file: false }
       );
     } else {
       validateAndSendForm();

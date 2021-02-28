@@ -14,11 +14,9 @@ router.get("/products/:productId", products_controller.get_product);
 
 router.get("/cart", shop_controller.get_cart);
 
-router.get("/checkout", is_auth, shop_controller.get_checkout);
+router.get("/checkout", shop_controller.get_checkout);
 
-router.get("/checkout/success", is_auth, shop_controller.post_create_order);
-
-router.get("/checkout/cancel", is_auth, shop_controller.get_checkout);
+router.get("/checkout/success", shop_controller.post_create_order);
 
 router.get("/orders", is_auth, shop_controller.get_orders);
 

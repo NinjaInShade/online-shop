@@ -1,3 +1,4 @@
+import { loadStripe } from "@stripe/stripe-js";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -5,6 +6,8 @@ import Button from "../../Button/Button";
 import CartSection from "../../CartSection/CartSection";
 
 import "./Cart.css";
+
+const stripePromise = loadStripe("pk_test_51IOivFKNCnwrXJXD991l8CcbdeBz5KvRYQlGtgyAXJMLLxmBuIKhfoWL01qhE2ousZLh4m5tjOLDJbgbnA81SPw900Ce37YvDN");
 
 export default function Cart() {
   const [removedProduct, setRemovedProduct] = useState(false);
@@ -25,9 +28,28 @@ export default function Cart() {
       });
   }, [removedProduct]);
 
-  function checkout(e) {
+  const checkout = async (e) => {
     e.preventDefault();
-  }
+
+    const stripe = await stripePromise;
+
+    axios
+      .get(`${process.env.REACT_APP_API_DOMAIN}checkout`)
+      .then(async (response) => {
+        const data = response.data;
+
+        const result = await stripe.redirectToCheckout({
+          sessionId: data.session_id,
+        });
+
+        if (result.error) {
+          console.log(result.error.message);
+        }
+      })
+      .catch((error) => {
+        return console.log(error);
+      });
+  };
 
   return (
     <main className="page-center">
