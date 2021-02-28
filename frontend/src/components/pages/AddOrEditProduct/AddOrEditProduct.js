@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { titleValidate, descriptionValidate, priceValidate } from "../../../validators";
 import Button from "../../Button/Button";
+import FilePicker from "../../FilePicker/FilePicker";
 import Input from "../Profile/Input";
 import useForm from "../../../hooks/useForm";
 import axios from "axios";
 
 export default function EditProduct({ add }) {
-  const { loading, globalError, validateAndSendForm } = useForm();
+  const { loading, globalError, setGlobalError, validateAndSendForm } = useForm();
 
   let history = useHistory();
   const { prod_id } = useParams();
@@ -30,11 +31,7 @@ export default function EditProduct({ add }) {
     error: "default",
   });
 
-  const [image, setImage] = useState({
-    value: "",
-    hasTyped: false,
-    error: "default",
-  });
+  const [image, setImage] = useState();
 
   useEffect(() => {
     if (add) {
@@ -68,6 +65,7 @@ export default function EditProduct({ add }) {
         title: title.value,
         description: description.value,
         price: price.value,
+        image,
       },
       (err, data) => {
         if (err) {
@@ -76,7 +74,7 @@ export default function EditProduct({ add }) {
 
         return history.push("/admin/products");
       },
-      { enableTyped }
+      { enableTyped, file: true }
     );
   }
 
@@ -94,6 +92,8 @@ export default function EditProduct({ add }) {
           validate={descriptionValidate}
         />
         <Input label="price" placeholder="£25..." type="number" value={price} setValue={setPrice} validate={priceValidate} />
+
+        <FilePicker image={image} setImage={setImage} />
 
         <Button onClick={(e) => submitForm(e)} className="submit-form">
           {loading ? <p className="loading">{add ? "Adding product" : "Editing product"}</p> : <p>{add ? "Add product" : "Edit product"}</p>}

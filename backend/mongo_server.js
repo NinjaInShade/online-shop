@@ -5,7 +5,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const session = require("express-session");
-const flash = require("connect-flash");
 const cors = require("cors");
 require("dotenv").config();
 

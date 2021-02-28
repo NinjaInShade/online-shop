@@ -6,6 +6,24 @@ export default function useForm() {
   const [globalError, setGlobalError] = useState(undefined);
 
   function validateAndSendForm(states, reqDomain, postBody, cb, options) {
+    let headers;
+
+    if (options.file) {
+      headers = {
+        "Content-Type": "multipart/form-data",
+      };
+
+      const formData = new FormData();
+      formData.append("title", postBody.title);
+      formData.append("description", postBody.description);
+      formData.append("price", postBody.price);
+      formData.append("image", postBody.image);
+
+      console.log(formData.getAll("image"));
+
+      postBody = formData;
+    }
+
     // Dont let user send new req/resubmit form is already sending
     if (loading) {
       return;
@@ -25,12 +43,12 @@ export default function useForm() {
     // Form is now valid, set loading state while sending request to backend
     setLoading(true);
 
-    sendFormRequest(reqDomain, postBody, cb);
+    sendFormRequest(reqDomain, postBody, headers, cb);
   }
 
-  function sendFormRequest(reqDomain, postBody, cb) {
+  function sendFormRequest(reqDomain, postBody, headers, cb) {
     axios
-      .post(reqDomain, postBody)
+      .post(reqDomain, postBody, headers)
       .then((response) => {
         const data = response.data;
 
@@ -45,5 +63,5 @@ export default function useForm() {
       });
   }
 
-  return { loading, globalError, validateAndSendForm };
+  return { loading, globalError, setGlobalError, validateAndSendForm };
 }

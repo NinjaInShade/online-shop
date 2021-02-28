@@ -1,0 +1,40 @@
+.file-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.info-group {
+  display: flex;
+  align-items: center;
+}
+
+.info-group span {
+  font-weight: 600;
+  font-size: 1.8rem;
+  margin-right: 4px;
+  color: var(--neutral-600);
+}
+
+.info-group p {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--neutral-900);
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+}
+
+.upload-btn {
+  border-radius: 0;
+  min-width: 0;
+  width: fit-content;
+  padding: 10px 15px;
+  background: var(--blue-500);
+}
+
+.upload-btn:hover {
+  background: var(--blue-hover-2);
+}
