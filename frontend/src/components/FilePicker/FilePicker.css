@@ -38,3 +38,14 @@
 .upload-btn:hover {
   background: var(--blue-hover-2);
 }
+
+@media (max-width: 500px) {
+  .file-group {
+    flex-direction: column;
+  }
+
+  .upload-btn {
+    width: 100%;
+    margin-top: 2rem;
+  }
+}

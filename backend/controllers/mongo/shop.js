@@ -12,16 +12,13 @@ function get_cart(req, res, next) {
   req.user
     .get_cart()
     .then((cart) => {
-      res.render("shop/cart", {
-        pageTitle: "Cart",
-        path: "/cart",
-        total_price: cart.total_price,
+      res.status(200).json({
         products: cart.products,
+        total_price: cart.total_price,
       });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nGetting cart operation failed.`);
-      error.httpStatusCode(500);
       return next(error);
     });
 }
