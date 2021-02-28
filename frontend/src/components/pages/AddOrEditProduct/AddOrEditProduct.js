@@ -43,7 +43,6 @@ export default function EditProduct({ add }) {
       .then((response) => {
         const data = response.data;
 
-        setImage({ name: data.product.image_url });
         setTitle((prevState) => ({ ...prevState, value: data.product.title }));
         setDescription((prevState) => ({ ...prevState, value: data.product.description }));
         setPrice((prevState) => ({ ...prevState, value: data.product.price }));
