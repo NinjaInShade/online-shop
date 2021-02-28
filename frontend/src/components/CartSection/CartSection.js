@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
+import axios from "axios";
+import AuthContext from "../../AuthContext";
 
 import "./CartSection.css";
 
-export default function CartSection({ product }) {
-  console.log(product);
+export default function CartSection({ product, removedProduct, setRemovedProduct }) {
+  const { setAuth } = useContext(AuthContext);
+
+  function remove(e) {
+    e.preventDefault();
+
+    axios
+      .post(`${process.env.REACT_APP_API_DOMAIN}delete-cart/${product._id}`)
+      .then((response) => {
+        // Simulate a new cart item being removed so navbar UI is updated showing new cart items number.
+        setAuth((prevState) => ({ ...prevState, user: { ...prevState.user, cart: { items: [prevState.user.cart.items.pop()] } } }));
+        setRemovedProduct(!removedProduct);
+      })
+      .catch((error) => {
+        return console.log(error);
+      });
+  }
 
   return (
     <>
@@ -19,7 +36,7 @@ export default function CartSection({ product }) {
             <span className="product-currency">£</span>
             {product.price}
           </p>
-          <button className="product-remove">
+          <button className="product-remove" onClick={(e) => remove(e)}>
             <i className="fas fa-times"></i>
           </button>
         </div>

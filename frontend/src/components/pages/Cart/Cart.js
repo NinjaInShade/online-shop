@@ -7,6 +7,7 @@ import CartSection from "../../CartSection/CartSection";
 import "./Cart.css";
 
 export default function Cart() {
+  const [removedProduct, setRemovedProduct] = useState(false);
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -22,7 +23,7 @@ export default function Cart() {
       .catch((error) => {
         return console.log(error);
       });
-  }, []);
+  }, [removedProduct]);
 
   function checkout(e) {
     e.preventDefault();
@@ -36,7 +37,7 @@ export default function Cart() {
           {products.map((prod, index) => {
             return (
               <li key={index}>
-                <CartSection product={prod} />
+                <CartSection product={prod} setRemovedProduct={setRemovedProduct} />
               </li>
             );
           })}

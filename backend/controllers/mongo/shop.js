@@ -185,11 +185,10 @@ function post_remove_cart(req, res, next) {
   req.user
     .delete_from_cart(productID)
     .then(() => {
-      res.redirect("/cart");
+      res.status(200).json({ message: "Cart item successfully deleted" });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nRemoving from cart operation failed.`);
-      error.httpStatusCode(500);
       return next(error);
     });
 }
