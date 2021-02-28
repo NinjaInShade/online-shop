@@ -14,7 +14,6 @@ export default function useForm() {
     for (let i = 0; i < states.length; i++) {
       // Validate if user has typed
       if (!states[i].hasTyped && options.enableTyped) {
-        console.log(states, states[i]);
         return setGlobalError("Form not filled in");
       }
 
@@ -22,12 +21,11 @@ export default function useForm() {
       if (states[i].error !== "default") {
         return setGlobalError("Form invalid");
       }
-
-      // Form is now valid, set loading state while sending request to backend
-      setLoading(true);
-
-      sendFormRequest(reqDomain, postBody, cb);
     }
+    // Form is now valid, set loading state while sending request to backend
+    setLoading(true);
+
+    sendFormRequest(reqDomain, postBody, cb);
   }
 
   function sendFormRequest(reqDomain, postBody, cb) {

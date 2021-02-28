@@ -6,7 +6,7 @@ import Input from "../Profile/Input";
 import useForm from "../../../hooks/useForm";
 import axios from "axios";
 
-export default function EditProduct() {
+export default function EditProduct({ add }) {
   const { loading, globalError, validateAndSendForm } = useForm();
 
   let history = useHistory();
@@ -37,6 +37,10 @@ export default function EditProduct() {
   });
 
   useEffect(() => {
+    if (add) {
+      return;
+    }
+
     axios
       .get(`${process.env.REACT_APP_API_DOMAIN}products/${prod_id}`)
       .then((response) => {
@@ -49,14 +53,17 @@ export default function EditProduct() {
       .catch((error) => {
         return console.log(error);
       });
-  }, [prod_id]);
+  }, [prod_id, add]);
 
   function submitForm(e) {
     e.preventDefault();
 
+    const domain = add ? `${process.env.REACT_APP_API_DOMAIN}admin/add-product/` : `${process.env.REACT_APP_API_DOMAIN}admin/edit-product/${prod_id}`;
+    const enableTyped = add ? true : false;
+
     validateAndSendForm(
       [title, description, price],
-      `${process.env.REACT_APP_API_DOMAIN}admin/edit-product/${prod_id}`,
+      domain,
       {
         title: title.value,
         description: description.value,
@@ -69,14 +76,14 @@ export default function EditProduct() {
 
         return history.push("/admin/products");
       },
-      { enableTyped: false }
+      { enableTyped }
     );
   }
 
   return (
     <main className="page-center">
       <form>
-        <h2 className="header">Edit Product</h2>
+        <h2 className="header">{add ? "Add product" : "Edit Product"}</h2>
         <Input label="title" placeholder="shoe..." type="text" value={title} setValue={setTitle} validate={titleValidate} />
         <Input
           label="description"
@@ -89,7 +96,7 @@ export default function EditProduct() {
         <Input label="price" placeholder="£25..." type="number" value={price} setValue={setPrice} validate={priceValidate} />
 
         <Button onClick={(e) => submitForm(e)} className="submit-form">
-          {loading ? <p className="loading">Editing product</p> : <p>Edit product</p>}
+          {loading ? <p className="loading">{add ? "Adding product" : "Editing product"}</p> : <p>{add ? "Add product" : "Edit product"}</p>}
         </Button>
         <p className="error-text" style={globalError === undefined ? { visibility: "hidden" } : {}}>
           *{globalError}

@@ -5,22 +5,6 @@ const { validationResult } = require("express-validator");
 const items_per_page = 3;
 
 // GET controllers
-
-function get_add_product(req, res, next) {
-  res.render("admin/add-product", {
-    pageTitle: "Add Product",
-    path: "/admin/add-product",
-    error_msg: req.flash("error"),
-    input_fields: {
-      title: "",
-      description: "",
-      price: "",
-      image_url: "",
-    },
-    validation_errors: [],
-  });
-}
-
 function get_products(req, res, next) {
   const page = parseInt(req.query.page) || 1;
   let total_products;
@@ -80,30 +64,14 @@ function post_add_product(req, res, next) {
   const errors = validationResult(req);
 
   if (!image) {
-    return res.status(422).render("admin/add-product", {
-      pageTitle: "Add Product",
-      path: "/admin/add-product",
-      error_msg: "Attatched file is not an image or incorrect format.",
-      input_fields: {
-        title: title,
-        description: description,
-        price: price,
-      },
-      validation_errors: errors.array(),
+    return res.status(422).json({
+      error_message: "Attatched file is not an image or correct file format",
     });
   }
 
   if (!errors.isEmpty()) {
-    return res.status(422).render("admin/add-product", {
-      pageTitle: "Add Product",
-      path: "/admin/add-product",
-      error_msg: errors.array()[0].msg,
-      input_fields: {
-        title: title,
-        description: description,
-        price: price,
-      },
-      validation_errors: errors.array(),
+    return res.status(422).json({
+      error_message: errors.array()[0].msg,
     });
   }
 
@@ -120,12 +88,12 @@ function post_add_product(req, res, next) {
   new_prod
     .save()
     .then((result) => {
-      console.log("Created a product successfully");
-      res.redirect("/admin/products");
+      res.status(200).json({
+        message: "Product created successfully",
+      });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nCreating new product operation failed.`);
-      error.httpStatusCode(500);
       return next(error);
     });
 }
@@ -186,7 +154,6 @@ function delete_product(req, res, next) {
 }
 
 module.exports = {
-  get_add_product,
   post_add_product,
   get_products,
   get_product,

@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Unmatched from "./components/pages/Unmatched/Unmatched";
 import ProductsList from "./components/pages/ProductsList/ProductsList";
 import ProtectedRoute from "./components/ProtectedRoute";
-import EditProduct from "./components/pages/EditProduct/EditProduct";
+import AddOrEditProduct from "./components/pages/AddOrEditProduct/AddOrEditProduct";
 import Profile from "./components/pages/Profile/Profile";
 import AuthContext from "./AuthContext";
 
@@ -53,7 +53,8 @@ function App() {
           <Route path="/profile" exact>
             <Profile />
           </Route>
-          <ProtectedRoute path="/admin/edit-product/:prod_id" exact={true} component={<EditProduct />} />
+          <ProtectedRoute path="/admin/edit-product/:prod_id" exact={true} component={<AddOrEditProduct />} />
+          <ProtectedRoute path="/admin/add-product" exact={true} component={<AddOrEditProduct add />} />
           <ProtectedRoute path="/admin/products" exact={true} component={<ProductsList admin={true} />} />
           <Route>
             <Unmatched />
