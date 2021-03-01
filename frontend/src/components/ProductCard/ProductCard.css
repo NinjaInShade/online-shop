@@ -32,7 +32,11 @@
   color: var(--neutral-500);
   font-size: 1.2rem;
   margin: 0.4rem 0 0.8rem 0;
-  word-break: break-all;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
 }
 
 .product-card .price {
