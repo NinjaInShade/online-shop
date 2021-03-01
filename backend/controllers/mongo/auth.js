@@ -114,7 +114,7 @@ function post_login(req, res, next) {
 
               return res.status(200).json({
                 error_message: undefined,
-                user: { name: user.name, is_admin: user.is_admin, user_id: user._id, cart: user.cart },
+                user: { name: user.name, email: user.email, is_admin: user.is_admin, user_id: user._id, cart: user.cart },
                 message: "User authenticated",
               });
             });

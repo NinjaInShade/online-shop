@@ -75,9 +75,7 @@ function get_orders(req, res, next) {
         }
       }
 
-      res.render("shop/orders", {
-        pageTitle: "Orders",
-        path: "/orders",
+      res.status(200).json({
         orders,
         total_price,
       });
@@ -145,7 +143,7 @@ function get_user(req, res, next) {
       req.session.user = user;
 
       return res.status(200).json({
-        user: { id: user._id, name: user.name, cart: user.cart, is_admin: user.is_admin },
+        user: { id: user._id, name: user.name, email: user.email, cart: user.cart, is_admin: user.is_admin },
       });
     })
     .catch((err) => {
