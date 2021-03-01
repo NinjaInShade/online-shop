@@ -1,0 +1,37 @@
+.detail-image {
+  width: 400px;
+  height: 550px;
+  margin-bottom: 0.5rem;
+}
+
+.detail-title,
+.detail-price {
+  font-weight: 600;
+  font-size: 1.8rem;
+}
+
+.detail-price {
+  margin-right: 1rem;
+}
+
+.detail-description {
+  color: var(--neutral-500);
+  font-weight: 600;
+  max-width: 300px;
+  margin: 0.5rem auto 3rem auto;
+  text-align: center;
+  word-break: break-all;
+}
+
+.cart-btn {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 450px) {
+  .detail-image {
+    max-width: 100%;
+    height: auto;
+    width: auto;
+  }
+}

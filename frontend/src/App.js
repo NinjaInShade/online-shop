@@ -6,6 +6,7 @@ import Unmatched from "./components/pages/Unmatched/Unmatched";
 import ProductsList from "./components/pages/ProductsList/ProductsList";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Cart from "./components/pages/Cart/Cart";
+import ProductDetail from "./components/pages/ProductDetail/ProductDetail";
 import AddOrEditProduct from "./components/pages/AddOrEditProduct/AddOrEditProduct";
 import Profile from "./components/pages/Profile/Profile";
 import AuthContext from "./AuthContext";
@@ -52,8 +53,8 @@ function App() {
           <Route path="/products" exact>
             <ProductsList admin={false} />
           </Route>
-          <Route path="/products/:prod_id" exact>
-            <ProductsList admin={false} />
+          <Route path="/products/detail/:prod_id" exact>
+            <ProductDetail />
           </Route>
           <Route path="/profile" exact>
             <Profile />

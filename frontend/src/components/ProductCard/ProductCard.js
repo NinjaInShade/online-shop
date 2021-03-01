@@ -65,7 +65,7 @@ export default function ProductCard({ title, description, price, image_url, id, 
                   </Button>
                 )}
                 <Button className="detail-btn" style={auth.isAuth ? {} : { width: "100%" }}>
-                  <Link to={`/products/${id}`}>Detail</Link>
+                  <Link to={`/products/detail/${id}`}>Detail</Link>
                 </Button>
               </>
             )}

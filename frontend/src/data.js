@@ -9,7 +9,7 @@ const NAV_LINKS = [
     title: "products",
     to: "/products",
     admin: false,
-    alternative: undefined,
+    alternative: "/products/detail/",
   },
   {
     title: "admin products",
