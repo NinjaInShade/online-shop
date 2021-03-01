@@ -1,4 +1,4 @@
-![Twitter Follow](https://img.shields.io/twitter/follow/LeonMichalak?style=social)
+![Twitter Follow](https://img.shields.io/twitter/follow/LeonMichalak?label=Follow&style=social)
 
 # Welcome to my online shop project!
 
@@ -20,13 +20,13 @@ Before you begin, ensure you have met the following requirements:
 To use <OnlineShop>, follow these steps:
 
 ```
-<Go to frontend/backend folders and run `npm install` on both.>
+npm install (on frontend AND backend folders)
 
-<Run `npm start` in frontend folder>
+npm start (in frontend folder)
 
-<Run `node mongo_server.js` OR if you are using nodemon `nodemon mongo_server.js`>
+node mongo_server.js OR if you are using nodemon nodemon mongo_server.js (in backend folder)
 
-<Then experiment!>
+Then experiment!
 
 ```
 
