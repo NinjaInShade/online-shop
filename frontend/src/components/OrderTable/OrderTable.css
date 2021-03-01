@@ -1,4 +1,55 @@
+.orders-container {
+  overflow-x: auto;
+  padding: 0 2px;
+}
+
 .orders {
-  margin: 3rem 0;
-  border-radius: 8px;
+  box-shadow: 0 0 0 1.4px var(--neutral-300);
+  margin: 2rem 0;
+  border-radius: 4px;
+  width: 100%;
+  border-collapse: collapse;
+  border-style: hidden;
+}
+
+.orders * {
+  white-space: nowrap;
+}
+
+.orders td,
+.orders th {
+  padding: 20px;
+}
+
+.orders-header th {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.orders .invoice {
+  color: var(--neutral-600);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.orders tr {
+  border-top: 1.4px solid var(--neutral-300);
+}
+
+.order-id,
+.created-at {
+  text-align: left;
+}
+
+.shipped-status,
+.items,
+.order-total-price {
+  text-align: right;
+}
+
+.shipped-status span {
+  position: relative;
+  top: 6px;
+  margin-right: 5px;
+  color: var(--red-600);
 }

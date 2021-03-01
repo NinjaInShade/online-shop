@@ -52,4 +52,12 @@
   .profile-info {
     flex-direction: column;
   }
+
+  .profile-email {
+    font-size: 1.5rem;
+  }
+
+  .profile-logout * {
+    font-size: 1.3rem;
+  }
 }

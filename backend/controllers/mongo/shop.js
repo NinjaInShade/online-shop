@@ -95,11 +95,11 @@ function get_invoice(req, res, next) {
   Order.findById(order_id)
     .then((order) => {
       if (!order) {
-        return res.redirect("/orders");
+        return res.status(404).json({ error_message: "No order found with that ID" });
       }
 
       if (order.user_id.toString() !== req.user._id.toString()) {
-        return res.redirect("/orders");
+        return res.status(401).json({ error_message: "Unauthorized" });
       }
 
       let total_price = 0;
