@@ -6,9 +6,6 @@ const auth_controller = require("../../controllers/mongo/auth");
 const router = express.Router();
 
 // GET Routes
-// router.get("/login", auth_controller.get_login);
-
-// router.get("/signup", auth_controller.get_signup);
 
 // router.get("/reset/:token", auth_controller.get_new_password);
 

@@ -69,7 +69,19 @@ export default function AuthForm() {
         { file: false }
       );
     } else {
-      validateAndSendForm();
+      validateAndSendForm(
+        [email, password],
+        `${process.env.REACT_APP_API_DOMAIN}auth/signup`,
+        { name: name.value, email: email.value, password: password.value, confirmpassword: confirmPassword.value },
+        (err, data) => {
+          if (err) {
+            return console.log(err);
+          }
+
+          setMode("signin");
+        },
+        { file: false }
+      );
     }
   }
 

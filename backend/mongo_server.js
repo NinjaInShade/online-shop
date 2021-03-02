@@ -1,12 +1,17 @@
 // This is the same functionality as server.js but all code, files and import relate to mongo db instead of the mysql database.
-const path = require("path");
 
+// Imports
+const path = require("path");
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
-const session = require("express-session");
 const cors = require("cors");
-require("dotenv").config();
+const db = require("./util/database").mongo;
+const admin_routes = require("./routes/mongo/admin");
+const shop_routes = require("./routes/mongo/shop");
+const auth_routes = require("./routes/mongo/auth");
+const User = require("./models/mongo/user");
 
 const file_storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -25,31 +30,14 @@ const file_filter = (req, file, cb) => {
   }
 };
 
-const mongo_store = require("connect-mongodb-session")(session);
 const app = express();
-const db = require("./util/database").mongo;
-const User = require("./models/mongo/user");
+
+// Middlewares
 app.use(cors());
-
-const store = new mongo_store({
-  uri: `mongodb+srv://leon-michalak:${process.env.MONGO_PASSWORD}@mongoapp.puyp7.mongodb.net/${process.env.MONGO_DB_NAME}`,
-  collection: "sessions",
-});
-
-app.set("view engine", "ejs");
-app.set("views", "views");
-
-const admin_routes = require("./routes/mongo/admin");
-const shop_routes = require("./routes/mongo/shop");
-const auth_routes = require("./routes/mongo/auth");
-const error_controller = require("./controllers/mongo/error");
-
-// External middlewares
 app.use(bodyParser.json());
 app.use(multer({ storage: file_storage, fileFilter: file_filter }).single("image"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 
 app.use((req, res, next) => {
   // If user not authed, their is no user to find so we skip setting req.user
@@ -71,24 +59,23 @@ app.use((req, res, next) => {
     });
 });
 
-app.use((req, res, next) => {
-  res.locals.is_authenticated = req.session.is_authenticated;
-  next();
-});
-
 // Route middlewares
 app.use("/auth", auth_routes.routes);
 app.use("/admin", admin_routes.routes);
 app.use(shop_routes.routes);
 
-app.use("/500", error_controller.get500);
-app.use(error_controller.get404);
+// 404 middleware
+app.use((req, res, next) => {
+  return res.status(404).json({
+    error_message: "Invalid route",
+  });
+});
 
 // Error middleware
 app.use((error, req, res, next) => {
   return res.status(500).json({
     message: "There was a server error",
-    error,
+    error_message: error,
   });
 });
 

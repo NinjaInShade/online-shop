@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AuthContext from "../../AuthContext";
 
 import "./OrderTable.css";
 
 export default function OrderTable() {
   const [orders, setOrders] = useState([]);
   const [totalPrice, setTotalPrice] = useState();
-  const { auth, setAuth } = useContext(AuthContext);
 
   useEffect(() => {
     axios

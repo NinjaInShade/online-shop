@@ -4,38 +4,11 @@ const { validationResult } = require("express-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const sgMail = require("@sendgrid/mail");
+const jwt = require("jsonwebtoken");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // GET reqs
-
-// function get_login(req, res, next) {
-//   res.render("auth/login", {
-//     pageTitle: "Login",
-//     path: "/login",
-//     error_msg: req.flash("error"),
-//     input_fields: {
-//       email: "",
-//       password: "",
-//     },
-//     validation_errors: [],
-//   });
-// }
-
-// function get_signup(req, res, next) {
-//   res.render("auth/signup", {
-//     pageTitle: "Sign up",
-//     path: "/login",
-//     error_msg: req.flash("error"),
-//     input_fields: {
-//       name: "",
-//       email: "",
-//       password: "",
-//       confirm_password: "",
-//     },
-//     validation_errors: [],
-//   });
-// }
 
 function get_reset(req, res, next) {
   res.render("auth/reset_password", {
@@ -103,44 +76,29 @@ function post_login(req, res, next) {
         .compare(password, user.password)
         .then((do_match) => {
           if (do_match) {
-            req.session.is_authenticated = true;
-            req.session.user = user;
-            return req.session.save((err) => {
-              if (err) {
-                const error = new Error(`ERROR: ${err}, \nSession saving operation failed.`);
-                error.httpStatusCode = 500;
-                return next(error);
-              }
+            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
-              return res.status(200).json({
+            return res
+              .header("auth-token", token)
+              .status(200)
+              .json({
                 error_message: undefined,
                 user: { name: user.name, email: user.email, is_admin: user.is_admin, user_id: user._id, cart: user.cart },
                 message: "User authenticated",
               });
-            });
           }
 
-          return req.session.save((err) => {
-            if (err) {
-              const error = new Error(`ERROR: ${err}, \nSession saving operation failed.`);
-              error.httpStatusCode = 500;
-              return next(error);
-            }
-
-            return res.status(401).json({
-              error_message: "Incorrect password",
-            });
+          return res.status(401).json({
+            error_message: "Incorrect password",
           });
         })
         .catch((err) => {
           const error = new Error(`ERROR: ${err}, \nComparing password with hashed password operation failed.`);
-          error.httpStatusCode = 500;
           return next(error);
         });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
-      error.httpStatusCode = 500;
       return next(error);
     });
 }
@@ -149,7 +107,6 @@ function post_signup(req, res, next) {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
-  const confirm_password = req.body.confirmpassword;
 
   const msg = {
     from: "leonmichalak6@gmail.com",
@@ -163,34 +120,18 @@ function post_signup(req, res, next) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(422).render("auth/signup", {
-      pageTitle: "Sign up",
-      path: "/login",
-      error_msg: errors.array()[0].msg,
-      input_fields: {
-        name: name,
-        email: email,
-        password: password,
-        confirm_password: confirm_password,
-      },
-      validation_errors: errors.array(),
+    return res.status(422).json({
+      error_message: errors.array()[0].msg,
     });
   }
 
   // Check if user exists
   User.findOne({ email })
     .then((user) => {
-      // if exists redirect back to signup form with error msgs.
+      // if exists send back bad response.
       if (user) {
-        req.flash("error", "User already exists");
-        return req.session.save((err) => {
-          if (err) {
-            const error = new Error(`ERROR: ${err}, \nSaving session operation failed.`);
-            error.httpStatusCode(500);
-            return next(error);
-          }
-
-          return res.redirect("/auth/signup");
+        return res.status(409).json({
+          error_message: "User already exists",
         });
       }
 
@@ -198,39 +139,33 @@ function post_signup(req, res, next) {
       bcrypt
         .hash(password, 12)
         .then((hashed_password) => {
-          const new_user = new User({ name, email, password: hashed_password, cart: { items: [] } });
+          const new_user = new User({ name, email, password: hashed_password, is_admin: false, cart: { items: [] } });
 
           return new_user.save();
         })
-        .then((result) => {
-          // then redirect to login page for user to login.
+        .then(() => {
           return sgMail.send(msg);
         })
-        .then((result) => {
-          return res.redirect("/auth/login");
+        .then(() => {
+          // Everything valid, registration email sent, so create new user.
+          return res.status(200).json({
+            message: "User successfully created",
+          });
         })
         .catch((err) => {
           const error = new Error(`ERROR: ${err}, \nHashing a password operation failed.`);
-          error.httpStatusCode(500);
           return next(error);
         });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
-      error.httpStatusCode(500);
       return next(error);
     });
 }
 
 function post_logout(req, res, next) {
-  req.session.destroy((err) => {
-    if (err) {
-      const error = new Error(`ERROR: ${err}, \nDestroying session operation failed.`);
-      error.httpStatusCode(500);
-      return next(error);
-    }
-
-    res.redirect("/");
+  return res.status(200).json({
+    message: "User logged out",
   });
 }
 

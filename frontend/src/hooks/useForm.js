@@ -50,6 +50,8 @@ export default function useForm() {
       .then((response) => {
         const data = response.data;
 
+        setGlobalError("");
+        setLoading(false);
         cb(null, data);
       })
       .catch((error) => {

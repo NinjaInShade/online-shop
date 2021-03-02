@@ -25,7 +25,8 @@ function App() {
   });
 
   useEffect(() => {
-    const user_id = localStorage.getItem("user_id");
+    // const user_id = localStorage.getItem("user_id");
+    const user_id = undefined;
 
     if (user_id) {
       axios
