@@ -49,7 +49,7 @@ function get_checkout(req, res, next) {
           };
         }),
         mode: "payment",
-        success_url: `${req.protocol}://${req.get("host")}/checkout/success`,
+        success_url: `${req.protocol}://${req.get("host")}/checkout/success/${req.user._id}`,
         cancel_url: `${process.env.CLIENT_DOMAIN}cart`,
       });
     })
@@ -180,26 +180,36 @@ function post_remove_cart(req, res, next) {
 }
 
 function post_create_order(req, res, next) {
-  req.user
-    .populate("cart.items.product_id")
-    .execPopulate()
-    .then((populated_user) => {
-      const products = populated_user.cart.items.map((item) => {
-        return { ...item.product_id._doc, quantity: item.quantity };
-      });
-      const order = new Order({ products, user_id: req.user._id });
+  const user_id = req.params.user_id;
 
-      return order.save();
-    })
-    .then((result) => {
-      req.user.cart.items = [];
-      return req.user.save();
-    })
-    .then((result) => {
-      res.status(200).redirect(`${process.env.CLIENT_DOMAIN}profile`);
+  // Get product info
+  User.findById(user_id)
+    .then((user) => {
+      user
+        .populate("cart.items.product_id")
+        .execPopulate()
+        .then((populated_user) => {
+          const products = populated_user.cart.items.map((item) => {
+            return { ...item.product_id._doc, quantity: item.quantity };
+          });
+          const order = new Order({ products, user_id: user._id });
+
+          return order.save();
+        })
+        .then((result) => {
+          user.cart.items = [];
+          return user.save();
+        })
+        .then((result) => {
+          res.status(200).redirect(`${process.env.CLIENT_DOMAIN}profile`);
+        })
+        .catch((err) => {
+          const error = new Error(`ERROR: ${err}, \nCreating order operation failed.`);
+          return next(error);
+        });
     })
     .catch((err) => {
-      const error = new Error(`ERROR: ${err}, \nCreating order operation failed.`);
+      const error = new Error(`ERROR: ${err}, \nFinding user operation failed.`);
       return next(error);
     });
 }

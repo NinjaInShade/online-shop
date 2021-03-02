@@ -54,7 +54,7 @@ export default function Cart() {
         });
 
         if (result.error) {
-          console.log(result.error.message);
+          return console.log(result.error.message);
         }
       })
       .catch((error) => {

@@ -16,7 +16,7 @@ router.get("/cart", is_auth, shop_controller.get_cart);
 
 router.get("/checkout", is_auth, shop_controller.get_checkout);
 
-router.get("/checkout/success", is_auth, shop_controller.post_create_order);
+router.get("/checkout/success/:user_id", shop_controller.post_create_order);
 
 router.get("/orders", is_auth, shop_controller.get_orders);
 
