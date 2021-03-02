@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const cors = require("cors");
 const db = require("./util/database").mongo;
+const jwt = require("jsonwebtoken");
 const admin_routes = require("./routes/mongo/admin");
 const shop_routes = require("./routes/mongo/shop");
 const auth_routes = require("./routes/mongo/auth");
@@ -38,26 +39,6 @@ app.use(bodyParser.json());
 app.use(multer({ storage: file_storage, fileFilter: file_filter }).single("image"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
-
-app.use((req, res, next) => {
-  // If user not authed, their is no user to find so we skip setting req.user
-  // if (!req.session.is_authenticated) {
-  //   return next();
-  // }
-
-  User.findById("6017fe58f4c3ef93e076a3ea")
-    .then((user) => {
-      if (!user) {
-        return next();
-      }
-
-      req.user = user;
-      next();
-    })
-    .catch((err) => {
-      next(new Error(err));
-    });
-});
 
 // Route middlewares
 app.use("/auth", auth_routes.routes);

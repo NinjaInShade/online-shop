@@ -12,7 +12,7 @@ router.get("/products", products_controller.get_products);
 
 router.get("/products/:productId", products_controller.get_product);
 
-router.get("/cart", shop_controller.get_cart);
+router.get("/cart", is_auth, shop_controller.get_cart);
 
 router.get("/checkout", shop_controller.get_checkout);
 
