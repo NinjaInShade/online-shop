@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { titleValidate, descriptionValidate, priceValidate } from "../../../validators";
 import Button from "../../Button/Button";
+import AuthContext from "../../../AuthContext";
 import FilePicker from "../../FilePicker/FilePicker";
 import Input from "../Profile/Input";
 import useForm from "../../../hooks/useForm";
@@ -9,9 +10,10 @@ import axios from "axios";
 
 export default function EditProduct({ add }) {
   const { loading, globalError, validateAndSendForm } = useForm();
+  const { prod_id } = useParams();
+  const { auth } = useContext(AuthContext);
 
   let history = useHistory();
-  const { prod_id } = useParams();
 
   const [title, setTitle] = useState({
     value: "",
@@ -74,7 +76,13 @@ export default function EditProduct({ add }) {
 
         return history.push("/admin/products");
       },
-      { enableTyped, file: true }
+      {
+        enableTyped,
+        file: true,
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      }
     );
   }
 

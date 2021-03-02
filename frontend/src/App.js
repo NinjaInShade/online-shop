@@ -16,6 +16,7 @@ import "./App.css";
 function App() {
   const [auth, setAuth] = useState({
     isAuth: false,
+    token: undefined,
     user: {
       name: undefined,
       user_id: undefined,
@@ -25,17 +26,22 @@ function App() {
   });
 
   useEffect(() => {
-    // const user_id = localStorage.getItem("user_id");
-    const user_id = undefined;
+    const user_id = localStorage.getItem("user-id");
+    const token = localStorage.getItem("auth-token");
 
     if (user_id) {
       axios
-        .get(`${process.env.REACT_APP_API_DOMAIN}user/${user_id}`)
+        .get(`${process.env.REACT_APP_API_DOMAIN}user/${user_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           const data = response.data;
 
           setAuth({
             isAuth: true,
+            token,
             user: { name: data.user.name, email: data.user.email, cart: data.user.cart, is_admin: data.user.is_admin, id: data.user.user_id },
           });
         })

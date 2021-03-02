@@ -139,9 +139,6 @@ function get_user(req, res, next) {
         });
       }
 
-      req.session.is_authenticated = true;
-      req.session.user = user;
-
       return res.status(200).json({
         user: { id: user._id, name: user.name, email: user.email, cart: user.cart, is_admin: user.is_admin },
       });

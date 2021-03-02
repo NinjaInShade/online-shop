@@ -1,18 +1,16 @@
 // This is the same functionality as server.js but all code, files and import relate to mongo db instead of the mysql database.
 
 // Imports
-const path = require("path");
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const cors = require("cors");
 const db = require("./util/database").mongo;
-const jwt = require("jsonwebtoken");
 const admin_routes = require("./routes/mongo/admin");
 const shop_routes = require("./routes/mongo/shop");
 const auth_routes = require("./routes/mongo/auth");
-const User = require("./models/mongo/user");
+const path = require("path");
 
 const file_storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -35,6 +33,7 @@ const app = express();
 
 // Middlewares
 app.use(cors());
+app.options("*", cors());
 app.use(bodyParser.json());
 app.use(multer({ storage: file_storage, fileFilter: file_filter }).single("image"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -56,7 +55,7 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   return res.status(500).json({
     message: "There was a server error",
-    error_message: error,
+    error_message: `${error}`,
   });
 });
 

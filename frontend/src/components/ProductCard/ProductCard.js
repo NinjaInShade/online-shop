@@ -12,7 +12,11 @@ export default function ProductCard({ title, description, price, image_url, id, 
 
   function deleteProduct() {
     axios
-      .delete(`${process.env.REACT_APP_API_DOMAIN}admin/delete-product/${id}`)
+      .delete(`${process.env.REACT_APP_API_DOMAIN}admin/delete-product/${id}`, null, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      })
       .then((response) => {
         // We need page to update so change products state minus the one thats deleted.
         setProducts(products.filter((prod) => prod._id !== id));
@@ -24,9 +28,17 @@ export default function ProductCard({ title, description, price, image_url, id, 
 
   function addToCart() {
     axios
-      .post(`${process.env.REACT_APP_API_DOMAIN}cart`, {
-        productID: id,
-      })
+      .post(
+        `${process.env.REACT_APP_API_DOMAIN}cart`,
+        {
+          productID: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
       .then((response) => {
         // Simulate a new cart item being added so navbar UI is updated showing new cart items number.
         setAuth((prevState) => ({ ...prevState, user: { ...prevState.user, cart: { items: [...prevState.user.cart.items, []] } } }));

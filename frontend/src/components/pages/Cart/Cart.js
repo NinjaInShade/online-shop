@@ -1,11 +1,12 @@
 import { loadStripe } from "@stripe/stripe-js";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Button from "../../Button/Button";
 import CartSection from "../../CartSection/CartSection";
 
 import "./Cart.css";
+import AuthContext from "../../../AuthContext";
 
 const stripePromise = loadStripe("pk_test_51IOivFKNCnwrXJXD991l8CcbdeBz5KvRYQlGtgyAXJMLLxmBuIKhfoWL01qhE2ousZLh4m5tjOLDJbgbnA81SPw900Ce37YvDN");
 
@@ -14,9 +15,15 @@ export default function Cart() {
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const { auth } = useContext(AuthContext);
+
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_DOMAIN}cart`)
+      .get(`${process.env.REACT_APP_API_DOMAIN}cart`, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      })
       .then((response) => {
         const data = response.data;
 
@@ -26,7 +33,7 @@ export default function Cart() {
       .catch((error) => {
         return console.log(error);
       });
-  }, [removedProduct]);
+  }, [removedProduct, auth.token]);
 
   const checkout = async (e) => {
     e.preventDefault();
@@ -34,7 +41,11 @@ export default function Cart() {
     const stripe = await stripePromise;
 
     axios
-      .get(`${process.env.REACT_APP_API_DOMAIN}checkout`)
+      .get(`${process.env.REACT_APP_API_DOMAIN}checkout`, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      })
       .then(async (response) => {
         const data = response.data;
 

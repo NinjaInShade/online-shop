@@ -63,8 +63,13 @@ export default function AuthForm() {
             return console.log(err);
           }
 
-          localStorage.setItem("user_id", data.user.user_id);
-          setAuth({ isAuth: true, user: { name: data.user.name, cart: data.user.cart, is_admin: data.user.is_admin, id: data.user.user_id } });
+          localStorage.setItem("auth-token", data.token);
+          localStorage.setItem("user-id", data.user.user_id);
+          setAuth({
+            isAuth: true,
+            token: data.token,
+            user: { name: data.user.name, cart: data.user.cart, is_admin: data.user.is_admin, id: data.user.user_id },
+          });
         },
         { file: false }
       );

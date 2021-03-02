@@ -76,16 +76,16 @@ function post_login(req, res, next) {
         .compare(password, user.password)
         .then((do_match) => {
           if (do_match) {
-            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+              expiresIn: "1h",
+            });
 
-            return res
-              .header("auth-token", token)
-              .status(200)
-              .json({
-                error_message: undefined,
-                user: { name: user.name, email: user.email, is_admin: user.is_admin, user_id: user._id, cart: user.cart },
-                message: "User authenticated",
-              });
+            return res.status(200).json({
+              error_message: undefined,
+              token,
+              user: { name: user.name, email: user.email, is_admin: user.is_admin, user_id: user._id, cart: user.cart },
+              message: "User authenticated",
+            });
           }
 
           return res.status(401).json({
@@ -161,12 +161,6 @@ function post_signup(req, res, next) {
       const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
       return next(error);
     });
-}
-
-function post_logout(req, res, next) {
-  return res.status(200).json({
-    message: "User logged out",
-  });
 }
 
 function post_reset(req, res, next) {
@@ -257,7 +251,6 @@ module.exports = {
   // get_new_password,
   post_signup,
   post_login,
-  post_logout,
   post_reset,
   post_new_password,
 };

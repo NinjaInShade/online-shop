@@ -16,6 +16,22 @@ export default function Profile() {
     );
   }
 
+  function logout(e) {
+    e.preventDefault();
+
+    localStorage.clear();
+    setAuth({
+      isAuth: false,
+      token: undefined,
+      user: {
+        name: undefined,
+        user_id: undefined,
+        cart: undefined,
+        is_admin: undefined,
+      },
+    });
+  }
+
   return (
     <main className="page-center">
       <div className="profile-container">
@@ -24,7 +40,7 @@ export default function Profile() {
             <h1 className="profile-name">{auth.user.name}</h1>
             <h2 className="profile-email">{auth.user.email}</h2>
           </div>
-          <button className="profile-logout flex">
+          <button className="profile-logout flex" onClick={(e) => logout(e)}>
             <p>Log out</p>
             <span className="material-icons">logout</span>
           </button>

@@ -6,10 +6,11 @@ export default function useForm() {
   const [globalError, setGlobalError] = useState(undefined);
 
   function validateAndSendForm(states, reqDomain, postBody, cb, options) {
-    let headers;
+    let headers = options.headers;
 
     if (options.file) {
       headers = {
+        ...headers,
         "Content-Type": "multipart/form-data",
       };
 
@@ -45,8 +46,12 @@ export default function useForm() {
   }
 
   function sendFormRequest(reqDomain, postBody, headers, cb) {
-    axios
-      .post(reqDomain, postBody, headers)
+    axios({
+      method: "post",
+      url: reqDomain,
+      data: postBody,
+      headers,
+    })
       .then((response) => {
         const data = response.data;
 
@@ -56,6 +61,7 @@ export default function useForm() {
       })
       .catch((error) => {
         const err = error.response.data.error_message;
+
         setLoading(false);
         setGlobalError(err);
 

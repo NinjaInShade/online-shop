@@ -41,8 +41,6 @@ router.post(
   auth_controller.post_signup
 );
 
-router.post("/logout", auth_controller.post_logout);
-
 router.post("/reset", auth_controller.post_reset);
 
 router.post("/reset/new-password", auth_controller.post_new_password);

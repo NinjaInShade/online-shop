@@ -5,13 +5,17 @@ import AuthContext from "../../AuthContext";
 import "./CartSection.css";
 
 export default function CartSection({ product, removedProduct, setRemovedProduct }) {
-  const { setAuth } = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
 
   function remove(e) {
     e.preventDefault();
 
     axios
-      .post(`${process.env.REACT_APP_API_DOMAIN}delete-cart/${product._id}`)
+      .post(`${process.env.REACT_APP_API_DOMAIN}delete-cart/${product._id}`, null, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      })
       .then((response) => {
         // Simulate a new cart item being removed so navbar UI is updated showing new cart items number.
         setAuth((prevState) => ({ ...prevState, user: { ...prevState.user, cart: { items: [prevState.user.cart.items.pop()] } } }));

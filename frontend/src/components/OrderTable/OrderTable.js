@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import AuthContext from "../../AuthContext";
 
 import "./OrderTable.css";
 
@@ -7,9 +8,15 @@ export default function OrderTable() {
   const [orders, setOrders] = useState([]);
   const [totalPrice, setTotalPrice] = useState();
 
+  const { auth } = useContext(AuthContext);
+
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_DOMAIN}orders`, {})
+      .get(`${process.env.REACT_APP_API_DOMAIN}orders`, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      })
       .then((response) => {
         const data = response.data;
 
@@ -28,11 +35,14 @@ export default function OrderTable() {
       .catch((error) => {
         return console.log(error);
       });
-  }, []);
+  }, [auth.token]);
 
   function get_invoice(order_id) {
     axios({
       url: `${process.env.REACT_APP_API_DOMAIN}orders/${order_id}`,
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+      },
       method: "GET",
       responseType: "blob",
     })

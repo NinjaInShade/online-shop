@@ -82,7 +82,7 @@ function post_add_product(req, res, next) {
     description,
     price,
     image_url,
-    user_id: "6017fe58f4c3ef93e076a3ea",
+    user_id: req.user._id,
   });
 
   new_prod
