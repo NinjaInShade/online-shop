@@ -1,4 +1,4 @@
-const Product = require("../../models/mongo/Product");
+const Product = require("../../models/mongo/product");
 const { delete_file } = require("../../util/file");
 const { validationResult } = require("express-validator");
 

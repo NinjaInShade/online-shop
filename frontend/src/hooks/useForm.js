@@ -55,7 +55,7 @@ export default function useForm() {
       .then((response) => {
         const data = response.data;
 
-        setGlobalError("");
+        setGlobalError(undefined);
         setLoading(false);
         cb(null, data);
       })

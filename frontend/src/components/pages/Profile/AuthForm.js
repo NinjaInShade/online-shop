@@ -68,7 +68,7 @@ export default function AuthForm() {
           setAuth({
             isAuth: true,
             token: data.token,
-            user: { name: data.user.name, cart: data.user.cart, is_admin: data.user.is_admin, id: data.user.user_id },
+            user: { name: data.user.name, email: data.user.email, cart: data.user.cart, is_admin: data.user.is_admin, id: data.user.user_id },
           });
         },
         { file: false }

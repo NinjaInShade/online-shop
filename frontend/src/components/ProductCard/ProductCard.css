@@ -88,6 +88,10 @@
   .product-card {
     width: fit-content;
   }
+
+  .product-card .lead {
+    white-space: normal;
+  }
 }
 
 @media (max-width: 380px) {
