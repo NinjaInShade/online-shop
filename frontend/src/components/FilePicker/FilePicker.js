@@ -16,7 +16,7 @@ export default function FilePicker({ image, setImage }) {
     <div className="file-group">
       <div className="info-group">
         <span className="material-icons">attach_file</span>
-        <p>No image selected</p>
+        <p>{image ? image.name : "No image selected"}</p>
       </div>
       <input
         type="file"

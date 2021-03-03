@@ -12,7 +12,7 @@ export default function ProductCard({ title, description, price, image_url, id, 
 
   function deleteProduct() {
     axios
-      .delete(`${process.env.REACT_APP_API_DOMAIN}admin/delete-product/${id}`, null, {
+      .delete(`${process.env.REACT_APP_API_DOMAIN}admin/delete-product/${id}`, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
