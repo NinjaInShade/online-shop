@@ -2,7 +2,7 @@
 
 # Welcome to my online shop project!
 
-## Live build: <Not live yet...>
+## Live build: <https://onlineshop-430be.web.app/>
 
 !["Thumbnail of the site"](https://github.com/NinjaInShade/online-shop/blob/master/design/ShopThumbnail.png)
 
@@ -13,7 +13,8 @@ User's can view products, add to cart, see a detailed view, make an order and ma
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
-* Have npm installed on your machine.
+
+- Have npm installed on your machine.
 
 ## Using <OnlineShop>
 
@@ -29,7 +30,6 @@ node mongo_server.js OR if you are using nodemon nodemon mongo_server.js (in bac
 Then experiment!
 
 ```
-
 
 ## Contributing to <OnlineShop>
 
