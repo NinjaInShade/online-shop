@@ -75,3 +75,10 @@ ul {
   justify-content: center;
   padding: 20px;
 }
+
+.success-text {
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--green-500);
+}

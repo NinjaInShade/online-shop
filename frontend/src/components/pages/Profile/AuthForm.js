@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { nameValidate, emailValidate, passwordValidate } from "../../../validators";
 import useForm from "../../../hooks/useForm";
 import Input from "./Input";
@@ -123,8 +124,8 @@ export default function AuthForm() {
       {mode === "signin" && (
         <p className="forgot-pass">
           Forgot password?{" "}
-          <button className="form-link" onClick={(e) => changeMode(e)}>
-            Reset here
+          <button className="form-link">
+            <Link to="/reset">Reset here</Link>
           </button>
         </p>
       )}

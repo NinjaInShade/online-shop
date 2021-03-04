@@ -9,6 +9,8 @@ import Cart from "./components/pages/Cart/Cart";
 import ProductDetail from "./components/pages/ProductDetail/ProductDetail";
 import AddOrEditProduct from "./components/pages/AddOrEditProduct/AddOrEditProduct";
 import Profile from "./components/pages/Profile/Profile";
+import ResetPassword from "./components/pages/ResetPassword/ResetPassword";
+import ResetPasswordConfirm from "./components/pages/ResetPasswordConfirm/ResetPasswordConfirm";
 import AuthContext from "./AuthContext";
 
 import "./App.css";
@@ -60,6 +62,12 @@ function App() {
             <ProductsList admin={false} />
           </Route>
           <ProtectedRoute path="/cart" exact={true} component={<Cart />} />
+          <Route path="/reset-confirm/:tokenid/:user_id" exact>
+            <ResetPasswordConfirm />
+          </Route>
+          <Route path="/reset" exact>
+            <ResetPassword />
+          </Route>
           <Route path="/products" exact>
             <ProductsList admin={false} />
           </Route>

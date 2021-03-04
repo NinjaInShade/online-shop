@@ -2,46 +2,12 @@ const User = require("../../models/mongo/user");
 
 const { validationResult } = require("express-validator");
 const crypto = require("crypto");
+const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const sgMail = require("@sendgrid/mail");
 const jwt = require("jsonwebtoken");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-// GET reqs
-
-function get_reset(req, res, next) {
-  res.render("auth/reset_password", {
-    pageTitle: "Reset password",
-    path: "/login",
-    error_msg: req.flash("error"),
-  });
-}
-
-function get_new_password(req, res, next) {
-  const token = req.params.token;
-
-  User.findOne({ reset_token: token, reset_token_expiration: { $gt: Date.now() } })
-    .then((user) => {
-      if (!user) {
-        req.flash("error", "Token expired.");
-        return res.redirect("/auth/reset");
-      }
-
-      res.render("auth/new_password", {
-        pageTitle: "Reset password",
-        path: "/login",
-        error_msg: req.flash("error"),
-        user_id: user._id.toString(),
-        token,
-      });
-    })
-    .catch((err) => {
-      const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
-      error.httpStatusCode(500);
-      return next(error);
-    });
-}
 
 // POST reqs
 
@@ -166,10 +132,14 @@ function post_signup(req, res, next) {
 function post_reset(req, res, next) {
   const email = req.body.email;
 
+  let user_id;
+
   crypto.randomBytes(32, (err, buffer) => {
     if (err) {
       console.log("Error occured", err);
-      res.redirect("/auth/reset");
+      return res.status(500).json({
+        error_message: "Generating token failed",
+      });
     }
 
     const token = buffer.toString("hex");
@@ -177,33 +147,36 @@ function post_reset(req, res, next) {
     User.findOne({ email })
       .then((user) => {
         if (!user) {
-          req.flash("error", "No user for that email");
-          return res.redirect("/auth/reset");
+          return res.status(404).json({
+            error_message: "No user with that email.",
+          });
         }
 
+        user_id = user._id;
         user.reset_token = token;
         user.reset_token_expiration = Date.now() + 1000 * 60 * 60;
         return user.save();
       })
-      .then((result) => {
+      .then(() => {
         const msg = {
           from: "leonmichalak6@gmail.com",
           to: email,
           subject: "Reset password",
           text: "reset password",
           html: `<p>You requested to reset your password</p>
-                <a href='http://localhost:5000/auth/reset/${token}'>Click this link to reset.</a>
+                <a href='https://onlineshop-430be.web.app/reset-confirm/${token}/${user_id}'>Click this link to reset.</a>
           `,
         };
 
         return sgMail.send(msg);
       })
-      .then((result) => {
-        return res.redirect("/auth/login");
+      .then(() => {
+        return res.status(200).json({
+          message: "email sent successfully.",
+        });
       })
       .catch((err) => {
         const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
-        error.httpStatusCode(500);
         return next(error);
       });
   });
@@ -216,11 +189,12 @@ function post_new_password(req, res, next) {
 
   let reset_user;
 
-  User.findOne({ reset_token: token, reset_token_expiration: { $gt: Date.now() }, _id: user_id })
+  User.findOne({ reset_token: token, reset_token_expiration: { $gt: Date.now() }, _id: mongoose.Types.ObjectId(user_id) })
     .then((user) => {
       if (!user) {
-        req.flash("error", "Invalid token");
-        return res.redirect(`/auth/reset/${token}`);
+        return res.status(401).json({
+          error_message: "invalid token",
+        });
       }
 
       reset_user = user;
@@ -234,21 +208,18 @@ function post_new_password(req, res, next) {
 
       return reset_user.save();
     })
-    .then((result) => {
-      return res.redirect("/auth/login");
+    .then(() => {
+      return res.status(200).json({
+        message: "password changed",
+      });
     })
     .catch((err) => {
       const error = new Error(`ERROR: ${err}, \nFinding a user operation failed.`);
-      error.httpStatusCode(500);
-      next(error);
+      return next(error);
     });
 }
 
 module.exports = {
-  // get_login,
-  // get_signup,
-  // get_reset,
-  // get_new_password,
   post_signup,
   post_login,
   post_reset,

@@ -7,10 +7,6 @@ const router = express.Router();
 
 // GET Routes
 
-// router.get("/reset/:token", auth_controller.get_new_password);
-
-// router.get("/reset", auth_controller.get_reset);
-
 // POST routes
 
 router.post(
