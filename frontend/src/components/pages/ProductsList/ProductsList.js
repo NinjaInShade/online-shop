@@ -3,11 +3,13 @@ import { Redirect } from "react-router-dom";
 import ProductCard from "../../ProductCard/ProductCard";
 import Pagination from "../../Pagination/Pagination";
 import AuthContext from "../../../AuthContext";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import axios from "axios";
 
 import "./ProductsList.css";
 
 export default function Shop({ admin }) {
+  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageData, setPageData] = useState({
@@ -23,6 +25,8 @@ export default function Shop({ admin }) {
   const { auth } = useContext(AuthContext);
 
   useEffect(() => {
+    setLoading(true);
+
     axios
       .get(`${process.env.REACT_APP_API_DOMAIN}products`, {
         params: {
@@ -32,6 +36,7 @@ export default function Shop({ admin }) {
       .then((response) => {
         const data = response.data;
 
+        setLoading(false);
         setPageData(data.pageData);
         setProducts(data.products);
       })
@@ -56,24 +61,28 @@ export default function Shop({ admin }) {
         setCurrentPage={setCurrentPage}
       />
 
-      <ul className="flex">
-        {products.map((product, index) => {
-          return (
-            <li key={index}>
-              <ProductCard
-                title={product.title}
-                description={product.description}
-                price={product.price}
-                image_url={`${process.env.REACT_APP_API_DOMAIN}${product.image_url}`}
-                id={product._id}
-                admin={admin}
-                setProducts={setProducts}
-                products={products}
-              />
-            </li>
-          );
-        })}
-      </ul>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <ul className="flex">
+          {products.map((product, index) => {
+            return (
+              <li key={index}>
+                <ProductCard
+                  title={product.title}
+                  description={product.description}
+                  price={product.price}
+                  image_url={`${process.env.REACT_APP_API_DOMAIN}${product.image_url}`}
+                  id={product._id}
+                  admin={admin}
+                  setProducts={setProducts}
+                  products={products}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      )}
 
       <Pagination
         has_previous_page={pageData.has_previous_page}

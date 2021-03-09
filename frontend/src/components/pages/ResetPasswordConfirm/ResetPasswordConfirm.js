@@ -35,8 +35,11 @@ export default function ResetPassword() {
         }
 
         return setSuccessMessage(
-          <p style={{ display: "inline", fontWeight: 900, color: "#000" }}>
-            Password changed. Login <a href="/profile">here</a>
+          <p style={{ display: "inline" }}>
+            Password changed. Login{" "}
+            <a href="/profile" style={{ fontWeight: 900, color: "#000" }}>
+              here
+            </a>
           </p>
         );
       },
