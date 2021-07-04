@@ -7,8 +7,14 @@
   height: 60px;
 }
 
+.brand-container {
+  display: flex;
+  align-items: center;
+}
+
 .navbar .brand-image {
-  width: 45px;
+  max-width: 30px;
+  width: 100%;
   margin-right: 0.8rem;
 }
 
